@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상한론 중간고사 모의고사 — 50문제</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f5efe2 0%, #e8dbc2 100%);
+    color: #2b2b2b;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ===== 헤더 (상한론: 한약 고동색) ===== */
+  header {
+    background: linear-gradient(135deg, #6b3410 0%, #8b5a2b 100%);
+    color: #fff;
+    padding: 35px 30px;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 4px 20px rgba(107,52,16,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "傷寒論";
+    position: absolute;
+    right: 20px;
+    bottom: -10px;
+    font-size: 98px;
+    font-weight: bold;
+    opacity: 0.08;
+    letter-spacing: -4px;
+  }
+  header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  header .subtitle {
+    font-size: 15px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  header .set-badge {
+    display: inline-block;
+    background: #d4a84b;
+    color: #3a2c1a;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-left: 6px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== 컨트롤 바 ===== */
+  .control-bar {
+    background: #fff;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #d9c6a1;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .progress-info {
+    font-size: 14px;
+    color: #555;
+    font-weight: 600;
+  }
+  .progress-info .count-ok { color: #8b5a2b; }
+  .progress-info .count-starred { color: #d84315; }
+  .btn {
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: #6b3410;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #8b5a2b; transform: translateY(-1px); }
+  .btn-secondary {
+    background: #f0e5d1;
+    color: #6b3410;
+  }
+  .btn-secondary:hover { background: #e2d2b4; }
+  .btn-reset {
+    background: #f5f5f5;
+    color: #666;
+  }
+  .btn-reset:hover { background: #e0e0e0; }
+
+  /* ===== 본문 컨테이너 ===== */
+  main {
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  /* ===== 카테고리 헤더 ===== */
+  .category-header {
+    font-size: 16px;
+    font-weight: 700;
+    color: #6b3410;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, #f0e5d1 0%, transparent 100%);
+    border-left: 4px solid #6b3410;
+    margin: 30px 0 20px 0;
+    border-radius: 4px;
+  }
+  .category-header:first-child { margin-top: 0; }
+
+  /* ===== 문제 카드 ===== */
+  .question {
+    background: #fdfbf5;
+    border: 1px solid #d9c6a1;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .question.answered { border-color: #b89f70; background: #faf5e8; }
+  .question.correct {
+    border-color: #81c784;
+    background: #f1f8f1;
+  }
+  .question.wrong {
+    border-color: #e57373;
+    background: #fdf3f2;
+  }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+  .q-number {
+    display: inline-block;
+    background: #6b3410;
+    color: #fff;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .star-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ccc;
+    transition: all 0.2s;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .star-btn:hover { transform: scale(1.2); }
+  .star-btn.starred { color: #d4a84b; text-shadow: 0 0 8px rgba(212,168,75,0.4); }
+  .q-text {
+    font-size: 15.5px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+    line-height: 1.65;
+  }
+  .q-text strong { color: #6b3410; }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .option-label {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #d9c6a1;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14.5px;
+    gap: 10px;
+  }
+  .option-label:hover {
+    background: #faf5e8;
+    border-color: #b89f70;
+  }
+  .option-label input[type="radio"] {
+    margin-top: 4px;
+    accent-color: #6b3410;
+    flex-shrink: 0;
+  }
+  .option-label.selected {
+    background: #f0e5d1;
+    border-color: #6b3410;
+  }
+  .option-num {
+    font-weight: 700;
+    color: #6b3410;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
+  /* 채점 후 정답/오답 표시 */
+  .option-label.marked-correct {
+    background: #e8f5e9 !important;
+    border-color: #2e7d32 !important;
+    font-weight: 600;
+  }
+  .option-label.marked-wrong {
+    background: #ffebee !important;
+    border-color: #c62828 !important;
+    text-decoration: line-through;
+    color: #888;
+  }
+  .option-label.marked-correct::after {
+    content: " ✓ 정답";
+    margin-left: auto;
+    color: #2e7d32;
+    font-weight: 700;
+  }
+  .option-label.marked-wrong::after {
+    content: " ✗ 내선택";
+    margin-left: auto;
+    color: #c62828;
+    font-weight: 700;
+  }
+
+  /* 해설 박스 */
+  .explanation {
+    display: none;
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: #fffbeb;
+    border-left: 4px solid #d4a84b;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #3a2c1a;
+  }
+  .explanation.show { display: block; }
+  .explanation .label {
+    font-weight: 700;
+    color: #b8860b;
+    margin-right: 6px;
+  }
+  .explanation strong {
+    color: #6b3410;
+  }
+
+  /* ===== 결과 모달 ===== */
+  .result-banner {
+    display: none;
+    background: linear-gradient(135deg, #6b3410 0%, #8b5a2b 100%);
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(107,52,16,0.3);
+  }
+  .result-banner.show { display: block; }
+  .result-banner h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+  .result-banner .score {
+    font-size: 52px;
+    font-weight: 700;
+    margin: 10px 0;
+  }
+  .result-banner .score-detail {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+
+  /* ===== 틀린문제 모아보기 섹션 ===== */
+  .wrong-list-section {
+    display: none;
+    background: #fff8f7;
+    border: 2px solid #e57373;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 30px;
+  }
+  .wrong-list-section.show { display: block; }
+  .wrong-list-section h2 {
+    color: #c62828;
+    margin-bottom: 16px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .wrong-item {
+    background: #fff;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .wrong-item .wrong-q {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+  .wrong-item .wrong-answer {
+    font-size: 14px;
+    color: #2e7d32;
+    margin-bottom: 6px;
+  }
+  .wrong-item .wrong-explain {
+    font-size: 13.5px;
+    color: #6b3410;
+    background: #fafafa;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* ===== 별표 모아보기 ===== */
+  .starred-list-section {
+    display: none;
+    background: #fffdf4;
+    border: 2px solid #d4a84b;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 24px;
+  }
+  .starred-list-section.show { display: block; }
+  .starred-list-section h2 {
+    color: #b8860b;
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  /* 필터 버튼 */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 12px 16px;
+    background: #faf5e8;
+    border: 1px solid #d9c6a1;
+    border-radius: 10px;
+  }
+  .filter-label {
+    font-size: 13px;
+    color: #6b3410;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border: 1px solid #b89f70;
+    background: #fff;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .filter-btn:hover:not(:disabled) { background: #f0e5d1; }
+  .filter-btn.active {
+    background: #6b3410;
+    color: #fff;
+    border-color: #6b3410;
+  }
+  .filter-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f5f5f5;
+    color: #999;
+  }
+  .filter-btn:disabled:hover { background: #f5f5f5; }
+  .filter-btn .count {
+    display: inline-block;
+    background: #6b3410;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-left: 5px;
+    min-width: 18px;
+    text-align: center;
+  }
+  .filter-btn.active .count {
+    background: #fff;
+    color: #6b3410;
+  }
+  .filter-btn:disabled .count {
+    background: #bbb;
+    color: #fff;
+  }
+  .filter-empty-msg {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    font-size: 14px;
+    background: #fafbfc;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+  }
+
+  /* ===== 키보드 포커스 ===== */
+  .question.kbd-focus {
+    box-shadow: 0 0 0 3px #6b3410, 0 4px 16px rgba(107,52,16,0.18);
+    transform: translateX(2px);
+  }
+  .question.kbd-focus::before {
+    content: "⌨️";
+    position: absolute;
+    left: -30px;
+    top: 22px;
+    font-size: 18px;
+  }
+
+  .kbd-help-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #6b3410;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(107,52,16,0.3);
+    z-index: 200;
+    transition: all 0.15s;
+  }
+  .kbd-help-btn:hover {
+    background: #8b5a2b;
+    transform: scale(1.08);
+  }
+  .kbd-help-btn:focus { outline: 2px solid #d4a84b; outline-offset: 2px; }
+
+  .kbd-help-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .kbd-help-overlay.show { display: flex; }
+  .kbd-help-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .kbd-help-modal h3 {
+    color: #6b3410;
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kbd-help-modal .kbd-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #e0e0e0;
+    gap: 14px;
+  }
+  .kbd-help-modal .kbd-row:last-child { border-bottom: none; }
+  .kbd-help-modal .kbd-keys {
+    flex-shrink: 0;
+    min-width: 110px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  kbd {
+    display: inline-block;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: "Menlo", "Consolas", monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    min-width: 22px;
+    text-align: center;
+  }
+  .kbd-help-modal .kbd-desc {
+    font-size: 14px;
+    color: #444;
+  }
+  .kbd-help-close {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+    background: #6b3410;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .kbd-help-close:hover { background: #8b5a2b; }
+  .kbd-help-note {
+    font-size: 12px;
+    color: #777;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #fafbfc;
+    border-radius: 6px;
+    line-height: 1.5;
+  }
+
+  .kbd-toast {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: rgba(107,52,16,0.95);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 250;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.2s;
+    pointer-events: none;
+  }
+  .kbd-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .category-progress {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #6b3410;
+    color: #6b3410;
+  }
+  .category-progress.good { background: #e8f5e9; border-color: #2e7d32; color: #2e7d32; }
+  .category-progress.mid  { background: #fff8e1; border-color: #c9971a; color: #8a6a10; }
+  .category-progress.bad  { background: #ffebee; border-color: #c62828; color: #c62828; }
+
+  .save-indicator {
+    display: inline-block;
+    font-size: 12px;
+    color: #8b5a2b;
+    margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .save-indicator.show { opacity: 1; }
+
+  .footer-note {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .print-group {
+    border-left: 1px solid #d4dbe5;
+    padding-left: 10px;
+    margin-left: 4px;
+  }
+  .print-label {
+    font-size: 13px;
+    color: #555;
+    font-weight: 600;
+    margin-right: 2px;
+  }
+  .btn-print {
+    background: #fff;
+    color: #6b3410;
+    border: 1.5px solid #6b3410;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .btn-print:hover {
+    background: #6b3410;
+    color: #fff;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    header { padding: 24px 20px; }
+    header h1 { font-size: 20px; }
+    main { padding: 20px; }
+    .control-bar { padding: 12px 16px; }
+    .btn { padding: 8px 14px; font-size: 13px; }
+    .question { padding: 18px; }
+    .print-group {
+      border-left: none;
+      padding-left: 0;
+      margin-left: 0;
+      border-top: 1px solid #d4dbe5;
+      padding-top: 8px;
+      width: 100%;
+    }
+    .kbd-help-btn { display: none; }
+    .question.kbd-focus::before { display: none; }
+    .question.kbd-focus {
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 15mm 12mm;
+    }
+    body {
+      background: #fff !important;
+      padding: 0 !important;
+      color: #000;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+    .container { max-width: 100%; margin: 0; }
+    .control-bar,
+    .filter-bar,
+    .result-banner,
+    .wrong-list-section,
+    .starred-list-section,
+    .star-btn,
+    .footer-note,
+    .filter-empty-msg,
+    .save-indicator,
+    .category-progress,
+    .kbd-help-btn,
+    .kbd-help-overlay,
+    .kbd-toast,
+    .btn {
+      display: none !important;
+    }
+    .question.kbd-focus {
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    .question.kbd-focus::before { display: none !important; }
+    header {
+      background: none !important;
+      color: #000 !important;
+      padding: 0 0 10px 0 !important;
+      border-bottom: 2px solid #000;
+      margin-bottom: 15px;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+    header::before { display: none !important; }
+    header h1 { font-size: 18pt; color: #000 !important; }
+    header .subtitle { font-size: 10pt; opacity: 1; color: #333 !important; }
+    header .badge, header .set-badge {
+      background: none !important;
+      color: #555 !important;
+      padding: 0 !important;
+      font-size: 9pt;
+      margin: 0 4px 0 0 !important;
+    }
+    main {
+      background: #fff !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+    .print-header {
+      display: block !important;
+      margin-bottom: 12px;
+      font-size: 11pt;
+      color: #333;
+    }
+    .print-header .mode-tag {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 3px;
+      font-weight: 700;
+      margin-right: 8px;
+      font-size: 10pt;
+    }
+    .category-header {
+      background: none !important;
+      border-left: 3px solid #000 !important;
+      color: #000 !important;
+      font-size: 12pt !important;
+      padding: 6px 10px !important;
+      margin: 14px 0 10px 0 !important;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+    .question {
+      background: #fff !important;
+      border: 1px solid #888 !important;
+      padding: 10px 14px !important;
+      margin-bottom: 10px !important;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: none !important;
+    }
+    .question.correct, .question.wrong, .question.answered {
+      background: #fff !important;
+      border: 1px solid #888 !important;
+    }
+    .question-header {
+      margin-bottom: 8px !important;
+    }
+    .q-number {
+      background: #000 !important;
+      color: #fff !important;
+      font-size: 10pt !important;
+      padding: 2px 8px !important;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .q-text {
+      font-size: 11pt !important;
+      color: #000 !important;
+      margin-bottom: 8px !important;
+    }
+    .q-text strong { color: #000 !important; font-weight: 700; }
+    .options { gap: 3px !important; }
+    .option-label {
+      background: #fff !important;
+      border: 1px solid #bbb !important;
+      padding: 5px 10px !important;
+      font-size: 10.5pt !important;
+      color: #000 !important;
+    }
+    .option-label.selected {
+      background: #e8e8e8 !important;
+      border-color: #000 !important;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .option-label input[type="radio"] {
+      display: inline-block !important;
+      width: 10px;
+      height: 10px;
+    }
+    .option-num { color: #000 !important; }
+    .option-label.marked-correct {
+      background: #fff !important;
+      border: 2px solid #000 !important;
+      font-weight: 700;
+      text-decoration: none !important;
+      color: #000 !important;
+    }
+    .option-label.marked-correct::after {
+      content: " ← 정답" !important;
+      color: #000 !important;
+    }
+    .option-label.marked-wrong {
+      background: #fff !important;
+      border: 1px dashed #666 !important;
+      text-decoration: line-through;
+      color: #666 !important;
+    }
+    .option-label.marked-wrong::after {
+      content: " ✗ 내선택" !important;
+      color: #666 !important;
+    }
+    .explanation {
+      background: #f5f5f5 !important;
+      border-left: 3px solid #000 !important;
+      color: #000 !important;
+      font-size: 10pt !important;
+      padding: 8px 12px !important;
+      page-break-inside: avoid;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .explanation .label { color: #000 !important; }
+    .explanation strong { color: #000 !important; }
+    body.print-mode-starred .question:not(.is-starred) { display: none !important; }
+    body.print-mode-starred .category-header.no-items { display: none !important; }
+    body.print-mode-wrong .question:not(.is-wrong) { display: none !important; }
+    body.print-mode-wrong .category-header.no-items { display: none !important; }
+  }
+  .print-header { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>상한론 중간고사 모의고사 — 50문제</h1>
+  <div class="subtitle">육경병 제강 · 계지탕/마황탕/영계제 · 시호탕류 · 백호탕류 · 승기탕류 · 이중탕 · 사역탕 · 사심탕류</div>
+  <span class="badge">2026 우석대학교 한약학과 · 상한론 및 체질의학</span>
+  <span class="set-badge">SET 1</span>
+</header>
+
+<div class="control-bar">
+  <div class="progress-info">
+    <span id="progressText">진행: 0 / 50</span>
+    &nbsp;|&nbsp;
+    <span id="starredCount" class="count-starred">★ 0</span>
+    <span id="saveIndicator" class="save-indicator">💾 저장됨</span>
+  </div>
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="gradeExam()">📝 채점하기</button>
+    <button class="btn btn-secondary" onclick="toggleStarred()">⭐ 중요문제만</button>
+    <button class="btn btn-secondary" onclick="toggleWrong()">❌ 틀린문제만</button>
+    <button class="btn btn-reset" onclick="resetExam()">🔄 초기화</button>
+  </div>
+  <div class="btn-group print-group">
+    <button class="btn btn-print" onclick="printMode('all')">🖨️ 인쇄</button>
+  </div>
+</div>
+
+<main>
+
+<div class="print-header" id="printHeader">
+  <span class="mode-tag" id="printModeTag">전체 문제</span>
+  <span id="printModeInfo"></span>
+</div>
+
+<div class="result-banner" id="resultBanner">
+  <h2>채점 결과</h2>
+  <div class="score" id="scoreText">- / 50</div>
+  <div class="score-detail" id="scoreDetail"></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <span class="filter-label">🔍 보기 필터:</span>
+  <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">전체 <span class="count" data-count="all">50</span></button>
+  <button class="filter-btn" data-filter="answered" onclick="setFilter('answered')">✏️ 푼문제 <span class="count" data-count="answered">0</span></button>
+  <button class="filter-btn" data-filter="unanswered" onclick="setFilter('unanswered')">⬜ 안푼문제 <span class="count" data-count="unanswered">50</span></button>
+  <button class="filter-btn" data-filter="starred" onclick="setFilter('starred')">⭐ 별표 <span class="count" data-count="starred">0</span></button>
+  <button class="filter-btn filter-btn-graded" data-filter="wrong" onclick="setFilter('wrong')">❌ 틀린문제 <span class="count" data-count="wrong">-</span></button>
+  <button class="filter-btn filter-btn-graded" data-filter="correct" onclick="setFilter('correct')">✓ 맞은문제 <span class="count" data-count="correct">-</span></button>
+</div>
+
+<div id="questionsContainer"></div>
+
+<div class="wrong-list-section" id="wrongListSection">
+  <h2>❌ 틀린 문제 해설 모아보기</h2>
+  <div id="wrongList"></div>
+</div>
+
+<div class="starred-list-section" id="starredListSection">
+  <h2>⭐ 별표 표시한 중요문제</h2>
+  <div id="starredList"></div>
+</div>
+
+</main>
+
+<div class="footer-note">
+  상한론 중간고사 대비 인터랙티브 모의고사 | 육경병 제강 · 주요 처방(계지탕·마황탕·영계제·시호탕류·백호탕류·승기탕류·이중탕·사역탕·사심탕류)<br>
+  <span style="color:#6b3410; font-weight:600;">⌨️ 키보드 단축키 지원 — 우하단 버튼 또는 <kbd style="padding:1px 6px; background:#eee; border:1px solid #bbb; border-radius:3px;">?</kbd> 키를 눌러 확인</span>
+</div>
+
+</div>
+
+<button class="kbd-help-btn" onclick="toggleKbdHelp()" title="키보드 단축키 도움말 (?)">⌨️</button>
+
+<div class="kbd-help-overlay" id="kbdHelpOverlay" onclick="if(event.target===this)toggleKbdHelp()">
+  <div class="kbd-help-modal">
+    <h3>⌨️ 키보드 단축키</h3>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd></div>
+      <div class="kbd-desc">현재 문제의 답 선택 (같은 숫자 재입력 시 선택 해제)</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>←</kbd><kbd>→</kbd></div>
+      <div class="kbd-desc">이전/다음 문제로 이동</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>↑</kbd><kbd>↓</kbd></div>
+      <div class="kbd-desc">한 번에 5문제 위/아래로 점프</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>F</kbd></div>
+      <div class="kbd-desc">⭐ 별표 토글 (중요문제 표시)</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>X</kbd></div>
+      <div class="kbd-desc">답 지우기 (현재 문제)</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>Home</kbd></div>
+      <div class="kbd-desc">첫 문제로 이동</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>End</kbd></div>
+      <div class="kbd-desc">마지막 문제로 이동</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>G</kbd></div>
+      <div class="kbd-desc">📝 채점하기</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>?</kbd> <kbd>H</kbd></div>
+      <div class="kbd-desc">이 도움말 열기/닫기</div>
+    </div>
+    <div class="kbd-row">
+      <div class="kbd-keys"><kbd>Esc</kbd></div>
+      <div class="kbd-desc">도움말 닫기</div>
+    </div>
+    <div class="kbd-help-note">
+      💡 <strong>팁</strong>: 화살표 키로 이동하면 해당 문제에 갈색 테두리와 좌측에 ⌨️ 표시가 나타납니다.
+    </div>
+    <button class="kbd-help-close" onclick="toggleKbdHelp()">닫기 (Esc)</button>
+  </div>
+</div>
+
+<div class="kbd-toast" id="kbdToast"></div>
+
+<script>
+// ============ 문제 데이터 (상한론 중간고사) ============
+const questions = [
+  // ===== 제1부. 육경병 제강·전변·기본 개념 — 10문제 =====
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "다음 <strong>태양병 제강</strong>의 빈칸에 들어갈 내용으로 옳은 것은?<br>「태양지위병, ( A ), ( B ), 이오한(而惡寒)」",
+    opts: [
+      "A: 맥부(脈浮) / B: 두항강통(頭項强痛)",
+      "A: 맥홍대(脈洪大) / B: 위가실(胃家實)",
+      "A: 맥현(脈弦) / B: 구고(口苦)",
+      "A: 맥미세(脈微細) / B: 단욕매(但欲寐)",
+      "A: 맥침지(脈沈遲) / B: 복만이토(腹滿而吐)"
+    ],
+    ans: 1,
+    exp: "태양병 제강은 <strong>맥부·두항강통·오한</strong>이다. 표증(表證)의 초기 단계로 정기와 사기가 체표에서 싸우는 상태."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "「양명지위병, ( )시야(是也)」. 양명병 제강의 빈칸에 들어갈 용어는?",
+    opts: [
+      "맥부(脈浮)",
+      "구고인건목현(口苦咽乾目眩)",
+      "위가실(胃家實)",
+      "맥미세 단욕매(脈微細 但欲寐)",
+      "복만이토(腹滿而吐)"
+    ],
+    ans: 3,
+    exp: "양명병 제강은 <strong>위가실(胃家實)</strong>. 장위(腸胃)에 조열이 맺혀 대변이 소통되지 않고 진액이 말라 실질적 열이 가득 찬 상태."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "태음병 제강은 「태음지위병, 복만이토, 식불하, ( A ), 시복자통」이다. A에 해당하는 증상은?",
+    opts: [
+      "위가실(胃家實)",
+      "자리익심(自利益甚)",
+      "한열왕래(寒熱往來)",
+      "맥홍대(脈洪大)",
+      "대변난(大便難)"
+    ],
+    ans: 2,
+    exp: "태음병은 리허한증(裏虛寒證)으로 비양이 허쇠하여 <strong>자리익심(自利益甚)</strong>, 즉 <strong>설사가 저절로 나고 갈수록 심해지는</strong> 것이 특징. 양명병의 변비와 정반대."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "소음병 제강 「소음지위병, ( A ), ( B )」의 빈칸에 들어갈 증상은?",
+    opts: [
+      "A: 맥부완 / B: 한출오풍",
+      "A: 맥부긴 / B: 무한오한",
+      "A: 맥미세(脈微細) / B: 단욕매(但欲寐)",
+      "A: 맥현삭 / B: 구고인건",
+      "A: 맥홍대 / B: 대한번갈"
+    ],
+    ans: 3,
+    exp: "소음병은 심신양허(心腎陽虛)로 <strong>맥미세(양허)·단욕매(정신 혼미)</strong>가 핵심. 미(微)가 세(細) 앞에 위치한 것은 <strong>양허가 위주</strong>임을 반영."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "궐음병 제강에 포함된 증상이 <strong>아닌</strong> 것은?",
+    opts: [
+      "소갈(消渴)",
+      "기상충심(氣上撞心)",
+      "심중동열(心中疼熱)",
+      "식즉토회(食則吐蛔)",
+      "대한출(大汗出)"
+    ],
+    ans: 5,
+    exp: "궐음병 제강은 <strong>소갈·기상충심·심중동열·기이불욕식·식즉토회·하지리불지</strong>. <strong>대한출(大汗出)은 양명열증의 4대증</strong>이며 궐음병 제강과 무관."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "상한론 육경병의 일반적인 전경(傳經) 순서로 옳은 것은?",
+    opts: [
+      "태양 → 양명 → 소양 → 태음 → 소음 → 궐음",
+      "태양 → 소양 → 양명 → 태음 → 소음 → 궐음",
+      "태양 → 태음 → 양명 → 소양 → 소음 → 궐음",
+      "소양 → 태양 → 양명 → 태음 → 궐음 → 소음",
+      "태양 → 양명 → 태음 → 소양 → 소음 → 궐음"
+    ],
+    ans: 2,
+    exp: "육경병 전경은 삼양 → 삼음으로 <strong>태양 → 소양 → 양명 → 태음 → 소음 → 궐음</strong>. 삼양병(열·실)에서 삼음병(한·허)으로 병이 깊어진다."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "두 경(經)의 병이 순차적으로 발병하지 않고 <strong>동시에</strong> 나타나는 경우를 지칭하는 용어는?",
+    opts: [
+      "전경(傳經)",
+      "직중(直中)",
+      "합병(合病)",
+      "병병(幷病)",
+      "재경(再經)"
+    ],
+    ans: 3,
+    exp: "<strong>합병(合病)</strong>은 두 경 이상이 동시에 발병하는 것. 병병(幷病)은 한 경의 병이 아직 낫지 않은 상태에서 다른 경의 병이 겹친 것."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "외감병이 <strong>삼양을 거치지 않고 바로 삼음(특히 소음·태음)으로 적중</strong>하는 상황을 지칭하는 용어는?",
+    opts: [
+      "전경(傳經)",
+      "합병(合病)",
+      "병병(幷病)",
+      "직중(直中)",
+      "재경(再經)"
+    ],
+    ans: 4,
+    exp: "<strong>직중(直中)</strong>은 사기가 표를 거치지 않고 바로 리(裏)의 음경(陰經)을 침범하는 것. 양허한 사람이 한사에 심하게 노출될 때 잘 발생."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "태양병의 축수증(蓄水證)과 축혈증(蓄血證)에 관한 설명 중 옳은 것은?",
+    opts: [
+      "축수증은 열과 혈이 엉겨 하초에 축적된 것이다",
+      "축혈증의 대표 처방은 오령산이다",
+      "축수증은 수기가 하초에 축적되어 소변불리·구갈이 나타난다",
+      "축혈증은 소변불리가 주증이며 경통거안은 없다",
+      "축수증과 축혈증 모두 도핵승기탕으로 치료한다"
+    ],
+    ans: 3,
+    exp: "<strong>축수증</strong>은 태양부증(膀胱腑)의 병으로 수기가 하초에 축적되어 <strong>소변불리·구갈·번갈(오령산)</strong>이 나타남. <strong>축혈증</strong>은 열과 혈이 엉긴 실증으로 <strong>경통거안·심신불안(도핵승기탕)</strong>이 나타남."
+  },
+  {
+    category: "제1부. 육경병 제강·전변·기본 개념 — 10문제",
+    q: "상한론의 치법 8가지(汗·吐·下·和·溫·淸·消·補) 중 <strong>소양병의 주요 치법</strong>은?",
+    opts: [
+      "한법(汗法) — 발한해표",
+      "하법(下法) — 공하",
+      "화법(和法) — 화해",
+      "온법(溫法) — 온리산한",
+      "청법(淸法) — 청열"
+    ],
+    ans: 3,
+    exp: "소양병은 반표반리증이라 한·토·하법을 모두 쓸 수 없고 <strong>화해법(和解法)</strong>이 주치법. 대표방은 소시호탕."
+  },
+
+  // ===== 제2부. 장부경락·표본중기·기화학설 — 6문제 =====
+  {
+    category: "제2부. 장부경락·표본중기·기화학설 — 6문제",
+    q: "상한론 기화학설에서 <strong>본(本)-표(標)-중기(中)</strong>의 관계가 <strong>잘못</strong> 짝지어진 것은?",
+    opts: [
+      "본: 한(寒) / 표: 태양 / 중: 소음",
+      "본: 열(熱·군화) / 표: 소음 / 중: 태양",
+      "본: 조(燥) / 표: 양명 / 중: 태음",
+      "본: 습(濕) / 표: 태음 / 중: 양명",
+      "본: 풍(風) / 표: 소양 / 중: 궐음"
+    ],
+    ans: 5,
+    exp: "기화학설에서 <strong>풍(風)은 궐음의 본</strong>이고 표는 궐음, 중기는 소양. <strong>소양의 본은 상화(서·暑)</strong>이고 중기는 궐음. 풍과 소양을 짝지으면 틀린 것."
+  },
+  {
+    category: "제2부. 장부경락·표본중기·기화학설 — 6문제",
+    q: "다음 장부경락과 경맥의 짝 중 <strong>틀린</strong> 것은?",
+    opts: [
+      "방광(膀胱) — 족태양경(足太陽經)",
+      "위(胃) — 족양명경(足陽明經)",
+      "담(膽) — 족소양경(足少陽經)",
+      "비(脾) — 족소음경(足少陰經)",
+      "간(肝) — 족궐음경(足厥陰經)"
+    ],
+    ans: 4,
+    exp: "<strong>비(脾)는 족태음경(足太陰經)</strong>에 속한다. 족소음경은 신(腎)의 경맥. 헷갈리기 쉬우므로 주의."
+  },
+  {
+    category: "제2부. 장부경락·표본중기·기화학설 — 6문제",
+    q: "삼음경의 개합추(開闔樞)와 담당 경의 짝으로 <strong>옳은</strong> 것은?",
+    opts: [
+      "태음-합 / 소음-개 / 궐음-추",
+      "태음-개 / 소음-추 / 궐음-합",
+      "태음-추 / 소음-합 / 궐음-개",
+      "태음-개 / 소음-합 / 궐음-추",
+      "태음-합 / 소음-추 / 궐음-개"
+    ],
+    ans: 2,
+    exp: "삼음의 개합추: <strong>태음-개(開), 소음-추(樞), 궐음-합(闔)</strong>. 태음은 위를 열어 음식을 받아들이고, 궐음은 음기를 담아 갈무리하며, 소음은 그 지도리(樞) 역할을 함."
+  },
+  {
+    category: "제2부. 장부경락·표본중기·기화학설 — 6문제",
+    q: "장부의 표리(表裏) 관계가 <strong>잘못</strong> 짝지어진 것은?",
+    opts: [
+      "폐(肺) — 대장(大腸)",
+      "심(心) — 소장(小腸)",
+      "비(脾) — 위(胃)",
+      "간(肝) — 담(膽)",
+      "신(腎) — 삼초(三焦)"
+    ],
+    ans: 5,
+    exp: "<strong>신(腎)의 표리 장부는 방광(膀胱)</strong>이고, <strong>삼초(三焦)의 표리 장부는 심포(心包)</strong>이다."
+  },
+  {
+    category: "제2부. 장부경락·표본중기·기화학설 — 6문제",
+    q: "수기상충(水氣上衝)이 <strong>심하(心下)</strong>로부터 일어나는 경우의 주된 원인은?",
+    opts: [
+      "심·비의 기가 허해서",
+      "심·신의 기가 허해서",
+      "간·담의 기가 허해서",
+      "폐·위의 기가 허해서",
+      "신·방광의 기가 허해서"
+    ],
+    ans: 1,
+    exp: "심하로부터 상충 → <strong>심·비의 기가 허</strong>해서. 제하(배꼽 아래)로부터 상충 → <strong>심·신의 기가 허</strong>해서 일어나며, 이 경우 분돈기(奔豚氣)가 된다."
+  },
+  {
+    category: "제2부. 장부경락·표본중기·기화학설 — 6문제",
+    q: "<strong>열증(陽證)-번증(煩證)</strong>과 <strong>음증(陰證)-조증(躁證)</strong>의 구분에 대한 설명 중 옳은 것은?",
+    opts: [
+      "번증만 있고 조증이 없으면 음은 있으나 양은 없는 망양(亡陽) 상태이다",
+      "조증만 있고 번증이 없는 경우는 양증에 속한다",
+      "낮에 번조하고 밤에 편안한 것은 음사가 성하여 밤에 양과 다투기 때문이다",
+      "번증과 조증은 구분할 수 없으며 동일한 증상이다",
+      "건강부자탕증의 음조증(陰躁證)은 양기가 넘치는 실증이다"
+    ],
+    ans: 1,
+    exp: "<strong>조증(躁證) 없이 번증(煩證)만 있는 것은 음(陰) 없음 → 망음(亡陰)</strong>이 아니라, 거꾸로 <strong>번증 없이 조증만 있으면 양(陽) 없음 → 망양(亡陽)</strong>. 낮에 번조/밤에 고요한 것은 양기가 낮에 음사와 다투기 때문. 음조증은 음한이 성해서 생기는 위중한 허증."
+  },
+
+  // ===== 제3부. 계지탕 및 계지탕 가감방 — 5문제 =====
+  {
+    category: "제3부. 계지탕 및 계지탕 가감방 — 5문제",
+    q: "<strong>계지탕</strong>의 조성(5미)으로 옳은 것은?",
+    opts: [
+      "마황·계지·행인·자감초·생강",
+      "계지·작약·생강·대조·자감초",
+      "계지·작약·생강·대조·반하",
+      "계지·백출·복령·자감초·대조",
+      "계지·갈근·마황·생강·자감초"
+    ],
+    ans: 2,
+    exp: "계지탕은 <strong>계지·작약·생강·대조·자감초</strong>의 5미. 영위(營衛)를 조화시키고 해기발표하며, 중초의 음양을 조화시킨다."
+  },
+  {
+    category: "제3부. 계지탕 및 계지탕 가감방 — 5문제",
+    q: "<strong>계지가계탕(桂枝加桂湯)</strong>의 주요 치료 증상인 \"분돈(奔豚)\"에 대한 설명으로 옳은 것은?",
+    opts: [
+      "대변이 막혀 배가 창만한 것",
+      "심의 양기가 허하여 신(腎)의 음사가 위로 치솟는 것",
+      "음식을 먹으면 바로 구토하는 것",
+      "손발이 싸늘해지고 땀이 줄줄 나는 것",
+      "목덜미에서 등까지 강직되는 것"
+    ],
+    ans: 2,
+    exp: "분돈(奔豚)은 <strong>심의 양기가 허하여 음기 제압하지 못해 신의 음사가 위로 치솟는 것</strong>. 벌겋게 솟아오르며 돌고래가 점프하듯 기운이 치밀어 오른다. 계지탕에 계지 2냥을 더해 5냥으로 증량하여 심양을 북돋우고 상충하는 기를 누른다."
+  },
+  {
+    category: "제3부. 계지탕 및 계지탕 가감방 — 5문제",
+    q: "<strong>계지가작약탕</strong>의 조성으로 옳은 것은?",
+    opts: [
+      "계지탕 + 대황 2냥",
+      "계지탕의 작약을 3냥에서 6냥으로 증량한 것",
+      "계지탕 - 작약 + 부자 1개",
+      "계지탕 + 마황 3냥",
+      "계지탕 + 후박·행인"
+    ],
+    ans: 2,
+    exp: "계지가작약탕은 <strong>계지탕의 작약을 3냥에서 두 배인 6냥으로 증량</strong>한 것. 영분(營分)의 약을 증가시켜 복통·복만창을 치료한다. 오치로 한사가 속으로 더 들어간 상태."
+  },
+  {
+    category: "제3부. 계지탕 및 계지탕 가감방 — 5문제",
+    q: "<strong>계지가갈근탕(葛根湯)</strong>에 대한 설명 중 <strong>옳지 않은</strong> 것은?",
+    opts: [
+      "계지탕에 갈근과 마황을 합방한 것이다",
+      "태양중풍에 땀이 나면서 오풍, 두배강괴괴(項背强几几) 증상에 사용한다",
+      "후뇌부 통증(고혈압, 동맥경화) 등에 응용 가능하다",
+      "마황이 포함되어 있어 소음인 계열에 주의가 필요하다",
+      "비위가 허한한 사람의 복통·설사가 주치이다"
+    ],
+    ans: 5,
+    exp: "계지가갈근탕(=갈근탕, 계지가갈근마황탕)은 <strong>태양중풍에 항배강괴</strong>가 있을 때 쓰는 해표·자윤 처방. <strong>복통·설사는 태음병의 이중탕 적응증</strong>이지 갈근탕과는 무관. 마황이 들어있어 소음인 주의."
+  },
+  {
+    category: "제3부. 계지탕 및 계지탕 가감방 — 5문제",
+    q: "<strong>계지가후박행자탕</strong>과 <strong>마행감석탕</strong>, <strong>마황탕</strong>의 적응증 비교로 옳은 것은?",
+    opts: [
+      "세 처방 모두 실증(實證) 기침에 쓴다",
+      "계지가후박행자탕은 열증 기침, 마행감석탕은 한증 기침에 쓴다",
+      "계지가후박행자탕은 한증·허증 기침(맥부완·유한), 마행감석탕은 열증 기침에 쓴다",
+      "마행감석탕은 오한·무한에, 마황탕은 발열·유한에 쓴다",
+      "세 처방 모두 허증(虛證)에만 쓸 수 있다"
+    ],
+    ans: 3,
+    exp: "<strong>계지가후박행자탕</strong>: 차면서(한증) 허증, 맥부완·두항강통·유한·기침. <strong>마행감석탕</strong>: 열나면서 기침(열증). <strong>마황탕</strong>: 실증(오한·무한·신동·맥부긴). 한열허실을 구분하는 핵심 문제."
+  },
+
+  // ===== 제4부. 마황탕 및 마황탕 가감방 — 5문제 =====
+  {
+    category: "제4부. 마황탕 및 마황탕 가감방 — 5문제",
+    q: "<strong>마황탕</strong>의 조성(4미) 및 마황과 감초의 용량 비율로 옳은 것은?",
+    opts: [
+      "마황·계지·행인·자감초 / 마황:감초 = 3:1",
+      "마황·계지·작약·자감초 / 마황:감초 = 1:1",
+      "마황·갈근·계지·자감초 / 마황:감초 = 2:1",
+      "마황·계지·생강·대조 / 마황:감초 = 3:2",
+      "마황·석고·행인·자감초 / 마황:감초 = 4:1"
+    ],
+    ans: 1,
+    exp: "마황탕은 <strong>마황·계지·행인·자감초</strong>의 4미이며, <strong>마황:감초 = 3:1</strong>. 강력한 발한해표·선폐평천 작용."
+  },
+  {
+    category: "제4부. 마황탕 및 마황탕 가감방 — 5문제",
+    q: "마황탕 주의사항으로 <strong>옳지 않은</strong> 것은?",
+    opts: [
+      "탕약을 달이다가 위에 뜨는 거품을 걷어내야 한다",
+      "소음인은 마황 복용으로 망양(亡陽)에 빠질 위험이 있다",
+      "신온(辛溫)함으로 발한시키는 강한 약이므로 허약자에게 주의한다",
+      "소음인에게도 무난하게 쓰려면 오적산에서 마황을 자소엽으로 대체할 수 있다",
+      "땀이 줄줄 나고 오풍한 사람(중풍표허)에게 적극 권장된다"
+    ],
+    ans: 5,
+    exp: "마황탕은 <strong>표실증(무한·오한·맥부긴)</strong>에 쓰는 처방. <strong>땀이 나고 오풍한 중풍표허증(계지탕증)에는 금기</strong>. 잘못 쓰면 망양한다."
+  },
+  {
+    category: "제4부. 마황탕 및 마황탕 가감방 — 5문제",
+    q: "<strong>소청룡탕</strong>의 조성은 「마황탕 – 행인 + ( )」이다. 빈칸에 들어갈 5가지 약재로 옳은 것은?",
+    opts: [
+      "반하·작약·오미자·건강·세신",
+      "반하·작약·오미자·생강·대조",
+      "천화분·맥문동·사삼·건강·오미자",
+      "복령·백출·택사·저령·육계",
+      "후박·지실·대황·망초·도인"
+    ],
+    ans: 1,
+    exp: "소청룡탕 = 마황탕에서 행인을 빼고 <strong>반하·작약·오미자·건강·세신</strong>을 더한 처방. 외한내음(外寒內飮)을 치료하며 수음해천(몸에 수기가 있어 감기+맑은콧물)에 쓴다."
+  },
+  {
+    category: "제4부. 마황탕 및 마황탕 가감방 — 5문제",
+    q: "<strong>대청룡탕</strong>의 적응증인 \"진열가한(眞熱假寒)/외한겸내열\" 상태에 해당하는 증상은?",
+    opts: [
+      "오한·땀·맥부완·두통",
+      "오한·발열·무한·번조(불한출이번조)·맥부긴",
+      "복통·설사·자리불갈",
+      "구고·인건·목현·한열왕래",
+      "맥미세·단욕매·수족궐냉"
+    ],
+    ans: 2,
+    exp: "대청룡탕은 <strong>표한겸내열</strong>(외한+번조) 증상에 쓰는 준제(峻劑). <strong>불한출이번조(不汗出而煩燥)</strong>가 핵심. 마황탕의 마황 2배 + 생강·대조·생석고를 더한 처방. 허약자·중풍표허에는 금기."
+  },
+  {
+    category: "제4부. 마황탕 및 마황탕 가감방 — 5문제",
+    q: "<strong>갈근탕</strong>에서 \"강3조2 / 강9조6\"의 의미로 옳은 것은?",
+    opts: [
+      "생강 3냥, 대추 2냥이 한 첩 기준이며, 강9조6은 3회분/일",
+      "생강 3개, 대추 2개가 한 달 복용량이다",
+      "생강은 3회, 대추는 2회 달여야 한다",
+      "생강 3돈, 대추 2돈은 성인 1회 복용량이다",
+      "생강과 대추의 비율은 3:2이며 어린이 용량이다"
+    ],
+    ans: 1,
+    exp: "갈근탕의 생강:대추 비율은 한 첩 기준 <strong>3:2(강3조2)</strong>, 3회분/일 기준 <strong>9:6(강9조6)</strong>. 갈근 4냥에 마황·계지·생강·감초·대조 12개로 구성."
+  },
+
+  // ===== 제5부. 영계제 및 수기상충증 — 4문제 =====
+  {
+    category: "제5부. 영계제 및 수기상충증 — 4문제",
+    q: "<strong>영계출감탕</strong>(복령계지백출감초탕)의 조성과 주약·배오약으로 옳은 것은?",
+    opts: [
+      "주약: 복령 4냥·계지 3냥 / 배오약: 백출 2냥·자감초 2냥",
+      "주약: 계지 4냥·백출 3냥 / 배오약: 복령 2냥·감초 2냥",
+      "주약: 백출 4냥·복령 3냥 / 배오약: 계지 2냥·감초 2냥",
+      "주약: 감초 4냥·계지 3냥 / 배오약: 복령 2냥·백출 2냥",
+      "주약: 복령 3냥·감초 3냥 / 배오약: 계지 2냥·백출 2냥"
+    ],
+    ans: 1,
+    exp: "영계출감탕 4미: <strong>주약(복령 4냥·계지 3냥), 배오약(백출 2냥·자감초 2냥)</strong>. 비위문제로 심하에서 수기가 상충하는 것을 소화기보호와 함께 치료."
+  },
+  {
+    category: "제5부. 영계제 및 수기상충증 — 4문제",
+    q: "<strong>오령산</strong>의 조성은 「영계출감탕 – 감초 + ( )」이다. 빈칸에 들어갈 2가지 약재는?",
+    opts: [
+      "생강·대조",
+      "저령·택사",
+      "건강·세신",
+      "인삼·대조",
+      "육계·부자"
+    ],
+    ans: 2,
+    exp: "오령산(이수제) = 영계출감탕에서 감초를 빼고 <strong>저령·택사</strong>를 더한 것. 저령·택사는 물을 강하게 빼주며 복령·백출과 함께 강력한 이수작용. 수역증(갈욕음수 수입칙토)·전간증(뇌전증)·게거품 토함 등 치료."
+  },
+  {
+    category: "제5부. 영계제 및 수기상충증 — 4문제",
+    q: "<strong>영계강감탕(복령감초탕)</strong>의 군약(君藥)은?",
+    opts: [
+      "복령",
+      "계지",
+      "자감초",
+      "생강",
+      "백출"
+    ],
+    ans: 4,
+    exp: "영계강감탕 = 영계출감탕에서 백출을 빼고 생강 3냥을 더한 처방. <strong>군약은 생강</strong>. 위 속 수음이 상역(수토)·하리(수사)·수족궐냉(수궐) 치료."
+  },
+  {
+    category: "제5부. 영계제 및 수기상충증 — 4문제",
+    q: "수기상충증이 <strong>제하(臍下, 배꼽아래)로부터</strong> 인후로 상충하면서 \"창(脹)·계(悸)·질색(窒塞)\"이 뚜렷한 경우를 가리키는 명칭은?",
+    opts: [
+      "매핵기(梅核氣)",
+      "분돈기(奔豚氣)",
+      "수역증(水逆證)",
+      "온학(溫瘧)",
+      "비증(痹證)"
+    ],
+    ans: 2,
+    exp: "<strong>분돈기(奔豚氣)</strong>는 배꼽 아래에서 기가 치밀어 올라 인후까지 상충하며 가슴 답답·숨 막힘·죽음의 공포까지 느끼는 위중한 증상. 심·신의 양기가 허할 때 발생."
+  },
+
+  // ===== 제6부. 소양병 제강·시호탕류 가감증치 — 5문제 =====
+  {
+    category: "제6부. 소양병 제강·시호탕류 가감증치 — 5문제",
+    q: "<strong>소시호탕</strong>의 조성(7미)과 <strong>시호의 용량</strong>에 관한 설명으로 옳은 것은?",
+    opts: [
+      "시호·황금·반하·생강·인삼·대조·감초 / 시호 용량 = 인삼·감초의 2배 이상",
+      "시호·황금·반하·건강·인삼·대조·감초 / 시호 용량 = 인삼·감초와 동일",
+      "시호·백출·반하·생강·인삼·대조·감초 / 시호 용량 = 인삼·감초의 1/2",
+      "시호·작약·반하·생강·인삼·대조·감초 / 시호는 용량 제한 없음",
+      "시호·황금·행인·생강·대황·대조·감초 / 시호 용량 = 대황의 2배"
+    ],
+    ans: 1,
+    exp: "소시호탕 7미: <strong>시호·황금·반하·생강·인삼·대조·감초</strong>. 시호 0.5근, 황금·생강·감초·인삼 각 3냥, 대조 13개, 반하 0.5되. <strong>시호 용량은 인삼·감초의 2배 이상</strong>이어야 효과가 있다."
+  },
+  {
+    category: "제6부. 소양병 제강·시호탕류 가감증치 — 5문제",
+    q: "소시호탕의 주된 치법인 <strong>\"단견일증변시 불필실구(但見一證便是, 不必悉具)\"</strong>가 뜻하는 바로 옳은 것은?",
+    opts: [
+      "소양병의 모든 증상(구고·인건·목현 등)을 모두 갖춰야 쓸 수 있다",
+      "한 가지 증상만 갖춰도 되며 모든 증상을 다 갖출 필요는 없다",
+      "반드시 한열왕래가 있어야 쓸 수 있다",
+      "일주일 이내의 초기 감기에만 사용 가능하다",
+      "맥이 현(弦)해야만 쓸 수 있다"
+    ],
+    ans: 2,
+    exp: "소시호탕은 구고·인건·목현 중 <strong>한 가지만 있어도</strong> 쓸 수 있다. 이것이 \"단견일증변시 불필실구\"의 의미. 임상에서 소시호탕의 적용 범위가 매우 넓은 이유."
+  },
+  {
+    category: "제6부. 소양병 제강·시호탕류 가감증치 — 5문제",
+    q: "<strong>대시호탕</strong>의 조성은 「소시호탕 – ( A ) + ( B )」이다. A와 B에 들어갈 약재로 옳은 것은?",
+    opts: [
+      "A: 인삼·감초 / B: 대황·지실·작약",
+      "A: 황금·반하 / B: 계지·작약",
+      "A: 생강·대조 / B: 별갑·모려·모란피",
+      "A: 반하 / B: 천화분·맥문동·사삼",
+      "A: 인삼·대조 / B: 복령·백출·택사"
+    ],
+    ans: 1,
+    exp: "대시호탕 = 소시호탕에서 <strong>인삼·감초를 빼고 대황·지실·작약</strong>을 더한 <strong>준열한 공하제</strong>(화해소양 + 리실공하裏實攻下). 담위의 열실로 기기가 막혀 대변막힘·위완부통·구토·양쪽 옆구리 창만통을 치료. 급성담낭염·담석증·급성췌장염 등에 응용."
+  },
+  {
+    category: "제6부. 소양병 제강·시호탕류 가감증치 — 5문제",
+    q: "<strong>시호가용골모려탕(시모탕)</strong>의 효능 2가지로 옳게 짝지어진 것은?",
+    opts: [
+      "회양구역(回陽救逆) · 건비운습(健脾運濕)",
+      "발한해표(發汗解表) · 선폐평천(宣肺平喘)",
+      "진경안신(鎭驚安神) · 개울설열(開鬱泄熱)",
+      "자음생진(滋陰生津) · 청열생진(淸熱生津)",
+      "활혈화어(活血化瘀) · 연견윤조(軟堅潤燥)"
+    ],
+    ans: 3,
+    exp: "시호가용골모려탕은 소시호탕에서 감초를 빼고 계지·복령·대황·용골·모려·연단을 더한 처방이나, 현대는 <strong>연단(납)은 제외</strong>하고 제조. 효능은 <strong>진경안신(놀란 것 진정, 신 안정)·개울설열(울체 뚫고 열 사함)</strong>. 정신분열증·뇌전증·스트레스성 옆구리 통증 등에 응용."
+  },
+  {
+    category: "제6부. 소양병 제강·시호탕류 가감증치 — 5문제",
+    q: "<strong>시호거반하가괄루근탕</strong>의 적응증으로 옳은 것은?",
+    opts: [
+      "소양병에 한음(寒飮)이 폐를 속박해 맑은 콧물과 기침이 나는 경우",
+      "소양병에 위(胃)의 진액이 소모되어 구갈이 심하고 혀가 홍색이며 설태가 박황한 경우(당뇨병에 응용)",
+      "소양병에 어혈이 옆구리 아래에 비경(痞硬)을 형성한 경우",
+      "소양병에 수사(水邪)가 정체되어 심하가 두근거리고 소변이 불리한 경우",
+      "소양병에 담열이 가슴에 뭉쳐 심번·심하통이 있는 경우"
+    ],
+    ans: 2,
+    exp: "시호거반하가괄루근탕은 <strong>소양병에 위의 진액이 소모되어 구갈</strong>이 있을 때 쓰는 <strong>지갈생진</strong> 처방. 소시호탕(인삼증량) – 반하 + 천화분(괄루근). 반하는 조(燥)하므로 제거하고, 천화분·맥문동·사삼으로 진액을 자양. <strong>당뇨병(위열이 진액 손상)에 응용</strong>."
+  },
+
+  // ===== 제7부. 양명병 제강·백호탕류 — 3문제 =====
+  {
+    category: "제7부. 양명병 제강·백호탕류 — 3문제",
+    q: "<strong>양명열증</strong>의 \"4대증(四大證)\"으로 옳게 묶인 것은?",
+    opts: [
+      "대열(大熱)·대한출(大汗出)·대갈(大渴)·맥홍대(脈洪大)",
+      "오한·무한·신동·맥부긴",
+      "한열왕래·구고·흉협고만·설태백활",
+      "맥미세·단욕매·수족궐냉·구중화",
+      "복만·자리·식불하·시복자통"
+    ],
+    ans: 1,
+    exp: "양명열증 4대증: <strong>대열·대한출·대갈·맥홍대</strong>. 무형의 이열(裏熱)이 온몸과 내외에 가득 찬 상태로 백호탕이 주치방."
+  },
+  {
+    category: "제7부. 양명병 제강·백호탕류 — 3문제",
+    q: "<strong>백호탕</strong>의 조성(4미)으로 옳은 것은?",
+    opts: [
+      "석고·지모·갱미·자감초",
+      "석고·지모·갱미·인삼",
+      "석고·황련·갱미·자감초",
+      "대황·지실·후박·망초",
+      "마황·석고·행인·자감초"
+    ],
+    ans: 1,
+    exp: "백호탕 4미: <strong>석고·지모·갱미(멥쌀)·자감초</strong>. 석고 1근, 지모 6냥, 자감초 2냥, 멥쌀 6홉. 양명 기분의 열을 식히면서 진액을 보호."
+  },
+  {
+    category: "제7부. 양명병 제강·백호탕류 — 3문제",
+    q: "<strong>백호가인삼탕</strong>의 주요 증상 중 \"규맥(芤脈)\"에 대한 설명으로 옳은 것은?",
+    opts: [
+      "맥이 깊이 가라앉고 느리다",
+      "겉으로 팍팍 뛰는데 꾹 누르면 빈 것처럼 힘이 없다",
+      "맥이 실처럼 가늘고 약하다",
+      "맥이 현처럼 팽팽하고 긴장되어 있다",
+      "맥이 빠르고 활발하다"
+    ],
+    ans: 2,
+    exp: "규맥(芤脈)은 <strong>겉은 팍팍 뛰지만 꾹 누르면 빈 것처럼 힘이 없는 맥</strong>. 표리 모두 열이 있어 진액이 크게 손상되고 기·음이 모두 부족할 때 나타나며, 백호가인삼탕으로 지갈생진."
+  },
+
+  // ===== 제8부. 승기탕류(양명부실증) — 4문제 =====
+  {
+    category: "제8부. 승기탕류(양명부실증) — 4문제",
+    q: "<strong>대승기탕·소승기탕·조위승기탕</strong>의 조성 비교로 옳은 것은?",
+    opts: [
+      "대승기탕: 대황+후박+지실+망초 / 소승기탕: 대황+후박+지실 / 조위승기탕: 대황+망초+감초",
+      "대승기탕: 대황+망초 / 소승기탕: 대황+후박 / 조위승기탕: 대황+지실+감초",
+      "대승기탕: 대황+감초 / 소승기탕: 대황+망초 / 조위승기탕: 대황+후박+지실",
+      "세 처방 모두 대황·후박·지실·망초의 4미로 동일하다",
+      "대승기탕: 대황+후박+지실+감초 / 소승기탕: 대황+망초+지실 / 조위승기탕: 대황+후박+망초"
+    ],
+    ans: 1,
+    exp: "<strong>대승기탕(대황+후박+지실+망초)</strong>은 비·만·조·실 모두, <strong>소승기탕(대황+후박+지실)</strong>은 비·만·실, <strong>조위승기탕(대황+망초+감초)</strong>은 조·실에 사용. 사하력은 <strong>대승기 > 소승기 > 조위승기</strong>."
+  },
+  {
+    category: "제8부. 승기탕류(양명부실증) — 4문제",
+    q: "<strong>대승기탕</strong> 각 약재의 주치(主治) 증상 연결이 <strong>옳지 않은</strong> 것은?",
+    opts: [
+      "대황(大黃) — 실(實)",
+      "후박(厚朴) — 만(滿)",
+      "지실(枳實) — 비(痞)",
+      "망초(芒硝) — 조(燥)",
+      "감초(甘草) — 허(虛)"
+    ],
+    ans: 5,
+    exp: "대승기탕은 <strong>대황·후박·지실·망초의 4미</strong>로 구성되며 <strong>감초는 포함되지 않는다</strong>. 대황:실, 후박:만, 지실:비, 망초:조. 감초는 조위승기탕에 들어가며, 위기를 조화시키는 역할."
+  },
+  {
+    category: "제8부. 승기탕류(양명부실증) — 4문제",
+    q: "<strong>마자인환</strong>(비약증·습관성 변비 치료)의 조성으로 옳은 것은?",
+    opts: [
+      "대승기탕 + 마자인 + 작약",
+      "소승기탕(대황·후박·지실) + 마자인·작약·행인",
+      "조위승기탕 + 도인·계지",
+      "계지탕 + 작약·대황",
+      "소시호탕 + 마자인"
+    ],
+    ans: 2,
+    exp: "마자인환 = <strong>소승기탕(대황·후박·지실) + 마자인·작약·행인</strong>. <strong>비약증(脾約證)</strong>이란 위기(胃氣)는 강하고 비음(脾陰)은 약하여 진액이 방광으로 새어 장이 건조해지고 변이 굳는 것. 승기탕으로 사할 수 없는 습관성 변비에 건조한 장을 습윤시켜 치료."
+  },
+  {
+    category: "제8부. 승기탕류(양명부실증) — 4문제",
+    q: "<strong>도핵승기탕(도인승기탕)</strong>의 주요 적응증은?",
+    opts: [
+      "습관성 변비(비약증)",
+      "맹장염·충수염의 농혈 배출",
+      "축혈초결(蓄血初結): 태양병에 표열이 혈과 엉겨 하초에 형성, 경통거안·심신불안·번조",
+      "태음 리허한증의 복통·설사",
+      "소음 양허의 수족궐냉·맥미"
+    ],
+    ans: 3,
+    exp: "도핵승기탕 = 조위승기탕(대황·망초·자감초) + 도인·계지. <strong>축혈초결(열과 혈이 엉긴 실증)</strong>을 치료. 아랫배 당기고 아파 손을 못 대게 함(경통거안), 혈 속의 탁열이 상행해 심신을 어지럽힘(심신불안·번조). 복용 후 약간의 설사(當微利)가 낫는 신호."
+  },
+
+  // ===== 제9부. 태음병·이중탕 / 소음병·사역탕 / 진무탕 — 5문제 =====
+  {
+    category: "제9부. 태음병·이중탕 / 소음병·사역탕 / 진무탕 — 5문제",
+    q: "<strong>이중탕(인삼탕)</strong>의 조성(4미)과 군약(君藥)으로 옳은 것은?",
+    opts: [
+      "인삼·백출·건강·자감초 각 3냥 / 군약: 건강",
+      "인삼·계지·건강·자감초 각 3냥 / 군약: 인삼",
+      "인삼·복령·건강·자감초 각 3냥 / 군약: 복령",
+      "인삼·백출·세신·자감초 각 3냥 / 군약: 백출",
+      "인삼·백출·건강·부자 각 3냥 / 군약: 부자"
+    ],
+    ans: 1,
+    exp: "이중탕은 <strong>인삼·백출·건강·자감초 각 3냥의 4미</strong>이며 <strong>군약은 건강</strong>. 온중난한(溫中暖寒)·건비운습(健脾運濕)으로 태음비기허한증을 치료. 한성곽란·희타(병 후 가래침 자주 뱉음)에도 응용."
+  },
+  {
+    category: "제9부. 태음병·이중탕 / 소음병·사역탕 / 진무탕 — 5문제",
+    q: "<strong>사역탕</strong>의 주요 효능과 조성으로 옳은 것은?",
+    opts: [
+      "회양구역(回陽救逆) / 부자(생용) 1개·건강 1.5냥·자감초 2냥",
+      "화해소양(和解少陽) / 시호·황금·반하·생강·인삼·대조·감초",
+      "청열생진(淸熱生津) / 석고·지모·갱미·자감초",
+      "온중난한(溫中暖寒) / 인삼·백출·건강·자감초",
+      "해기발표(解肌發表) / 계지·작약·생강·대조·자감초"
+    ],
+    ans: 1,
+    exp: "사역탕 3미: <strong>부자(생용) 1개·건강 1.5냥·자감초 2냥</strong>. 효능은 <strong>회양구역(回陽救逆)</strong>. 소음병의 양허한화증(사지궐역·맥미세·하리·오한)을 치료."
+  },
+  {
+    category: "제9부. 태음병·이중탕 / 소음병·사역탕 / 진무탕 — 5문제",
+    q: "<strong>통맥사역탕</strong>은 사역탕과 조성 약재는 동일하나 <strong>건강의 용량이 2배</strong>이다. 이 처방이 치료하는 \"대양증(戴陽證)\"의 의미로 옳은 것은?",
+    opts: [
+      "속은 차고 겉은 뜨거운 격양(格陽) 증상으로 얼굴이 붉어짐",
+      "열이 위로 치솟고 아래는 차가운 상열하한, 즉 양기가 위로 밀려 올라간 상태",
+      "진짜로 열이 많아 얼굴이 붉어지는 실열증",
+      "음허로 인해 오후에 조열이 오르는 증상",
+      "소화불량으로 트림이 많이 나는 증상"
+    ],
+    ans: 2,
+    exp: "<strong>대양증(戴陽證)</strong>은 상열하한, 즉 <strong>음기가 하부에서 성하여 양기가 상부로 밀려 올라간 상태</strong>. 열이 원래 배꼽 아래를 덥혀야 하는데 위로 치솟고 아래는 차다. 격양증은 속은 한, 밖은 열(오한 안 느끼고 얼굴 붉음). 통맥사역탕은 두 증상 모두 치료."
+  },
+  {
+    category: "제9부. 태음병·이중탕 / 소음병·사역탕 / 진무탕 — 5문제",
+    q: "<strong>백통탕</strong>의 조성은 「사역탕 – ( A ) + ( B )」이다. A와 B에 들어갈 약재로 옳은 것은?",
+    opts: [
+      "A: 부자 / B: 인삼",
+      "A: 건강 / B: 총백",
+      "A: 감초 / B: 총백",
+      "A: 감초 / B: 인삼",
+      "A: 부자 / B: 총백"
+    ],
+    ans: 3,
+    exp: "백통탕 = 사역탕에서 <strong>감초를 빼고 총백</strong>을 더한 3미 처방(부자·건강·총백). 완만하게 작용할 상황이 아니라 감초를 제거. 총백은 신활(辛滑)하여 양기를 소통시키고 음한을 깨뜨림. 온양제 + 총백으로 울체된 양기를 소통."
+  },
+  {
+    category: "제9부. 태음병·이중탕 / 소음병·사역탕 / 진무탕 — 5문제",
+    q: "<strong>부자탕</strong>과 <strong>마황탕</strong>의 감별점으로 옳은 것은?",
+    opts: [
+      "부자탕: 발열·맥부 / 마황탕: 무열·맥침",
+      "부자탕: 무열·맥침·등에 오한·수족한 / 마황탕: 발열·맥부·오한·무한",
+      "부자탕: 구고·인건·목현 / 마황탕: 복만·자리",
+      "부자탕: 대변난·복통 / 마황탕: 설사·복냉",
+      "두 처방은 모두 발열·무한이 주증이라 감별이 어렵다"
+    ],
+    ans: 2,
+    exp: "<strong>부자탕(소음양허한증)</strong>: 무열·맥침·구중화(구갈無)·수족한·<strong>등에 오한</strong>·신동·골절동통. <strong>마황탕(태양상한)</strong>: 발열·맥부·오한·무한·신동·골절동통. 열 유무와 맥의 부침(浮沈)으로 감별."
+  },
+
+  // ===== 제10부. 궐음병·사심탕류 — 3문제 =====
+  {
+    category: "제10부. 궐음병·사심탕류 — 3문제",
+    q: "<strong>반하사심탕</strong>의 효능으로 옳게 묶인 것은?",
+    opts: [
+      "회양구역·온중난한",
+      "고강신개(苦降辛開)·화위척담(和胃滌痰)·청상온하(淸上溫下)",
+      "발한해표·선폐평천",
+      "화해소양·리실공하",
+      "활혈화어·배농소종"
+    ],
+    ans: 2,
+    exp: "반하사심탕 효능: <strong>고강신개(쓴맛으로 내리고 매운맛으로 열어줌)·화위척담(위 조화, 담 제거)·청상온하(상부는 식히고 하부는 덥힘)</strong>. 심하비만·비증·오심구토·장명·설사 등 비위의 한열착잡을 치료. 숙취해소에도 응용."
+  },
+  {
+    category: "제10부. 궐음병·사심탕류 — 3문제",
+    q: "<strong>생강사심탕·감초사심탕·반하사심탕</strong>의 감별점으로 옳은 것은?",
+    opts: [
+      "생강사심탕은 식취(食臭, 트림 시 음식 냄새)·수기식체에, 감초사심탕은 건구역질·하리에, 반하사심탕은 담음으로 인한 오심구토·심하비만에 쓴다",
+      "세 처방 모두 동일한 증상에 쓴다",
+      "생강사심탕은 발열, 감초사심탕은 오한, 반하사심탕은 두통에 쓴다",
+      "생강사심탕은 변비, 감초사심탕은 설사, 반하사심탕은 구토에만 쓴다",
+      "감초사심탕은 생강과 대조를 제외한 처방이다"
+    ],
+    ans: 1,
+    exp: "반하사심탕(기본) → 생강 4냥 증량하면 <strong>생강사심탕</strong>(식취·수기식체), → 감초 4냥 증량 + 인삼 제외하면 <strong>감초사심탕</strong>(건구역질·하리). 세 처방 모두 심하비를 치료하지만 주증이 다름."
+  },
+  {
+    category: "제10부. 궐음병·사심탕류 — 3문제",
+    q: "<strong>오매환</strong>의 주치로 옳은 것은?",
+    opts: [
+      "양명부실의 변비·복통·섬어",
+      "궐음병 한열착잡증·회궐증(토회·수족궐랭)·한열활탈로 인한 오랜 설사",
+      "태양중풍의 한출·오풍·두통",
+      "소음양허의 무열·맥침·등에 오한",
+      "양명열증의 대한·대갈·맥홍대"
+    ],
+    ans: 2,
+    exp: "오매환은 <strong>궐음병의 주된 처방</strong>으로 <strong>한열착잡증·회궐증(토회·수족궐랭)·한열활탈로 인한 오랜 설사</strong>를 치료. 오매 300개(식초에 담금)·촉초·세신·부자·건강·계지·황련·황백·인삼·당귀의 10미. 쌀·꿀로 환을 빚어 회충을 안정시킴."
+  }
+];
+
+// ============ 앱 로직 ============
+const STORAGE_KEY = 'sanghanron_midterm_mock_v1';
+
+const state = {
+  answers: {},
+  starred: {},
+  graded: false,
+  filter: 'all'
+};
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answers: state.answers,
+      starred: state.starred,
+      graded: state.graded
+    }));
+    showSaveIndicator();
+  } catch(e) { }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.answers) state.answers = data.answers;
+    if (data.starred) state.starred = data.starred;
+    if (data.graded) state.graded = data.graded;
+  } catch(e) { }
+}
+
+let saveIndicatorTimer = null;
+function showSaveIndicator() {
+  const el = document.getElementById('saveIndicator');
+  if (!el) return;
+  el.classList.add('show');
+  clearTimeout(saveIndicatorTimer);
+  saveIndicatorTimer = setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+function getCategoryStats() {
+  const stats = {};
+  questions.forEach((q, i) => {
+    if (!stats[q.category]) stats[q.category] = { total: 0, correct: 0, answered: 0 };
+    stats[q.category].total++;
+    if (state.answers[i] !== undefined) {
+      stats[q.category].answered++;
+      if (state.answers[i] === q.ans) stats[q.category].correct++;
+    }
+  });
+  return stats;
+}
+
+const container = document.getElementById('questionsContainer');
+
+function shouldShowQuestion(q, idx) {
+  if (state.filter === 'all') return true;
+  if (state.filter === 'answered') return state.answers[idx] !== undefined;
+  if (state.filter === 'unanswered') return state.answers[idx] === undefined;
+  if (state.filter === 'starred') return !!state.starred[idx];
+  if (state.filter === 'wrong') return state.graded && state.answers[idx] !== undefined && state.answers[idx] !== q.ans;
+  if (state.filter === 'correct') return state.graded && state.answers[idx] === q.ans;
+  return true;
+}
+
+function setFilter(f) {
+  state.filter = f;
+  renderQuestions();
+}
+
+function updateProgress() {
+  const answered = Object.keys(state.answers).length;
+  const starred = Object.keys(state.starred).filter(k => state.starred[k]).length;
+  document.getElementById('progressText').textContent = `진행: ${answered} / ${questions.length}`;
+  document.getElementById('starredCount').textContent = `★ ${starred}`;
+}
+
+function toggleStar(idx) {
+  state.starred[idx] = !state.starred[idx];
+  if (!state.starred[idx]) delete state.starred[idx];
+  saveState();
+  renderQuestions();
+}
+
+function renderQuestions() {
+  container.innerHTML = '';
+  let currentCategory = '';
+  let shownCount = 0;
+
+  questions.forEach((q, idx) => {
+    if (!shouldShowQuestion(q, idx)) return;
+    shownCount++;
+
+    if (q.category !== currentCategory) {
+      const ch = document.createElement('div');
+      ch.className = 'category-header';
+      ch.textContent = q.category;
+      if (state.graded) {
+        const catStats = getCategoryStats()[q.category];
+        if (catStats) {
+          const pct = Math.round((catStats.correct / catStats.total) * 100);
+          const badge = document.createElement('span');
+          badge.className = 'category-progress';
+          if (pct >= 80) badge.classList.add('good');
+          else if (pct >= 60) badge.classList.add('mid');
+          else badge.classList.add('bad');
+          badge.textContent = `${catStats.correct}/${catStats.total} · ${pct}%`;
+          ch.appendChild(badge);
+        }
+      }
+      container.appendChild(ch);
+      currentCategory = q.category;
+    }
+
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question';
+    qDiv.id = `q-${idx}`;
+    if (state.answers[idx] !== undefined) qDiv.classList.add('answered');
+    if (state.starred[idx]) qDiv.classList.add('is-starred');
+    if (state.graded) {
+      if (state.answers[idx] === q.ans) qDiv.classList.add('correct');
+      else { qDiv.classList.add('wrong'); qDiv.classList.add('is-wrong'); }
+    }
+
+    const header = document.createElement('div');
+    header.className = 'question-header';
+    const qNum = document.createElement('span');
+    qNum.className = 'q-number';
+    qNum.textContent = `문제 ${idx + 1}`;
+    header.appendChild(qNum);
+    const starBtn = document.createElement('button');
+    starBtn.className = 'star-btn' + (state.starred[idx] ? ' starred' : '');
+    starBtn.innerHTML = state.starred[idx] ? '★' : '☆';
+    starBtn.title = '중요문제 표시';
+    starBtn.onclick = () => toggleStar(idx);
+    header.appendChild(starBtn);
+    qDiv.appendChild(header);
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.innerHTML = q.q;
+    qDiv.appendChild(qText);
+
+    const optsDiv = document.createElement('div');
+    optsDiv.className = 'options';
+    q.opts.forEach((opt, oIdx) => {
+      const label = document.createElement('label');
+      label.className = 'option-label';
+      if (state.answers[idx] === oIdx + 1) label.classList.add('selected');
+      if (state.graded) {
+        if (oIdx + 1 === q.ans) label.classList.add('marked-correct');
+        else if (state.answers[idx] === oIdx + 1) label.classList.add('marked-wrong');
+      }
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `q${idx}`;
+      input.value = oIdx + 1;
+      input.checked = state.answers[idx] === oIdx + 1;
+      input.disabled = state.graded;
+      input.addEventListener('click', (e) => {
+        if (state.graded) return;
+        const selected = oIdx + 1;
+        if (state.answers[idx] === selected) {
+          delete state.answers[idx];
+          input.checked = false;
+          e.preventDefault();
+        } else {
+          state.answers[idx] = selected;
+        }
+        saveState();
+        updateProgress();
+        renderQuestions();
+      });
+      label.appendChild(input);
+      const numSpan = document.createElement('span');
+      numSpan.className = 'option-num';
+      numSpan.textContent = `${oIdx + 1}.`;
+      label.appendChild(numSpan);
+      const textSpan = document.createElement('span');
+      textSpan.innerHTML = opt;
+      label.appendChild(textSpan);
+      optsDiv.appendChild(label);
+    });
+    qDiv.appendChild(optsDiv);
+
+    if (state.graded) {
+      const exp = document.createElement('div');
+      exp.className = 'explanation show';
+      exp.innerHTML = `<span class="label">💡 해설:</span> ${q.exp}`;
+      qDiv.appendChild(exp);
+    }
+
+    container.appendChild(qDiv);
+  });
+
+  if (shownCount === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'filter-empty-msg';
+    const msgs = {
+      'answered': '✏️ 아직 푼 문제가 없습니다.',
+      'unanswered': '🎉 모든 문제를 풀었습니다!',
+      'starred': '⭐ 별표 표시한 문제가 없습니다. 문제 우측의 ☆를 눌러 중요문제를 표시해보세요.',
+      'wrong': '🎉 틀린 문제가 없습니다. 완벽합니다!',
+      'correct': '📖 맞은 문제가 없습니다.',
+      'all': '표시할 문제가 없습니다.'
+    };
+    empty.textContent = msgs[state.filter] || msgs.all;
+    container.appendChild(empty);
+  }
+
+  updateFilterButtons();
+  updateProgress();
+}
+
+function updateFilterButtons() {
+  document.querySelectorAll('.filter-btn-graded').forEach(btn => {
+    btn.disabled = !state.graded;
+    if (btn.disabled) btn.title = '채점 후 사용 가능합니다';
+    else btn.removeAttribute('title');
+  });
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === state.filter);
+  });
+  updateFilterCounts();
+}
+
+function updateFilterCounts() {
+  const total = questions.length;
+  let answered = 0, starred = 0, wrong = 0, correct = 0;
+  questions.forEach((q, i) => {
+    const hasAns = state.answers[i] !== undefined;
+    if (hasAns) answered++;
+    if (state.starred[i]) starred++;
+    if (state.graded && hasAns) {
+      if (state.answers[i] === q.ans) correct++;
+      else wrong++;
+    }
+  });
+  const setCount = (key, val) => {
+    const el = document.querySelector(`.count[data-count="${key}"]`);
+    if (el) el.textContent = val;
+  };
+  setCount('all', total);
+  setCount('answered', answered);
+  setCount('unanswered', total - answered);
+  setCount('starred', starred);
+  setCount('wrong', state.graded ? wrong : '-');
+  setCount('correct', state.graded ? correct : '-');
+}
+
+function gradeExam() {
+  const answered = Object.keys(state.answers).length;
+  if (answered < questions.length) {
+    if (!confirm(`아직 ${questions.length - answered}문제가 풀리지 않았습니다. 채점하시겠습니까?`)) return;
+  }
+  state.graded = true;
+  saveState();
+
+  let correct = 0;
+  questions.forEach((q, idx) => {
+    if (state.answers[idx] === q.ans) correct++;
+  });
+  const total = questions.length;
+  const pct = Math.round((correct / total) * 100);
+
+  const banner = document.getElementById('resultBanner');
+  banner.classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${total}`;
+  let grade = '';
+  if (pct >= 90) grade = '🎉 매우 우수';
+  else if (pct >= 80) grade = '👍 우수';
+  else if (pct >= 70) grade = '💪 양호';
+  else if (pct >= 60) grade = '📖 보통 — 조금 더 공부하세요';
+  else grade = '📚 부족 — 기본기 다지기 필요';
+  document.getElementById('scoreDetail').textContent = `정답률 ${pct}% · ${grade}`;
+
+  renderQuestions();
+  renderWrongList();
+  renderStarredList();
+  banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderWrongList() {
+  const section = document.getElementById('wrongListSection');
+  const list = document.getElementById('wrongList');
+  list.innerHTML = '';
+  let wrongCount = 0;
+  questions.forEach((q, idx) => {
+    if (state.answers[idx] !== undefined && state.answers[idx] !== q.ans) {
+      wrongCount++;
+      const item = document.createElement('div');
+      item.className = 'wrong-item';
+      item.innerHTML = `
+        <div class="wrong-q">문제 ${idx + 1}. ${q.q}</div>
+        <div class="wrong-answer">✓ 정답: ${q.ans}번 — ${q.opts[q.ans - 1]}</div>
+        <div class="wrong-explain">💡 ${q.exp}</div>
+      `;
+      list.appendChild(item);
+    }
+  });
+  if (wrongCount > 0) section.classList.add('show');
+  else section.classList.remove('show');
+}
+
+function renderStarredList() {
+  const section = document.getElementById('starredListSection');
+  const list = document.getElementById('starredList');
+  list.innerHTML = '';
+  let starredCount = 0;
+  questions.forEach((q, idx) => {
+    if (state.starred[idx]) {
+      starredCount++;
+      const item = document.createElement('div');
+      item.className = 'wrong-item';
+      item.style.borderColor = '#d4a84b';
+      const userAns = state.answers[idx];
+      const userAnsText = userAns !== undefined ? `${userAns}번 선택` : '미답';
+      item.innerHTML = `
+        <div class="wrong-q">문제 ${idx + 1}. ${q.q}</div>
+        <div class="wrong-answer">✓ 정답: ${q.ans}번 · 내선택: ${userAnsText}</div>
+        ${state.graded ? `<div class="wrong-explain">💡 ${q.exp}</div>` : ''}
+      `;
+      list.appendChild(item);
+    }
+  });
+  if (starredCount > 0 && state.graded) section.classList.add('show');
+  else section.classList.remove('show');
+}
+
+function toggleStarred() {
+  state.filter = state.filter === 'starred' ? 'all' : 'starred';
+  renderQuestions();
+}
+
+function toggleWrong() {
+  if (!state.graded) {
+    alert('먼저 채점을 해주세요!');
+    return;
+  }
+  state.filter = state.filter === 'wrong' ? 'all' : 'wrong';
+  renderQuestions();
+}
+
+function resetExam() {
+  if (!confirm('모든 답안과 별표, 채점 결과가 초기화됩니다. 계속하시겠습니까?')) return;
+  state.answers = {};
+  state.starred = {};
+  state.graded = false;
+  state.filter = 'all';
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  document.getElementById('resultBanner').classList.remove('show');
+  document.getElementById('wrongListSection').classList.remove('show');
+  document.getElementById('starredListSection').classList.remove('show');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function printMode(mode) {
+  const modeTag = document.getElementById('printModeTag');
+  const modeInfo = document.getElementById('printModeInfo');
+  modeTag.textContent = '전체 문제';
+  modeInfo.textContent = `· 총 ${questions.length}문제`;
+
+  document.body.classList.remove('print-mode-all', 'print-mode-starred', 'print-mode-wrong');
+  document.body.classList.add('print-mode-all');
+
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => {
+      document.body.classList.remove('print-mode-all', 'print-mode-starred', 'print-mode-wrong');
+    }, 500);
+  }, 100);
+}
+
+// ============ 키보드 단축키 ============
+let kbdFocusIdx = 0;
+let kbdScrollTimer = null;
+let kbdToastTimer = null;
+
+function showToast(text) {
+  const el = document.getElementById('kbdToast');
+  if (!el) return;
+  el.textContent = text;
+  el.classList.add('show');
+  clearTimeout(kbdToastTimer);
+  kbdToastTimer = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function getVisibleQuestionIndices() {
+  return questions.map((q, i) => ({ q, i }))
+    .filter(x => shouldShowQuestion(x.q, x.i))
+    .map(x => x.i);
+}
+
+function setKbdFocus(idx, scrollIntoView = true) {
+  const visible = getVisibleQuestionIndices();
+  if (visible.length === 0) return;
+  if (!visible.includes(idx)) idx = visible[0];
+  kbdFocusIdx = idx;
+  document.querySelectorAll('.question').forEach(el => el.classList.remove('kbd-focus'));
+  const target = document.getElementById(`q-${idx}`);
+  if (target) {
+    target.classList.add('kbd-focus');
+    if (scrollIntoView) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function moveKbdFocus(delta) {
+  const visible = getVisibleQuestionIndices();
+  if (visible.length === 0) return;
+  let curPos = visible.indexOf(kbdFocusIdx);
+  if (curPos === -1) curPos = 0;
+  let newPos = curPos + delta;
+  if (newPos < 0) newPos = 0;
+  if (newPos >= visible.length) newPos = visible.length - 1;
+  setKbdFocus(visible[newPos]);
+  showToast(`문제 ${visible[newPos] + 1} / ${questions.length}`);
+}
+
+function selectAnswerByKey(num) {
+  const q = questions[kbdFocusIdx];
+  if (!q) return;
+  if (state.graded) { showToast('채점이 완료되어 답을 변경할 수 없습니다'); return; }
+  if (num < 1 || num > q.opts.length) { showToast(`이 문제는 ${q.opts.length}개 보기만 있습니다`); return; }
+  if (state.answers[kbdFocusIdx] === num) {
+    delete state.answers[kbdFocusIdx];
+    saveState();
+    renderQuestions();
+    setKbdFocus(kbdFocusIdx, false);
+    showToast(`문제 ${kbdFocusIdx + 1}: ${num}번 선택 해제`);
+    return;
+  }
+  state.answers[kbdFocusIdx] = num;
+  saveState();
+  renderQuestions();
+  setKbdFocus(kbdFocusIdx, false);
+  showToast(`문제 ${kbdFocusIdx + 1}: ${num}번 선택`);
+}
+
+function clearAnswerByKey() {
+  if (state.graded) { showToast('채점이 완료되어 답을 변경할 수 없습니다'); return; }
+  if (state.answers[kbdFocusIdx] === undefined) { showToast(`문제 ${kbdFocusIdx + 1}: 선택한 답이 없습니다`); return; }
+  delete state.answers[kbdFocusIdx];
+  saveState();
+  renderQuestions();
+  setKbdFocus(kbdFocusIdx, false);
+  showToast(`문제 ${kbdFocusIdx + 1}: 답 지움`);
+}
+
+function toggleStarByKey() {
+  toggleStar(kbdFocusIdx);
+  setKbdFocus(kbdFocusIdx, false);
+  showToast(state.starred[kbdFocusIdx] ? `⭐ 문제 ${kbdFocusIdx + 1} 별표 추가` : `☆ 문제 ${kbdFocusIdx + 1} 별표 해제`);
+}
+
+function toggleKbdHelp() {
+  const overlay = document.getElementById('kbdHelpOverlay');
+  overlay.classList.toggle('show');
+}
+
+function isHelpOpen() {
+  return document.getElementById('kbdHelpOverlay').classList.contains('show');
+}
+
+function isInputFocused() {
+  const el = document.activeElement;
+  if (!el) return false;
+  const tag = el.tagName;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+}
+
+window.addEventListener('scroll', () => {
+  clearTimeout(kbdScrollTimer);
+  kbdScrollTimer = setTimeout(() => {
+    const visibleEls = document.querySelectorAll('.question');
+    const midY = window.innerHeight / 2;
+    let closestIdx = -1;
+    let closestDist = Infinity;
+    visibleEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const elMidY = rect.top + rect.height / 2;
+      const dist = Math.abs(elMidY - midY);
+      if (dist < closestDist) {
+        closestDist = dist;
+        const m = el.id.match(/^q-(\d+)$/);
+        if (m) closestIdx = parseInt(m[1]);
+      }
+    });
+    if (closestIdx >= 0 && closestIdx !== kbdFocusIdx) {
+      kbdFocusIdx = closestIdx;
+      document.querySelectorAll('.question').forEach(e => e.classList.remove('kbd-focus'));
+      const t = document.getElementById(`q-${closestIdx}`);
+      if (t) t.classList.add('kbd-focus');
+    }
+  }, 150);
+}, { passive: true });
+
+document.addEventListener('keydown', (e) => {
+  if (isInputFocused() && e.target.type !== 'radio') return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Escape') {
+    if (isHelpOpen()) { e.preventDefault(); toggleKbdHelp(); }
+    return;
+  }
+  if (isHelpOpen()) {
+    if (e.key === '?' || e.key === 'h' || e.key === 'H') { e.preventDefault(); toggleKbdHelp(); }
+    return;
+  }
+  if (/^[1-5]$/.test(e.key)) { e.preventDefault(); selectAnswerByKey(parseInt(e.key)); return; }
+  switch (e.key) {
+    case 'ArrowRight': e.preventDefault(); moveKbdFocus(1); break;
+    case 'ArrowLeft': e.preventDefault(); moveKbdFocus(-1); break;
+    case 'ArrowDown': e.preventDefault(); moveKbdFocus(5); break;
+    case 'ArrowUp': e.preventDefault(); moveKbdFocus(-5); break;
+    case 'Home': e.preventDefault(); { const v = getVisibleQuestionIndices(); if (v.length) { setKbdFocus(v[0]); showToast(`첫 문제`); } } break;
+    case 'End': e.preventDefault(); { const v = getVisibleQuestionIndices(); if (v.length) { setKbdFocus(v[v.length-1]); showToast(`마지막 문제`); } } break;
+    case 'f': case 'F': e.preventDefault(); toggleStarByKey(); break;
+    case 'x': case 'X': e.preventDefault(); clearAnswerByKey(); break;
+    case 'g': case 'G': e.preventDefault(); gradeExam(); break;
+    case '?': case 'h': case 'H': e.preventDefault(); toggleKbdHelp(); break;
+  }
+});
+
+// === 초기화 ===
+loadState();
+if (state.graded) {
+  let correct = 0;
+  questions.forEach((q, idx) => { if (state.answers[idx] === q.ans) correct++; });
+  const total = questions.length;
+  const pct = Math.round((correct / total) * 100);
+  document.getElementById('resultBanner').classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${total}`;
+  let grade = '';
+  if (pct >= 90) grade = '🎉 매우 우수';
+  else if (pct >= 80) grade = '👍 우수';
+  else if (pct >= 70) grade = '💪 양호';
+  else if (pct >= 60) grade = '📖 보통 — 조금 더 공부하세요';
+  else grade = '📚 부족 — 기본기 다지기 필요';
+  document.getElementById('scoreDetail').textContent = `정답률 ${pct}% · ${grade} · (이전 세션 복원됨)`;
+  renderWrongList();
+  renderStarredList();
+}
+renderQuestions();
+setTimeout(() => {
+  const visible = getVisibleQuestionIndices();
+  if (visible.length > 0) {
+    kbdFocusIdx = visible[0];
+    const t = document.getElementById(`q-${kbdFocusIdx}`);
+    if (t) t.classList.add('kbd-focus');
+  }
+}, 100);
+</script>
+</body>
+</html>
