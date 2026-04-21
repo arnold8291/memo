@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>약사법규 국가시험 대비 모의고사 — 제1세트 (50문제)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
+    background: linear-gradient(135deg, #eef2f5 0%, #e0e7ed 100%);
+    color: #2b2b2b;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ===== 헤더 ===== */
+  header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
+    padding: 35px 35px;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 4px 20px rgba(30, 60, 114, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "藥事法規";
+    position: absolute;
+    right: 20px;
+    bottom: -10px;
+    font-size: 98px;
+    font-weight: bold;
+    opacity: 0.08;
+    letter-spacing: -4px;
+  }
+  header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  header .subtitle {
+    font-size: 15px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  header .set-badge {
+    display: inline-block;
+    background: #ffd700;
+    color: #1e3c72;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-left: 6px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== Sticky 영역 (컨트롤바 + 필터바) ===== */
+  .sticky-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .control-bar {
+    background: #fff;
+    padding: 16px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e0e7ed;
+  }
+  .progress-info {
+    font-size: 14px;
+    color: #555;
+    font-weight: 600;
+  }
+  .btn-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn-primary { background: #1e3c72; color: #fff; }
+  .btn-primary:hover { background: #2a5298; transform: translateY(-1px); }
+  .btn-secondary { background: #e6ebf1; color: #1e3c72; }
+  .btn-secondary:hover { background: #d0dbe5; }
+  .btn-reset { background: #f5f5f5; color: #666; }
+  .btn-reset:hover { background: #e0e0e0; }
+
+  .print-group {
+    border-left: 1px solid #c8d4e0;
+    padding-left: 10px;
+    margin-left: 4px;
+  }
+  .btn-print {
+    background: #fff;
+    color: #1e3c72;
+    border: 1.5px solid #1e3c72;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .btn-print:hover { background: #1e3c72; color: #fff; }
+
+  /* 필터 버튼 영역 */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 14px 35px;
+    background: #f8fafd;
+    border-bottom: 2px solid #c8d4e0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .filter-label {
+    font-size: 13px;
+    color: #1e3c72;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 6px 14px; border: 1px solid #a0b4c8; background: #fff; border-radius: 20px;
+    font-size: 13px; cursor: pointer; transition: all 0.15s;
+  }
+  .filter-btn:hover:not(:disabled) { background: #e6ebf1; }
+  .filter-btn.active { background: #1e3c72; color: #fff; border-color: #1e3c72; }
+  .filter-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #f5f5f5; color: #999; }
+  .filter-btn .count {
+    display: inline-block; background: #1e3c72; color: #fff; font-size: 11px;
+    padding: 1px 7px; border-radius: 10px; margin-left: 5px; min-width: 18px; text-align: center;
+  }
+  .filter-btn.active .count { background: #fff; color: #1e3c72; }
+  .filter-btn:disabled .count { background: #bbb; color: #fff; }
+
+  /* ===== 본문 컨테이너 ===== */
+  main {
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .category-header {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3c72;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, #e6ebf1 0%, transparent 100%);
+    border-left: 4px solid #1e3c72;
+    margin: 30px 0 20px 0;
+    border-radius: 4px;
+  }
+  .category-header:first-child { margin-top: 0; }
+
+  /* ===== 문제 카드 ===== */
+  .question {
+    background: #f8fafd;
+    border: 1px solid #c8d4e0;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .question.answered { border-color: #a0b4c8; background: #f0f4f8; }
+  .question.correct { border-color: #81c784; background: #f1f8f1; }
+  .question.wrong { border-color: #e57373; background: #fdf3f2; }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+  .q-number {
+    display: inline-block;
+    background: #1e3c72;
+    color: #fff;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .star-btn {
+    background: none; border: none; font-size: 24px; cursor: pointer; color: #ccc;
+    transition: all 0.2s; padding: 0 4px; line-height: 1;
+  }
+  .star-btn:hover { transform: scale(1.2); }
+  .star-btn.starred { color: #fbc02d; text-shadow: 0 0 8px rgba(251, 192, 45, 0.4); }
+  .q-text {
+    font-size: 15.5px; font-weight: 500; color: #1a1a1a; margin-bottom: 14px; line-height: 1.65;
+  }
+  .q-text strong { color: #d32f2f; }
+  .options { display: flex; flex-direction: column; gap: 6px; }
+  .option-label {
+    display: flex; align-items: flex-start; padding: 10px 14px; background: #fff;
+    border: 1px solid #c8d4e0; border-radius: 8px; cursor: pointer; transition: all 0.15s; font-size: 14.5px; gap: 10px;
+  }
+  .option-label:hover { background: #f0f4f8; border-color: #a0b4c8; }
+  .option-label input[type="radio"] { margin-top: 4px; accent-color: #1e3c72; flex-shrink: 0; }
+  .option-label.selected { background: #e6ebf1; border-color: #1e3c72; }
+  .option-num { font-weight: 700; color: #1e3c72; margin-right: 6px; flex-shrink: 0; }
+  .option-label.marked-correct { background: #e8f5e9 !important; border-color: #2e7d32 !important; font-weight: 600; }
+  .option-label.marked-wrong { background: #ffebee !important; border-color: #c62828 !important; text-decoration: line-through; color: #888; }
+  .option-label.marked-correct::after { content: " ✓ 정답"; margin-left: auto; color: #2e7d32; font-weight: 700; }
+  .option-label.marked-wrong::after { content: " ✗ 내선택"; margin-left: auto; color: #c62828; font-weight: 700; }
+  
+  .explanation {
+    display: none; margin-top: 16px; padding: 14px 18px; background: #fffdf5;
+    border-left: 4px solid #fbc02d; border-radius: 6px; font-size: 14px; color: #333;
+  }
+  .explanation.show { display: block; }
+  .explanation .label { font-weight: 700; color: #f57f17; margin-right: 6px; }
+  .explanation strong { color: #1e3c72; }
+
+  /* ===== 결과 모달 ===== */
+  .result-banner {
+    display: none; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 24px; text-align: center;
+    box-shadow: 0 4px 20px rgba(30, 60, 114, 0.3);
+  }
+  .result-banner.show { display: block; }
+  .result-banner h2 { font-size: 26px; margin-bottom: 10px; }
+  .result-banner .score { font-size: 52px; font-weight: 700; margin: 10px 0; }
+  .result-banner .score-detail { font-size: 16px; opacity: 0.9; }
+
+  /* ===== 오답/별표 리스트 ===== */
+  .wrong-list-section, .starred-list-section {
+    display: none; padding: 24px; border-radius: 12px; margin-top: 30px;
+  }
+  .wrong-list-section { background: #fff8f7; border: 2px solid #e57373; }
+  .starred-list-section { background: #fffdf4; border: 2px solid #fbc02d; }
+  .wrong-list-section.show, .starred-list-section.show { display: block; }
+  .wrong-item { background: #fff; border: 1px solid #ffcdd2; border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
+  .wrong-item .wrong-q { font-weight: 600; margin-bottom: 8px; color: #1a1a1a; }
+  .wrong-item .wrong-answer { font-size: 14px; color: #2e7d32; margin-bottom: 6px; }
+  .wrong-item .wrong-explain { font-size: 13.5px; color: #1e3c72; background: #fafafa; padding: 10px 12px; border-radius: 6px; margin-top: 8px; line-height: 1.6; }
+  
+  .filter-empty-msg { text-align: center; padding: 40px 20px; color: #888; font-size: 14px; background: #fafbfc; border: 1px dashed #ccc; border-radius: 10px; }
+  
+  /* ===== 키보드 포커스 및 모달 ===== */
+  .question.kbd-focus { box-shadow: 0 0 0 3px #1e3c72, 0 4px 16px rgba(30, 60, 114, 0.18); transform: translateX(2px); }
+  .question.kbd-focus::before { content: "⌨️"; position: absolute; left: -30px; top: 22px; font-size: 18px; }
+
+  .kbd-help-btn {
+    position: fixed; bottom: 20px; right: 20px; width: 48px; height: 48px; border-radius: 50%;
+    background: #1e3c72; color: #fff; border: none; font-size: 20px; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.3); z-index: 200; transition: all 0.15s;
+  }
+  .kbd-help-btn:hover { background: #2a5298; transform: scale(1.08); }
+  .kbd-help-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: center; justify-content: center; padding: 20px; }
+  .kbd-help-overlay.show { display: flex; }
+  .kbd-help-modal { background: #fff; border-radius: 12px; padding: 28px 32px; max-width: 460px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+  .kbd-help-modal h3 { color: #1e3c72; font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .kbd-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px dashed #e0e0e0; gap: 14px; }
+  .kbd-keys { flex-shrink: 0; min-width: 110px; display: flex; gap: 4px; flex-wrap: wrap; }
+  kbd { background: #f5f5f5; border: 1px solid #ccc; border-bottom-width: 2px; border-radius: 4px; padding: 3px 8px; font-family: monospace; font-size: 12px; font-weight: 700; color: #333; }
+  .kbd-desc { font-size: 14px; color: #444; }
+  .kbd-help-close { margin-top: 16px; width: 100%; padding: 10px; background: #1e3c72; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .kbd-help-close:hover { background: #2a5298; }
+
+  .footer-note { text-align: center; color: #888; font-size: 12px; padding: 20px; margin-top: 20px; }
+
+  /* ===== 반응형 모바일 ===== */
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    header { padding: 24px 20px; }
+    header h1 { font-size: 20px; }
+    .control-bar, .filter-bar { padding: 12px 20px; }
+    main { padding: 20px; }
+    .btn { padding: 8px 14px; font-size: 13px; }
+    .question { padding: 18px; }
+    .print-group {
+      border-left: none; padding-left: 0; margin-left: 0;
+      border-top: 1px solid #c8d4e0; padding-top: 8px; width: 100%;
+    }
+    .kbd-help-btn { display: none; }
+    .question.kbd-focus::before { display: none; }
+    .question.kbd-focus { box-shadow: none; transform: none; }
+  }
+
+  /* ===== 인쇄(Print) 전용 스타일 ===== */
+  @media print {
+    @page { size: A4; margin: 15mm 12mm; }
+    body { background: #fff !important; padding: 0 !important; color: #000; font-size: 11pt; line-height: 1.5; }
+    .container { max-width: 100%; margin: 0; }
+    .sticky-wrapper, .control-bar, .filter-bar, .result-banner, .wrong-list-section, 
+    .starred-list-section, .star-btn, .footer-note, .filter-empty-msg, 
+    .kbd-help-btn, .kbd-help-overlay, .btn-group { display: none !important; }
+    
+    .question.kbd-focus { box-shadow: none !important; transform: none !important; }
+    .question.kbd-focus::before { display: none !important; }
+    
+    header {
+      background: none !important; color: #000 !important; padding: 0 0 10px 0 !important;
+      border-bottom: 2px solid #000; margin-bottom: 15px; box-shadow: none !important; border-radius: 0 !important;
+    }
+    header::before { display: none !important; }
+    header h1 { font-size: 18pt; color: #000 !important; }
+    header .subtitle { font-size: 10pt; opacity: 1; color: #333 !important; }
+    header .badge, header .set-badge {
+      background: none !important; color: #555 !important; padding: 0 !important;
+      font-size: 9pt; margin: 0 4px 0 0 !important;
+    }
+    main { background: #fff !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; }
+    
+    .category-header {
+      background: none !important; border-left: 3px solid #000 !important; color: #000 !important;
+      font-size: 12pt !important; padding: 6px 10px !important; margin: 14px 0 10px 0 !important;
+      page-break-after: avoid; break-after: avoid;
+    }
+    .question {
+      background: #fff !important; border: 1px solid #888 !important; padding: 10px 14px !important;
+      margin-bottom: 10px !important; page-break-inside: avoid; break-inside: avoid; box-shadow: none !important;
+    }
+    .question-header { margin-bottom: 8px !important; }
+    .q-number {
+      background: #000 !important; color: #fff !important; font-size: 10pt !important;
+      padding: 2px 8px !important; print-color-adjust: exact; -webkit-print-color-adjust: exact;
+    }
+    .q-text { font-size: 11pt !important; color: #000 !important; margin-bottom: 8px !important; }
+    .q-text strong { color: #000 !important; font-weight: 700; }
+    .options { gap: 3px !important; }
+    .option-label {
+      background: #fff !important; border: 1px solid #bbb !important; padding: 5px 10px !important;
+      font-size: 10.5pt !important; color: #000 !important;
+    }
+    .option-label.selected {
+      background: #e8e8e8 !important; border-color: #000 !important;
+      print-color-adjust: exact; -webkit-print-color-adjust: exact;
+    }
+    .option-label input[type="radio"] { display: inline-block !important; width: 10px; height: 10px; }
+    .option-num { color: #000 !important; }
+    
+    .option-label.marked-correct { background: #fff !important; border: 2px solid #000 !important; font-weight: 700; text-decoration: none !important; color: #000 !important; }
+    .option-label.marked-correct::after { content: " ← 정답" !important; color: #000 !important; }
+    .option-label.marked-wrong { background: #fff !important; border: 1px dashed #666 !important; text-decoration: line-through; color: #666 !important; }
+    .option-label.marked-wrong::after { content: " ✗ 내선택" !important; color: #666 !important; }
+    
+    .explanation {
+      background: #f5f5f5 !important; border-left: 3px solid #000 !important; color: #000 !important;
+      font-size: 10pt !important; padding: 8px 12px !important; page-break-inside: avoid;
+      print-color-adjust: exact; -webkit-print-color-adjust: exact;
+    }
+    .explanation .label { color: #000 !important; }
+    .explanation strong { color: #000 !important; }
+    
+    body.print-mode-all .question { display: block !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>약사법규 국가시험 대비 모의고사</h1>
+  <div class="subtitle">총칙 · 면허 · 약국개설 · 조제 · 제조 및 판매 · 중앙약심 등 핵심 기출 50제</div>
+  <span class="badge">한약사 국가시험 완벽 대비</span>
+  <span class="set-badge">SET 1</span>
+</header>
+
+<div class="sticky-wrapper">
+  <div class="control-bar">
+    <div class="progress-info">
+      <span id="progressText">진행: 0 / 50</span>
+      &nbsp;|&nbsp;
+      <span id="starredCount" style="color: #d84315;">★ 0</span>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="gradeExam()">📝 채점하기</button>
+      <button class="btn btn-secondary" onclick="toggleStarred()">⭐ 중요문제만</button>
+      <button class="btn btn-secondary" onclick="toggleWrong()" id="btnWrong" style="display:none;">❌ 틀린문제만</button>
+      <button class="btn btn-reset" onclick="resetExam()">🔄 초기화</button>
+    </div>
+    <div class="btn-group print-group">
+      <button class="btn btn-print" onclick="printMode()">🖨️ 인쇄</button>
+    </div>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <span class="filter-label">🔍 보기 필터:</span>
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">전체 <span class="count" data-count="all">50</span></button>
+    <button class="filter-btn" data-filter="answered" onclick="setFilter('answered')">✏️ 푼문제 <span class="count" data-count="answered">0</span></button>
+    <button class="filter-btn" data-filter="unanswered" onclick="setFilter('unanswered')">⬜ 안푼문제 <span class="count" data-count="unanswered">50</span></button>
+    <button class="filter-btn" data-filter="starred" onclick="setFilter('starred')">⭐ 별표 <span class="count" data-count="starred">0</span></button>
+    <button class="filter-btn" data-filter="wrong" onclick="setFilter('wrong')" id="filterWrong" disabled>❌ 틀린문제 <span class="count" data-count="wrong">-</span></button>
+  </div>
+</div>
+
+<main>
+<div class="result-banner" id="resultBanner">
+  <h2>채점 결과</h2>
+  <div class="score" id="scoreText">- / 50</div>
+  <div class="score-detail" id="scoreDetail"></div>
+</div>
+
+<div id="questionsContainer"></div>
+
+<div class="wrong-list-section" id="wrongListSection">
+  <h2 style="color:#c62828; margin-bottom:16px;">❌ 틀린 문제 오답 노트</h2>
+  <div id="wrongList"></div>
+</div>
+
+<div class="starred-list-section" id="starredListSection">
+  <h2 style="color:#f57f17; margin-bottom:16px;">⭐ 별표 표시한 중요 문제</h2>
+  <div id="starredList"></div>
+</div>
+</main>
+
+<div class="footer-note">
+  약사법규 핵심 조문 완벽 대비 모의고사 (제1세트)<br>
+  <span style="color:#1e3c72; font-weight:600;">⌨️ 키보드 단축키 지원 — 우하단 버튼 또는 <kbd>?</kbd> 키를 눌러 확인</span>
+</div>
+
+</div>
+
+<button class="kbd-help-btn" onclick="toggleKbdHelp()" title="키보드 단축키 도움말 (?)">⌨️</button>
+<div class="kbd-help-overlay" id="kbdHelpOverlay" onclick="if(event.target===this)toggleKbdHelp()">
+  <div class="kbd-help-modal">
+    <h3>⌨️ 키보드 단축키</h3>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>1</kbd>~<kbd>5</kbd></div><div class="kbd-desc">답 선택/해제</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>←</kbd><kbd>→</kbd></div><div class="kbd-desc">이전/다음 문제 이동</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>↑</kbd><kbd>↓</kbd></div><div class="kbd-desc">5문제 단위로 점프</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>F</kbd></div><div class="kbd-desc">⭐ 별표 토글</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>X</kbd></div><div class="kbd-desc">답안 지우기</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>G</kbd></div><div class="kbd-desc">📝 채점하기</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>?</kbd> / <kbd>Esc</kbd></div><div class="kbd-desc">도움말 열기/닫기</div></div>
+    <button class="kbd-help-close" onclick="toggleKbdHelp()">닫기 (Esc)</button>
+  </div>
+</div>
+
+<script>
+// =========================================================
+// 50문제 데이터베이스 (제1세트)
+// =========================================================
+const questions = [
+  { category: "제1장. 총칙 및 용어 정의", q: "「약사법」의 제정 목적으로 가장 옳은 것은?", opts: ["국민복지 증진", "약사 직무능력 향상", "국민보건 향상", "국가 보건의료 발전", "국민건강 권리 수호"], ans: 3, exp: "약사법 제1조(목적): 약사(藥事)에 관한 일들이 원활하게 이루어질 수 있도록 필요한 사항을 규정하여 '국민보건 향상'에 기여함을 목적으로 합니다." },
+  { category: "제1장. 총칙 및 용어 정의", q: "「약사법」상 약사(藥事)의 범위에 속하지 않는 것은?", opts: ["의약품의 보관", "의약외품의 판매", "의약품의 수출", "의약품의 조제", "의약품의 감정"], ans: 3, exp: "약사(藥事)란 의약품 및 의약외품의 제조·조제·감정·보관·수입·판매를 의미합니다. '수출'은 해당하지 않습니다. (2020, 2025년 기출 함정)" },
+  { category: "제1장. 총칙 및 용어 정의", q: "「약사법」 총칙에서 정의하고 있는 내용으로 옳지 않은 것은?", opts: ["한약제제란 한약을 한방원리에 따라 배합하여 제조한 의약품을 말한다.", "신약은 식품의약품안전처장이 지정한다.", "약사(藥師)란 한약제제에 관한 사항 외의 약사(藥事)에 관한 업무를 담당하는 자를 말한다.", "한약사는 보건복지부장관의 면허를 받는다.", "전문의약품이란 일반의약품이 아닌 의약품을 말한다."], ans: 3, exp: "약사(藥師)는 '한약에 관한 사항 외의' 약사 업무를 담당하는 자입니다. 한약제제에 관한 업무는 포함됩니다. (2026년 기출 오답 선지)" },
+  { category: "제1장. 총칙 및 용어 정의", q: "「약사법」상 약국(藥局)의 정의로 가장 올바른 것은?", opts: ["약사가 판매의 목적으로 전문의약품을 취급하는 장소", "의사의 처방전에 의하여 약사 또는 한약사가 조제하는 장소", "약사 또는 한약사가 수여할 목적으로 의약품 조제 업무를 하는 장소", "약사 또는 의사가 환자에게 투약하기 위하여 조제 업무를 하는 장소", "약국개설등록을 마친 자가 일반의약품만을 판매하는 장소"], ans: 3, exp: "약국이란 '약사 또는 한약사가 수여할 목적으로 의약품 조제 업무(약국제제 포함)를 하는 장소'를 말합니다. 단, 의료기관 조제실은 제외됩니다. (2023년 기출)" },
+  { category: "제1장. 총칙 및 용어 정의", q: "화학구조나 본질 조성이 전혀 새로운 신물질의약품을 신약으로 지정하는 권한을 가진 자는?", opts: ["보건복지부장관", "중앙약사심의위원회 위원장", "한국의약품안전관리원장", "식품의약품안전처장", "국무총리"], ans: 4, exp: "신약은 '식품의약품안전처장'이 지정합니다. (2021년 기출)" },
+
+  { category: "제2장. 면허 및 결격사유", q: "「약사법」상 한약사 면허를 받을 수 없는 결격사유(면허 취득 불가)에 해당하는 자는?", opts: ["파산선고를 받은 자", "파산선고를 받고 복권된 자", "약사법 위반으로 금고 이상의 형을 받고 집행이 종료된 후 5년이 지난 자", "파산선고를 받고 복권되지 아니한 자", "전문의가 적합하다고 인정한 정신질환자"], ans: 4, exp: "파산선고만 받았다고 결격사유가 되는 것이 아니라 '복권되지 아니한 자'만 결격사유입니다. 복권되면 취득 가능합니다. (2024, 2026 기출 함정)" },
+  { category: "제2장. 면허 및 결격사유", q: "약국이 침수되어 게시된 한약사 면허증이 훼손되었다. 면허증 재발급 신청서를 제출해야 하는 기관은?", opts: ["관할 시장·군수·구청장", "식품의약품안전처장", "한국보건의료인국가시험원장", "보건복지부장관", "행정안전부장관"], ans: 4, exp: "면허증 발급 및 재발급 관련 업무의 주체는 항상 '보건복지부장관'입니다. (2020년 기출)" },
+  { category: "제2장. 면허 및 결격사유", q: "한약사 면허 취득 후 취업상황 등 실태 신고의 주기와 접수 기관으로 옳은 것은?", opts: ["1년마다 / 시장·군수·구청장", "2년마다 / 식품의약품안전처장", "3년마다 / 보건복지부장관", "5년마다 / 보건복지부장관", "3년마다 / 시·도지사"], ans: 3, exp: "최초 면허 취득 후 3년마다 그 실태를 '보건복지부장관'에게 신고해야 합니다. 거주지 이전과 무관합니다." },
+  { category: "제2장. 면허 및 결격사유", q: "한약사 국가시험에서 부정행위를 한 응시생에 대한 처분으로 올바른 것은?", opts: ["보건복지부장관이 2년간 한약사 국가시험 응시불가를 명한다.", "식품의약품안전처장이 합격을 무효로 한다.", "대한한약사회장이 부정행위를 심의하여 자격을 정지한다.", "한국보건의료인국가시험원장이 재시험을 명한다.", "보건복지부장관이 3년간 응시자격을 제한한다."], ans: 1, exp: "국가시험 부정행위자는 시험 정지 및 합격 무효 처리되며, 보건복지부장관이 '2년간' 응시자격을 제한합니다. (2026년 기출)" },
+  { category: "제2장. 면허 및 결격사유", q: "한약사의 자질 향상을 위하여 매년 6시간 이상의 연수교육을 받도록 명할 수 있는 자는?", opts: ["관할 보건소장", "보건복지부장관", "식품의약품안전처장", "대한한약사회장", "시·도지사"], ans: 2, exp: "연수교육 명령권자는 '보건복지부장관'입니다. (매년 6시간 이상)" },
+
+  { category: "제3장. 약업 단체 및 중앙약사심의위원회", q: "한약 및 한약제제에 관련된 약사(藥事) 연구를 위해 대통령령으로 정하는 바에 따라 설립된 법인은?", opts: ["대한약사회", "한국한의약진흥원", "한국의약품안전관리원", "대한한약사회", "한국제약바이오협회"], ans: 4, exp: "한약사들이 설립하는 단체는 '대한한약사회'입니다. (2022년 기출)" },
+  { category: "제3장. 약업 단체 및 중앙약사심의위원회", q: "대한한약사회의 정관에 따라 설치되며, 한약사의 면허취소 및 자격정지 처분 요구를 심의·의결하는 위원회는?", opts: ["학술위원회", "징계위원회", "윤리위원회", "총무위원회", "대외협력위원회"], ans: 3, exp: "대한약사회 및 대한한약사회 내부에는 자격정지 심의 등을 위해 '윤리위원회'가 설치됩니다. (2021년 기출)" },
+  { category: "제3장. 약업 단체 및 중앙약사심의위원회", q: "보건복지부장관이 대한한약사회에 위탁할 수 있는 업무에 해당하는 것은?", opts: ["한약사 면허증 발급", "약국 개설 등록 심사", "한약사 취업실태 신고의 수리", "의약품 부작용 발생 접수", "연수교육 면제 심의"], ans: 3, exp: "약사/한약사 실태 신고 수리 업무는 윤리 관련 업무의 일부로 보아 대한약사회/대한한약사회에 위탁되어 있습니다. (2020, 2023 기출)" },
+  { category: "제3장. 약업 단체 및 중앙약사심의위원회", q: "「약사법」상 중앙약사심의위원회의 심의 사항이 아닌 것은?", opts: ["대한민국약전의 제정 및 개정", "의약품 부작용 피해 구제에 관한 사항", "코로나19 백신의 안전성 및 유효성에 대한 평가", "일반의약품과 전문의약품의 분류", "의료기기 등재 및 건강기능식품 승인에 관한 사항"], ans: 5, exp: "의료기기, 건강기능식품, 화장품, 요양기관 분류 등은 중앙약사심의위원회의 심의대상이 아닙니다. (매년 출제되는 최고빈출 조문)" },
+  { category: "제3장. 약업 단체 및 중앙약사심의위원회", q: "중앙약사심의위원회의 설치 기관과 위원 수 규정으로 옳은 것은?", opts: ["보건복지부 / 100명 이내", "식품의약품안전처 / 위원장 포함 300명 이내", "질병관리청 / 200명 이내", "식품의약품안전처 / 150명 이내", "국무총리실 / 300명 이내"], ans: 2, exp: "중앙약사심의위원회는 '식품의약품안전처'에 설치되며, 위원장 2명을 포함해 '300명 이내'로 구성됩니다." },
+
+  { category: "제4장. 약국 개설 및 관리", q: "「약사법」상 약국의 개설등록 신청을 제출해야 하는 관할 행정청은?", opts: ["식품의약품안전처장", "보건복지부장관", "관할 보건소장", "시장·군수·구청장", "시·도지사"], ans: 4, exp: "약국의 개설등록은 관할 '시장·군수·구청장'에게 합니다. 보건소장, 식약처장은 오답 함정입니다." },
+  { category: "제4장. 약국 개설 및 관리", q: "「약사법」상 약국 개설등록을 받을 수 있는 경우는?", opts: ["의료기관의 구내인 장소", "의료기관의 시설 안인 장소", "의료기관의 시설 일부를 분할한 장소", "의료기관과 약국 사이에 전용 복도가 설치된 장소", "개설등록이 취소된 날로부터 6개월이 지난 자인 경우"], ans: 5, exp: "개설등록 취소 후 '6개월 미경과자'는 개설이 불가합니다. 즉 6개월이 경과(지난 자)하면 재등록이 가능합니다." },
+  { category: "제4장. 약국 개설 및 관리", q: "약국개설자가 시장·군수·구청장에게 약국등록사항 변경신청서를 제출해야 하는 경우로 옳은 것은?", opts: ["사무직 종업원의 변경", "출입구의 변경", "약국의 명칭 또는 소재지 변경", "면허를 보유한 한약사 추가 채용", "대리할 약국관리자의 임시 지정"], ans: 3, exp: "등록사항 변경 의무 대상은 '약국의 명칭, 소재지, 대표자 변경, 면적 10% 이상 변경'입니다. 종업원 변경이나 출입구 변경은 대상이 아닙니다. (2025 기출)" },
+  { category: "제4장. 약국 개설 및 관리", q: "한약사가 2개월간 해외여행으로 약국을 관리할 수 없어 본인을 대신할 한약사를 지정하고자 할 때 취해야 하는 조치는?", opts: ["관할 시장에게 허가를 받는다.", "관할 보건소장에게 신고한다.", "식약처장에게 7일 이내 신고한다.", "별도의 신고나 허가 없이 대신할 자를 지정하여 관리하게 한다.", "시·도지사에게 1개월 내 변경등록을 한다."], ans: 4, exp: "약국개설자가 관리 불가 시 대신할 약사/한약사를 지정해야 하지만, 이 경우 별도의 관공서 신고나 허가는 불필요합니다. (2024, 2025 기출)" },
+  { category: "제4장. 약국 개설 및 관리", q: "약국을 관리하는 한약사의 준수사항으로 옳지 않은 것은?", opts: ["보건위생상 위해 우려가 있는 물건을 약국에 두지 말 것", "포장이 개봉된 의약품을 섞어서 보관하지 말 것", "전문의약품은 일반의약품과 구분하여 별도의 약장에 진열할 것", "환자가 신분을 알 수 있도록 위생복을 입고 명찰을 패용할 것", "사무직 종업원에게 한약사로 오인될 수 있는 위생복을 입히지 말 것"], ans: 3, exp: "일반/전문의약품 구분 진열 의무는 있으나 법령상 '별도의 약장에 진열'해야 한다는 강제 규정은 없습니다. 자주 출제되는 오답 함정입니다. (2026 기출)" },
+  { category: "제4장. 약국 개설 및 관리", q: "약국 영업을 양도한 경우 양수인이 지위 승계를 위해 신고해야 하는 기한과 대상 기관은?", opts: ["양도일부터 7일 이내 / 보건복지부장관", "양도일부터 1개월 이내 / 보건소장", "양도일부터 1개월 이내 / 시장·군수·구청장", "양도일부터 6개월 이내 / 시·도지사", "양도일부터 14일 이내 / 시장·군수·구청장"], ans: 3, exp: "지위 승계(양수) 신고는 양도일부터 '1개월 이내'에 '시장·군수·구청장'에게 해야 합니다. (2024 기출)" },
+  { category: "제4장. 약국 개설 및 관리", q: "약국개설자가 약국을 휴업 또는 재개업할 때 관할 시장·군수·구청장에게 반드시 신고해야 하는 경우는?", opts: ["명절 연휴로 7일간 휴업한 경우", "가족 행사로 14일간 휴업한 경우", "건강상 이유로 20일간 휴업한 경우", "약국 리모델링으로 27일간 휴업한 경우", "해외 친지 방문으로 35일간 휴업한 경우"], ans: 5, exp: "휴업 신고는 '1개월 이상(30일 초과)' 휴업할 때만 의무입니다. 35일간 휴업 시 7일 이내에 신고해야 합니다." },
+  { category: "제4장. 약국 개설 및 관리", q: "약국개설자가 의약품 광고 시 표시·광고할 수 있는 내용으로 허용된 것은?", opts: ["약국개설자 본인의 경력 및 이력", "특정 질환(예: 아토피) 전문 조제약국이라는 표시", "특정 의료기관의 처방의약품을 전문적으로 취급한다는 표시", "다른 약국과 판매 의약품의 가격을 직접 비교하는 내용", "환자의 체험담을 이용한 광고"], ans: 1, exp: "약국개설자 본인의 이력·경력이나 한약사의 박사 학위 등 객관적 사실, 옥외광고의 제품명 표시는 가능합니다. 전문취급, 가격비교, 체험담은 금지됩니다." },
+  { category: "제4장. 약국 개설 및 관리", q: "약국개설자가 의약품 판매 가격을 기재할 때 위법하지 않은 행위는?", opts: ["판매가격을 아예 표시하지 않고 판매하였다.", "제약회사가 배포한 가격표의 권장소비자가격을 그대로 표시하였다.", "실제로 구입한 가격보다 30% 높은 가격으로 표시하여 판매하였다.", "견본품(샘플)에 가격을 표시하여 판매하였다.", "개봉 금지된 의약품 포장을 뜯어 낱알로 가격을 매겨 판매하였다."], ans: 3, exp: "실제 구입가격보다 일정 비율(예: 30%) 높은 이윤을 붙여 가격을 표시하고 판매하는 것은 시장 경제의 정상적 행위로 허용됩니다. (2025 기출)" },
+
+  { category: "제5장. 의약품 조제", q: "한약사의 한약 조제 범위에 대한 설명으로 옳은 것은?", opts: ["방약합편의 모든 처방을 의사 처방전 없이 조제할 수 있다.", "겨울철 감기 환자를 대비해 미리 한약을 다수 조제해 두고 판매할 수 있다.", "한의사의 처방전에 따라서만 한약을 조제할 수 있으며 예외는 없다.", "보건복지부장관이 정한 한약처방의 종류 및 조제방법(한약조제지침서)에 따라 조제할 수 있다.", "환자의 요구가 있으면 어떤 한약이든 임의로 배합하여 조제할 수 있다."], ans: 4, exp: "한약사는 1) 한의사의 처방전, 또는 2) 보건복지부장관이 정한 한약조제지침서(100처방) 내에서만 한약을 조제할 수 있습니다. 방약합편이나 환자 요구는 조제 근거가 될 수 없습니다." },
+  { category: "제5장. 의약품 조제", q: "한약사가 조제를 할 때 반드시 처방전을 발행한 한의사에게 확인 후 조제해야 하는 경우는?", opts: ["안전성이 의심스러운 의약품이 기재된 경우", "약국에 해당 의약품이 비치되어 있지 않은 경우", "처방전에 의약품의 성분명이나 제품명이 기재된 경우", "식품의약품안전처장이 병용금기 성분으로 고시한 의약품이 기재된 경우", "동의보감에 수록되지 않은 처방이 기재된 경우"], ans: 4, exp: "처방전 확인 의무 대상은 식약처장이 고시한 병용금기, 연령금기, 임부금기 성분 및 품목허가 취소 의약품이 기재된 경우입니다. (2020, 2023 기출)" },
+  { category: "제5장. 의약품 조제", q: "의료기관이 없는 시골 지역에 약국을 개설한 한약사의 행위로 적절한 것은?", opts: ["의료기관이 없으므로 환자 요구 시 전문의약품을 임의 조제하였다.", "면허 범위를 초과하여 양약을 조제해 주었다.", "조제 요구를 받았을 때 정당한 이유 없이 조제를 거부하지 않았다.", "의사의 처방전 없이 모든 일반의약품을 개봉 판매하였다.", "한의사의 처방 없이 임의로 만든 비방 한약을 대량 조제 판매하였다."], ans: 3, exp: "조제 거부 금지: 의료기관이 없는 지역의 약국이라도 정당한 이유 없이 조제 요구를 거부할 수 없습니다. (2022 기출)" },
+  { category: "제5장. 의약품 조제", q: "한약사가 판매할 목적으로 조제한 약제의 용기 또는 포장에 반드시 기재해야 하는 필수 사항은?", opts: ["환자의 생년월일", "처방전을 발행한 의사/한의사의 이름", "조제된 의약품의 주요 성분명", "조제한 약국의 명칭과 소재지", "대체조제를 한 경우 그 사유와 내용"], ans: 4, exp: "조제 약제의 용기/포장에 반드시 기재해야 하는 것은 '조제한 약국의 명칭과 소재지'입니다. 환자 생년월일이나 성분명은 필수 법적 기재사항이 아닙니다. (2026 기출)" },
+  { category: "제5장. 의약품 조제", q: "한약사가 약국에서 환자에게 제공한 복약지도 및 서비스 중 적법한 행위는?", opts: ["혈당을 직접 측정해 주고 당뇨약을 판매하였다.", "진단적 판단을 하지 않고 구매자가 필요한 일반의약품을 선택하도록 도왔다.", "골밀도 검사 기계를 이용해 검사 후 비타민을 판매하였다.", "어깨 통증 환자의 환부를 직접 만져 진단하고 진통제를 판매하였다.", "혈압을 측정해 주고 고혈압약을 처방 없이 판매하였다."], ans: 2, exp: "약사/한약사는 진단 행위(혈당, 혈압 측정 및 판단, 촉진 등)를 할 수 없습니다. 진단적 판단 없이 선택을 돕는 것만이 허용됩니다. (2022 기출)" },
+  { category: "제5장. 의약품 조제", q: "의약품 개봉 판매에 대한 원칙과 예외 설명으로 옳은 것은?", opts: ["모든 의약품은 개봉 판매가 전면 허용된다.", "원칙적으로 봉함된 의약품의 개봉 판매는 금지되나, 약국개설자가 한약제제를 판매하는 경우는 예외적으로 개봉 판매가 가능하다.", "전문의약품에 한해서만 약사가 임의로 개봉하여 낱알 판매를 할 수 있다.", "일반의약품은 환자 요구 시 언제든 개봉하여 나누어 팔 수 있다.", "한약제제는 변질 우려가 크므로 어떠한 경우에도 개봉 판매가 절대 금지된다."], ans: 2, exp: "원칙적으로 개봉 판매는 금지되지만, 한약제제에 한하여 예외적으로 개봉 판매가 허용됩니다. (2021 기출 함정)" },
+
+  { category: "제6장. 의약품 제조 및 품질관리", q: "의약품 제조업의 허가권자와 품목허가의 유효기간이 올바르게 짝지어진 것은?", opts: ["보건복지부장관 / 3년", "식품의약품안전처장 / 5년", "시·도지사 / 7년", "보건복지부장관 / 5년", "한국보건의료인국가시험원장 / 10년"], ans: 2, exp: "제조업 허가 및 품목허가권자는 '식품의약품안전처장'이며, 품목허가 유효기간은 5년(만료 전 갱신 필요)입니다." },
+  { category: "제6장. 의약품 제조 및 품질관리", q: "인체에 직접 적용되는 의약품(예: 은교산 엑스산제)의 제조업소에 두어야 하는 제조관리자의 최소 인원과 자격은?", opts: ["1명 이상 / 약사 또는 의사", "1명 이상 / 약사 또는 한약사", "2명 이상 / 약사 또는 한약사", "3명 이상 / 약사, 한약사, 한약업사", "2명 이상 / 한의사 또는 의사"], ans: 3, exp: "인체에 직접 적용되는 의약품 제조소는 2명 이상의 제조관리자(약사 또는 한약사)를 두어야 합니다. 원료의약품만 제조 시에는 1명입니다." },
+  { category: "제6장. 의약품 제조 및 품질관리", q: "신약 재심사, 시판 후 안전관리, 부작용 보고 등의 업무를 담당하는 '안전관리책임자'의 자격이 될 수 없는 자는?", opts: ["의사", "약사", "한약사", "한의사", "약사 또는 한약사"], ans: 4, exp: "안전관리책임자의 자격은 의사, 약사, 한약사입니다. 한의사, 치과의사, 수의사 등은 불가합니다. (2020, 2022 기출)" },
+  { category: "제6장. 의약품 제조 및 품질관리", q: "의약품 제조업자가 제조소 보수 공사로 인하여 35일간 휴업하려고 할 때 취해야 하는 조치 및 기관은?", opts: ["휴업한 날로부터 7일 이내 / 시장·군수·구청장에게 신고", "휴업한 날로부터 14일 이내 / 보건복지부장관에게 신고", "휴업한 날로부터 7일 이내 / 식품의약품안전처장에게 신고", "사전에 관할 보건소장에게 휴업 승인 요청", "휴업기간이 2개월 미만이므로 신고 불필요"], ans: 3, exp: "제조업 휴업(1개월 이상) 신고는 7일 이내에 '식품의약품안전처장'에게 해야 합니다. 약국 휴업(시장군수구청장)과 주체가 다름을 유의해야 합니다. (2024 기출)" },
+  { category: "제6장. 의약품 제조 및 품질관리", q: "시·도지사의 허가를 받은 의료기관 조제실에서 제조할 수 있는 '조제실제제'의 범위에 해당하는 것은?", opts: ["일반의약품에 해당하는 제제", "전문의약품에 해당하는 제제", "마약 및 향정신성의약품을 함유하는 제제", "생물학적 제제 (백신 등)", "항생물질 제제"], ans: 2, exp: "조제실제제는 '전문의약품에 해당하는 제제'만 가능하며, 일반의약품이나 마약, 생물학적 제제 등은 제외됩니다. (2026 기출)" },
+
+  { category: "제7장. 의약품 판매업 및 질서", q: "의약품 도매상 및 한약 도매상이 되기 위해 허가를 받아야 하는 관청은?", opts: ["시·도지사", "식품의약품안전처장", "보건복지부장관", "시장·군수·구청장", "관할 세무서장"], ans: 4, exp: "도매상 허가 주체는 '시장·군수·구청장'입니다. 서울특별시장 등 시도지사는 오답입니다. (2020, 2023 기출)" },
+  { category: "제7장. 의약품 판매업 및 질서", q: "한약 도매상의 관리자가 될 수 없는 자격은?", opts: ["약사", "한약사", "한약업사", "의사", "복지부장관이 인정하는 대학의 한약 관련 학과 졸업자"], ans: 4, exp: "한약 도매상의 관리자는 약사, 한약사, 한약업사, 관련학과 졸업자가 가능하지만 '의사'는 될 수 없습니다. (2023 기출)" },
+  { category: "제7장. 의약품 판매업 및 질서", q: "환자의 요구에 따라 기존 한약서 처방 또는 한의사 처방전에 따라 한약을 혼합하여 판매할 수 있는 권한을 가진 자는?", opts: ["한약사", "약사", "한의사", "한약업사", "안전상비의약품 판매자"], ans: 4, exp: "한약을 '혼합 판매' 할 수 있는 권한이 명시된 자는 '한약업사'입니다. (2025 기출)" },
+  { category: "제7장. 의약품 판매업 및 질서", q: "의약품 도매상의 판매 질서 유지 규정에 적합한, 즉 법 위반이 아닌 행위는?", opts: ["도매상이 동네 의원 처방전 소지자(일반 환자)에게 전문의약품을 직접 판매하였다.", "도매상이 자기 아들이 경영하는 약국에 일반의약품을 공급하였다.", "의사가 처방한 약이 부족해 약국개설자가 다른 이웃 약국개설자로부터 해당 의약품을 긴급하게 구입하였다.", "의약품공급자가 도매상에게 의약품 판매촉진 업무를 위탁하였다.", "도매상이 허가받지 않은 편의점 업주에게 대량으로 감기약을 판매하였다."], ans: 3, exp: "원칙적으로 약국개설자는 도매상 외에서 구입이 금지되나, 의사 처방 약이 없어 '약국개설자 간에 긴급하게 구매'하는 것은 판매 질서 위반 예외로 허용됩니다. (2026 기출)" },
+  { category: "제7장. 의약품 판매업 및 질서", q: "전년도 의약품 총구매액이 40억 원 이상인 대형 약국의 개설자가 의약품 공급자에게 대금을 지급해야 하는 법정 기한은 의약품 수령 후 최대 몇 개월 이내인가?", opts: ["1개월", "2개월", "3개월", "6개월", "12개월"], ans: 4, exp: "총구매액 40억 이상 약국개설자는 의약품 수령 후 '6개월 이내'에 대금을 지급해야 합니다. (2021 기출)" },
+
+  { category: "제8장. 기준 및 안전관리", q: "의약품의 성질·상태·품질 및 저장방법 등을 적정하게 하기 위해 「대한민국약전」을 정하여 공고하는 자는?", opts: ["보건복지부장관", "식품의약품안전처장", "국무총리", "한국보건의료연구원장", "한국약전편찬위원장"], ans: 2, exp: "대한민국약전은 '식품의약품안전처장'이 중앙약사심의위원회 심의를 거쳐 공고합니다. 복지부장관이 아닙니다." },
+  { category: "제8장. 기준 및 안전관리", q: "「대한민국약전」에 대한 설명으로 옳은 것은?", opts: ["국내에서 생산되는 모든 의약품이 빠짐없이 수록되어 있다.", "제1부와 제2부로 구성되어 있으며 제1부는 혼합제제, 제2부는 원료의약품을 다룬다.", "식품의약품안전처장이 국회의 동의를 얻어 공고한다.", "국내에서 자주 사용되는 원료의약품 및 기초적 제제 등이 선별되어 실려 있다.", "약전의 개정 심의는 보건복지부 내부 위원회에서 단독 처리한다."], ans: 4, exp: "약전에는 모든 의약품이 실리는 것이 아니라 중요하고 자주 쓰이는 원료 및 기초제제(1부), 혼합제제(2부)가 수록됩니다. (2026 기출 함정)" },
+  { category: "제8장. 기준 및 안전관리", q: "백신, 항독소, 혈장분획제제 등 보건위생상 특별한 주의가 필요하여 판매 전 식약처장의 자료 검토 및 검정을 거쳐야 하는 제도는?", opts: ["개수명령", "국가필수의약품 지정", "국가출하승인", "업무개시명령", "위해요소중점관리(HACCP)"], ans: 3, exp: "백신, 항독소 제제, 변질되기 쉬운 의약품 등은 식약처장의 '국가출하승인'을 받아야 판매 가능합니다." },
+  { category: "제8장. 기준 및 안전관리", q: "유통 중인 의약품의 안전성에 심각한 문제가 발생해 위해 의약품을 회수해야 할 때, 회수 계획을 미리 보고받는 기관은?", opts: ["관할 시장·군수·구청장", "보건복지부장관", "질병관리청장", "식품의약품안전처장", "건강보험심사평가원"], ans: 4, exp: "위해 의약품 회수 계획은 의약품 품목허가를 받은 자가 '식품의약품안전처장'에게 미리 보고해야 합니다. (2021 기출)" },
+  { category: "제8장. 기준 및 안전관리", q: "일반인을 대상으로 하는 신문·방송 등의 대중 매체에 의약품 광고를 할 수 있는 경우는?", opts: ["항암제 등 중증 질환 전문의약품", "수면 유도 목적의 전문 향정신성의약품", "코로나19 등 감염병 예방용 백신(전문의약품)", "모든 원료의약품", "의사 처방이 필수적인 전문의약품 일반"], ans: 3, exp: "원칙적으로 일반의약품은 광고가 가능하고 전문의약품은 금지되나, 예외적으로 '감염병 예방용 전문의약품'은 대중 광고가 가능합니다." },
+  { category: "제8장. 기준 및 안전관리", q: "유해사례나 이상사례로 의심되는 사망 사례를 알게 된 약국개설자가 해당 사실을 보고해야 하는 기관은?", opts: ["식품의약품안전처장", "보건복지부장관", "한국의약품안전관리원장", "한국희귀·필수의약품센터장", "지역 보건소장"], ans: 3, exp: "이상사례 보고의 접수처는 '한국의약품안전관리원장'입니다. 식약처장으로 혼동하기 쉬우니 주의해야 합니다." },
+  { category: "제8장. 기준 및 안전관리", q: "다음 중 의약외품에 대한 기준을 정할 수 있는 권한을 가진 자는?", opts: ["보건복지부장관", "식품의약품안전처장", "질병관리청장", "국무총리", "보건환경연구원장"], ans: 2, exp: "의약외품의 제법, 성상, 성능, 품질 및 저장방법 등의 기준을 정하는 자는 '식품의약품안전처장'입니다. (2020 기출)" },
+
+  { category: "제9장. 행정처분 및 특수 기관", q: "약국개설자나 제조업자 등이 집단으로 휴업·폐업하여 의약품 구매에 현저한 지장을 줄 우려가 있을 때 발동하는 '업무개시명령'의 권한자는?", opts: ["보건복지부장관", "식품의약품안전처장", "관할 보건소장", "시장·군수·구청장", "대한약사회장"], ans: 1, exp: "집단 휴폐업 시 국민 보건을 위해 발동하는 '업무개시명령'은 최상위 주무관청인 '보건복지부장관'의 고유 권한입니다." },
+  { category: "제9장. 행정처분 및 특수 기관", q: "제조업자 또는 수입자의 시설이 법적 기준에 맞지 아니할 때 시설의 개선을 명하는 '개수(改修)명령'을 내릴 수 있는 자는?", opts: ["보건복지부장관", "시장·군수·구청장", "시·도지사", "식품의약품안전처장", "환경부장관"], ans: 4, exp: "제조 시설과 관련된 품질·위생 기준 관리 주체는 '식품의약품안전처장'이며 그가 개수명령을 내립니다." },
+  { category: "제9장. 행정처분 및 특수 기관", q: "부정한 방법으로 약국 개설등록을 한 자에게 '약국 업무의 정지'를 명할 수 있는 권한을 가진 관청은?", opts: ["보건복지부장관", "식품의약품안전처장", "관할 보건소장", "관할 시장·군수·구청장", "경찰서장"], ans: 4, exp: "약국의 개설등록, 변경, 휴폐업, 업무정지 처분 등의 지역 단위 약국 관리 권한은 '시장·군수·구청장'에게 있습니다. (2024 기출)" },
+  { category: "제9장. 행정처분 및 특수 기관", q: "의약품 복용 후 발생한 부작용으로 인해 사망, 장애 등이 발생한 경우, 그 유해사례를 보고받고 인과관계를 조사·규명하는 기관은?", opts: ["중앙약사심의위원회", "식품의약품안전처장", "한국의약품안전관리원(장)", "한국희귀·필수의약품센터", "국립과학수사연구원"], ans: 3, exp: "이상사례(부작용) 보고 접수 및 인과관계 조사, 피해구제급여 신청 접수를 담당하는 실무 기구는 '한국의약품안전관리원'입니다." },
+  { category: "제9장. 행정처분 및 특수 기관", q: "의약품 부작용 피해 구제에 관한 실질적 '행정 주체'(결정권자)는 누구인가?", opts: ["한국의약품안전관리원장", "보건복지부장관", "식품의약품안전처장", "국민건강보험공단 이사장", "피해구제심의위원장"], ans: 3, exp: "접수는 안전관리원장이 하지만, 피해구제 제도의 법적 행정 주체 및 최종 책임자는 '식품의약품안전처장'입니다. (2026 기출)" },
+  { category: "제9장. 행정처분 및 특수 기관", q: "약국 개설 등록을 취소 처분하기 전에 관할 기관장이 반드시 거쳐야 하는 절차는?", opts: ["과징금 부과", "청문 실시", "현장 실사", "주민 의견 수렴", "중앙약사심의위원회 자문"], ans: 2, exp: "시장·군수·구청장이 약국개설 등록 취소 처분 시에는 사전에 반드시 '청문'을 실시해야 합니다. (2023 기출)" },
+  { category: "제9장. 행정처분 및 특수 기관", q: "한약사가 학문적으로 인정되지 않는 약사행위를 했을 때, 자격정지 처분을 요구할 수 있는 주체는?", opts: ["식품의약품안전처장", "보건복지부장관", "대한한약사회장", "시·도지사", "국시원장"], ans: 3, exp: "한약사의 비윤리적, 비학문적 행위에 대한 자격정지 처분 요구는 '대한한약사회장'(윤리위원회 의결)이 할 수 있습니다. (2022 기출)" },
+  { category: "제9장. 행정처분 및 특수 기관", q: "코로나19 등 국가적 재난 상황에서 긴급 도입 필요 의약품이나 안정적 공급이 필요한 의약품을 정보 제공 및 공급하는 기관은?", opts: ["한국희귀·필수의약품센터", "한국의약품안전관리원", "건강보험심사평가원", "질병관리청", "대한약사회"], ans: 1, exp: "긴급 도입 의약품과 안정적 공급 지원 의약품 관리는 '한국희귀·필수의약품센터'의 주요 업무입니다. (2023, 2025 기출)" },
+  { category: "제9장. 행정처분 및 특수 기관", q: "식품의약품안전처장이 제조업 관리자에게 관리자 변경을 명할 수 있는 주된 사유는 무엇인가?", opts: ["해당 관리자가 타 직장으로 이직한 경우", "제조소의 매출 실적이 현저히 떨어질 경우", "제조업 관리자가 약사법령을 위반하여 부적당하다고 인정된 경우", "관리자가 1개월 이상 휴가로 자리를 비운 경우", "품목허가 유효기간이 5년 만료된 경우"], ans: 3, exp: "제조관리자가 법령을 위반하여 관리자로서 부적당하다고 인정되면 '식품의약품안전처장'이 관리자 변경을 명할 수 있습니다. (2021 기출)" },
+  { category: "제9장. 행정처분 및 특수 기관", q: "의약품 제조소 등 시설이 기준에 미달할 때 발동하는 행정처분은 어느 기관의 권한인가?", opts: ["보건복지부장관", "질병관리청장", "식품의약품안전처장", "시·도지사", "시장·군수·구청장"], ans: 3, exp: "제조소 등의 시설에 대한 개선(개수)명령은 '식품의약품안전처장'의 소관입니다. (2020 기출)" }
+];
+
+let state = { answers: {}, starred: {}, graded: false, filter: 'all' };
+
+function getCategoryStats() {
+  const stats = {};
+  questions.forEach((q, i) => {
+    if (!stats[q.category]) stats[q.category] = { total: 0, correct: 0, answered: 0 };
+    stats[q.category].total++;
+    if (state.answers[i] !== undefined) {
+      stats[q.category].answered++;
+      if (state.answers[i] === q.ans) stats[q.category].correct++;
+    }
+  });
+  return stats;
+}
+
+const container = document.getElementById('questionsContainer');
+
+function shouldShowQuestion(q, idx) {
+  if (state.filter === 'all') return true;
+  if (state.filter === 'answered') return state.answers[idx] !== undefined;
+  if (state.filter === 'unanswered') return state.answers[idx] === undefined;
+  if (state.filter === 'starred') return !!state.starred[idx];
+  if (state.filter === 'wrong') return state.graded && state.answers[idx] !== undefined && state.answers[idx] !== q.ans;
+  if (state.filter === 'correct') return state.graded && state.answers[idx] === q.ans;
+  return true;
+}
+
+function setFilter(f) {
+  state.filter = f;
+  renderQuestions();
+}
+
+function updateProgress() {
+  const answered = Object.keys(state.answers).length;
+  const starred = Object.keys(state.starred).filter(k => state.starred[k]).length;
+  document.getElementById('progressText').textContent = `진행: ${answered} / ${questions.length}`;
+  document.getElementById('starredCount').textContent = `★ ${starred}`;
+}
+
+function toggleStar(idx) {
+  state.starred[idx] = !state.starred[idx];
+  if (!state.starred[idx]) delete state.starred[idx];
+  renderQuestions();
+}
+
+function renderQuestions() {
+  container.innerHTML = '';
+  let currentCategory = '';
+  let shownCount = 0;
+
+  questions.forEach((q, idx) => {
+    if (!shouldShowQuestion(q, idx)) return;
+    shownCount++;
+
+    if (q.category !== currentCategory) {
+      const ch = document.createElement('div');
+      ch.className = 'category-header';
+      ch.textContent = q.category;
+      container.appendChild(ch);
+      currentCategory = q.category;
+    }
+
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question';
+    qDiv.id = `q-${idx}`;
+    if (state.answers[idx] !== undefined) qDiv.classList.add('answered');
+    if (state.starred[idx]) qDiv.classList.add('is-starred');
+    if (state.graded) {
+      if (state.answers[idx] === q.ans) qDiv.classList.add('correct');
+      else { qDiv.classList.add('wrong'); qDiv.classList.add('is-wrong'); }
+    }
+
+    const header = document.createElement('div');
+    header.className = 'question-header';
+    const qNum = document.createElement('span');
+    qNum.className = 'q-number';
+    qNum.textContent = `문제 ${idx + 1}`;
+    header.appendChild(qNum);
+    
+    const starBtn = document.createElement('button');
+    starBtn.className = 'star-btn' + (state.starred[idx] ? ' starred' : '');
+    starBtn.innerHTML = state.starred[idx] ? '★' : '☆';
+    starBtn.onclick = () => toggleStar(idx);
+    header.appendChild(starBtn);
+    qDiv.appendChild(header);
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.innerHTML = q.q;
+    qDiv.appendChild(qText);
+
+    const optsDiv = document.createElement('div');
+    optsDiv.className = 'options';
+    q.opts.forEach((opt, oIdx) => {
+      const label = document.createElement('label');
+      label.className = 'option-label';
+      if (state.answers[idx] === oIdx + 1) label.classList.add('selected');
+      if (state.graded) {
+        if (oIdx + 1 === q.ans) label.classList.add('marked-correct');
+        else if (state.answers[idx] === oIdx + 1) label.classList.add('marked-wrong');
+      }
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `q${idx}`;
+      input.value = oIdx + 1;
+      input.checked = state.answers[idx] === oIdx + 1;
+      input.disabled = state.graded;
+      input.addEventListener('click', (e) => {
+        if (state.graded) return;
+        const selected = oIdx + 1;
+        if (state.answers[idx] === selected) {
+          delete state.answers[idx]; input.checked = false; e.preventDefault();
+        } else { state.answers[idx] = selected; }
+        updateProgress(); renderQuestions();
+      });
+      label.appendChild(input);
+      
+      const numSpan = document.createElement('span');
+      numSpan.className = 'option-num';
+      numSpan.textContent = `①②③④⑤`[oIdx];
+      label.appendChild(numSpan);
+      
+      const textSpan = document.createElement('span');
+      textSpan.innerHTML = opt;
+      label.appendChild(textSpan);
+      optsDiv.appendChild(label);
+    });
+    qDiv.appendChild(optsDiv);
+
+    if (state.graded) {
+      const exp = document.createElement('div');
+      exp.className = 'explanation show';
+      exp.innerHTML = `<span class="label">💡 풀이:</span> ${q.exp}`;
+      qDiv.appendChild(exp);
+    }
+    container.appendChild(qDiv);
+  });
+
+  if (shownCount === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'filter-empty-msg';
+    empty.textContent = '조건에 맞는 문제가 없습니다.';
+    container.appendChild(empty);
+  }
+
+  updateFilterButtons();
+  updateProgress();
+}
+
+function updateFilterButtons() {
+  document.getElementById('filterWrong').disabled = !state.graded;
+  document.getElementById('btnWrong').style.display = state.graded ? 'inline-block' : 'none';
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === state.filter);
+  });
+  
+  let answered = 0, starred = 0, wrong = 0, correct = 0;
+  questions.forEach((q, i) => {
+    if (state.answers[i] !== undefined) answered++;
+    if (state.starred[i]) starred++;
+    if (state.graded && state.answers[i] !== undefined) {
+      if (state.answers[i] === q.ans) correct++; else wrong++;
+    }
+  });
+  document.querySelector(`.count[data-count="all"]`).textContent = questions.length;
+  document.querySelector(`.count[data-count="answered"]`).textContent = answered;
+  document.querySelector(`.count[data-count="unanswered"]`).textContent = questions.length - answered;
+  document.querySelector(`.count[data-count="starred"]`).textContent = starred;
+  document.querySelector(`.count[data-count="wrong"]`).textContent = state.graded ? wrong : '-';
+}
+
+function gradeExam() {
+  const answered = Object.keys(state.answers).length;
+  if (answered < questions.length && !confirm(`아직 ${questions.length - answered}문제를 풀지 않았습니다. 채점하시겠습니까?`)) return;
+  
+  state.graded = true;
+  let correct = 0;
+  questions.forEach((q, idx) => { if (state.answers[idx] === q.ans) correct++; });
+  const pct = Math.round((correct / questions.length) * 100);
+
+  const banner = document.getElementById('resultBanner');
+  banner.classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${questions.length}`;
+  let grade = pct >= 90 ? '🎉 매우 우수 (국시 합격권)' : pct >= 60 ? '👍 양호 (합격 가능)' : '📚 부족 (오답노트 복습 요망)';
+  document.getElementById('scoreDetail').textContent = `정답률 ${pct}% · ${grade}`;
+
+  renderQuestions();
+  renderWrongList();
+  renderStarredList();
+  banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderWrongList() {
+  const section = document.getElementById('wrongListSection');
+  const list = document.getElementById('wrongList');
+  list.innerHTML = '';
+  let count = 0;
+  questions.forEach((q, idx) => {
+    if (state.answers[idx] !== undefined && state.answers[idx] !== q.ans) {
+      count++;
+      const item = document.createElement('div');
+      item.className = 'wrong-item';
+      item.innerHTML = `
+        <div class="wrong-q">문제 ${idx + 1}. ${q.q}</div>
+        <div class="wrong-answer">✓ 정답: ${`①②③④⑤`[q.ans - 1]} ${q.opts[q.ans - 1]}</div>
+        <div class="wrong-explain">💡 ${q.exp}</div>
+      `;
+      list.appendChild(item);
+    }
+  });
+  if (count > 0) section.classList.add('show'); else section.classList.remove('show');
+}
+
+function renderStarredList() {
+  const section = document.getElementById('starredListSection');
+  const list = document.getElementById('starredList');
+  list.innerHTML = '';
+  let count = 0;
+  questions.forEach((q, idx) => {
+    if (state.starred[idx]) {
+      count++;
+      const item = document.createElement('div');
+      item.className = 'wrong-item';
+      item.style.borderColor = '#fbc02d';
+      item.innerHTML = `
+        <div class="wrong-q">문제 ${idx + 1}. ${q.q}</div>
+        <div class="wrong-answer">✓ 정답: ${`①②③④⑤`[q.ans - 1]} ${q.opts[q.ans - 1]}</div>
+        ${state.graded ? `<div class="wrong-explain">💡 ${q.exp}</div>` : ''}
+      `;
+      list.appendChild(item);
+    }
+  });
+  if (count > 0 && state.graded) section.classList.add('show'); else section.classList.remove('show');
+}
+
+function toggleStarred() { state.filter = state.filter === 'starred' ? 'all' : 'starred'; renderQuestions(); }
+function toggleWrong() { if (!state.graded) return; state.filter = state.filter === 'wrong' ? 'all' : 'wrong'; renderQuestions(); }
+
+function resetExam() {
+  if (!confirm('초기화하시겠습니까?')) return;
+  state = { answers: {}, starred: {}, graded: false, filter: 'all' };
+  document.getElementById('resultBanner').classList.remove('show');
+  document.getElementById('wrongListSection').classList.remove('show');
+  document.getElementById('starredListSection').classList.remove('show');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function printMode() {
+  document.body.classList.add('print-mode-all');
+  setTimeout(() => { window.print(); setTimeout(() => { document.body.classList.remove('print-mode-all'); }, 500); }, 100);
+}
+
+// 키보드 네비게이션 로직
+let kbdFocusIdx = 0;
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement.tagName === 'INPUT') return;
+  if (/^[1-5]$/.test(e.key)) {
+    e.preventDefault();
+    if (state.graded) return;
+    const num = parseInt(e.key);
+    if(state.answers[kbdFocusIdx] === num) delete state.answers[kbdFocusIdx];
+    else state.answers[kbdFocusIdx] = num;
+    renderQuestions();
+  }
+  if (e.key === 'ArrowDown') { kbdFocusIdx = Math.min(kbdFocusIdx + 1, questions.length - 1); document.getElementById(`q-${kbdFocusIdx}`).scrollIntoView({behavior: 'smooth', block: 'center'}); }
+  if (e.key === 'ArrowUp') { kbdFocusIdx = Math.max(kbdFocusIdx - 1, 0); document.getElementById(`q-${kbdFocusIdx}`).scrollIntoView({behavior: 'smooth', block: 'center'}); }
+});
+
+function toggleKbdHelp() { document.getElementById('kbdHelpOverlay').classList.toggle('show'); }
+
+renderQuestions();
+</script>
+</body>
+</html>
