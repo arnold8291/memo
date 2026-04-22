@@ -758,7 +758,7 @@
 </div>
 
 <div class="tip">
-  💡 <b>사용법</b>: 색상 글자 클릭 = 가림/보임 (암기용) | <b>문단·목록·박스·표·제목 클릭</b>으로 ⭐별표 토글 | 📋 버튼으로 오른쪽 별표 목록 띄우고 클릭해서 본문 이동 | <b>분할 막대 드래그</b>로 좌우 창 크기 조절 (더블클릭 = 기본 크기)
+  💡 <b>사용법</b>: 색상 글자 클릭 = 가림/보임 (암기용) | <b>요소 클릭</b>으로 ⭐별표 토글 (조문 박스 클릭 시 내부 모두 함께 표시) | 📋 버튼으로 오른쪽 별표 목록 보기·인쇄 | 오른쪽 ✕ = 항목 통째 해제 / 본문에서 개별 클릭 = 해당 문장만 해제 | <b>분할 막대 드래그</b>로 창 크기 조절
 </div>
 
 <div class="status-bar" id="statusBar">준비중...</div>
@@ -2334,6 +2334,35 @@ function getItemLabel(el) {
 
 function getCleanHTML(el) {
   const clone = el.cloneNode(true);
+
+  // 컨테이너(article/box) 인 경우: 내부에서 별표 해제된 starrable 자식은 표시에서 제외
+  // — 원본 DOM에서 'starrable 이지만 starred가 아닌' 자식을 찾아서, 복제본의 대응 위치에서 제거
+  const isContainer = el.classList.contains('article') ||
+                      el.classList.contains('warn-box') ||
+                      el.classList.contains('danger-box') ||
+                      el.classList.contains('exam-box') ||
+                      el.classList.contains('sub');
+  if (isContainer) {
+    // 원본에서 starrable but not starred 후손들의 경로를 수집
+    const toRemove = [];
+    const originalAll = el.querySelectorAll('.starrable');
+    const cloneAll = clone.querySelectorAll('.starrable');
+    originalAll.forEach((origChild, idx) => {
+      if (!origChild.classList.contains('starred')) {
+        // 대응하는 clone 요소 제거
+        if (cloneAll[idx]) toRemove.push(cloneAll[idx]);
+      }
+    });
+    toRemove.forEach(node => {
+      // 빈 부모(ol/ul) 가 남지 않도록 주의하며 제거
+      node.remove();
+    });
+    // 제거 후 완전히 비어버린 ol/ul 도 정리
+    clone.querySelectorAll('ol, ul').forEach(list => {
+      if (list.children.length === 0) list.remove();
+    });
+  }
+
   // 가려진 강조는 보이게 복원
   clone.querySelectorAll('.hl.hidden, .hl-duty.hidden').forEach(h => h.classList.remove('hidden'));
   // 상호작용 관련 클래스 제거
