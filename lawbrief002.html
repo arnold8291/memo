@@ -2069,22 +2069,24 @@ document.addEventListener('click', function(e) {
     if (document.body.classList.contains('starred-only')) {
       markStarredAncestors();
     }
+    // 별표 '추가' 시 최상위 starred 조상의 id를 기록 (open 시 자동 스크롤용)
+    if (willBeStarred) {
+      let topEl = el;
+      let p = el.parentElement;
+      while (p) {
+        if (p.classList && p.classList.contains('starrable') && p.classList.contains('starred')) {
+          topEl = p;
+        }
+        p = p.parentElement;
+      }
+      if (!topEl.id) ensureId(topEl);
+      lastStarredId = topEl.id;
+    }
     // 분할 화면이 열려 있으면 리스트 실시간 갱신 + 방금 추가한 항목으로 스크롤
     if (document.body.classList.contains('split-view')) {
       renderPrintPane();
-      if (willBeStarred) {
-        // 실제 패널에 노출되는 "최상위 starred 조상"을 찾아 그걸로 스크롤
-        // (컨테이너에 별표 찍었거나, 자식 클릭한 경우에도 정확하게 매칭)
-        let topEl = el;
-        let p = el.parentElement;
-        while (p) {
-          if (p.classList && p.classList.contains('starrable') && p.classList.contains('starred')) {
-            topEl = p;
-          }
-          p = p.parentElement;
-        }
-        if (!topEl.id) ensureId(topEl);
-        scrollPrintPaneTo(topEl.id);
+      if (willBeStarred && lastStarredId) {
+        scrollPrintPaneTo(lastStarredId);
       }
     }
     saveState();
@@ -2094,7 +2096,9 @@ document.addEventListener('click', function(e) {
 
 /* 오른쪽 인쇄 패널에서 특정 id를 가진 항목으로 스크롤 + 플래시 효과 */
 function scrollPrintPaneTo(targetId) {
-  // renderPrintPane 이후 DOM이 갱신되도록 약간 지연
+  // 모바일 오버레이는 슬라이드 업 애니메이션(0.25s) 때문에 더 긴 지연 필요
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const delay = isMobile ? 320 : 30;
   setTimeout(() => {
     const pane = document.getElementById('printPane');
     const item = pane && pane.querySelector(`.print-item[data-target-id="${targetId}"]`);
@@ -2108,7 +2112,7 @@ function scrollPrintPaneTo(targetId) {
     // 시각적 강조
     item.classList.add('newly-added');
     setTimeout(() => item.classList.remove('newly-added'), 1800);
-  }, 30);
+  }, delay);
 }
 
 function clearAllStars() {
@@ -2269,6 +2273,7 @@ function markStarredAncestors() {
 
 /* ===== 오른쪽 분할 인쇄 패널 ===== */
 let prePrintPaneScroll = null;
+let lastStarredId = null;  // 가장 최근에 별표 추가된 항목의 id (최상위 starred 조상)
 
 function ensureId(el) {
   if (!el.id) el.id = 'star-' + Math.random().toString(36).slice(2, 10);
@@ -2417,6 +2422,16 @@ function openPrintPane() {
     // 데스크톱: main-pane 자체가 스크롤 컨테이너가 되니 위치 이관
     const mainPane = document.getElementById('mainPane');
     mainPane.scrollTop = prePrintPaneScroll.scrollY || 0;
+  }
+
+  // 마지막으로 추가한 별표 항목이 있으면 그 위치로 패널 스크롤 + 강조
+  // (항목이 실제 리스트에 존재할 때만 — 중간에 해제됐다면 무시)
+  if (lastStarredId) {
+    const pane = document.getElementById('printPane');
+    const exists = pane && pane.querySelector(`.print-item[data-target-id="${lastStarredId}"]`);
+    if (exists) {
+      scrollPrintPaneTo(lastStarredId);
+    }
   }
 }
 
