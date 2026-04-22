@@ -2370,7 +2370,7 @@ function openPrintPane() {
     alert('아직 별표 표시한 항목이 없습니다.\n본문 요소를 클릭해 별표를 먼저 표시해주세요.');
     return;
   }
-  // 현재 window 스크롤 위치 저장
+  // 진입 직전 현재 window 스크롤 위치 + 가까운 앵커 저장 (닫을 때 복귀용)
   prePrintPaneScroll = { anchorId: null, scrollY: window.scrollY };
   const cap = captureScrollPosition();
   if (cap && cap.anchorId) prePrintPaneScroll.anchorId = cap.anchorId;
@@ -2380,17 +2380,59 @@ function openPrintPane() {
   renderPrintPane();
 
   // 분할뷰 진입 시 main-pane의 scrollTop을 window 스크롤 위치로 옮김
+  // (desktop은 main-pane 자체가 스크롤 컨테이너가 되니까 위치 이관 필요,
+  //  mobile은 main-pane이 display:none 이지만 설정만 해두면 해제 시 복원에 참고됨)
   const mainPane = document.getElementById('mainPane');
   mainPane.scrollTop = prePrintPaneScroll.scrollY || 0;
 }
 
 function closePrintPane() {
   const mainPane = document.getElementById('mainPane');
-  const mainScroll = mainPane.scrollTop;
+  // desktop: main-pane 자체 스크롤을 읽음. mobile: display:none 이므로 0이 반환될 수 있어 사용 불가
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  // 현재 유효한 스크롤 값 결정
+  //   - mobile: 저장해둔 prePrintPaneScroll.scrollY 사용 (main-pane scrollTop은 신뢰 불가)
+  //   - desktop: main-pane.scrollTop 사용 (사용자가 패널 열고 스크롤했을 수 있음)
+  let targetAnchor = null;
+  let targetScroll = 0;
+  if (isMobile) {
+    targetAnchor = prePrintPaneScroll && prePrintPaneScroll.anchorId;
+    targetScroll = (prePrintPaneScroll && prePrintPaneScroll.scrollY) || 0;
+  } else {
+    targetScroll = mainPane.scrollTop;
+    // desktop 에서도 혹시 0이면 저장된 값으로 fallback
+    if (targetScroll === 0 && prePrintPaneScroll && prePrintPaneScroll.scrollY) {
+      targetScroll = prePrintPaneScroll.scrollY;
+      targetAnchor = prePrintPaneScroll.anchorId;
+    }
+  }
+
   document.body.classList.remove('split-view');
   document.getElementById('printPane').setAttribute('aria-hidden', 'true');
-  // split-view 나오면 window 스크롤로 위치 복귀
-  setTimeout(() => window.scrollTo({ top: mainScroll, behavior: 'auto' }), 0);
+
+  // split-view 해제 직후 레이아웃 재계산이 필요하므로 두 단계로 스크롤 복원
+  // 1) 즉시: 앵커가 있으면 앵커 위치로, 없으면 저장된 좌표로
+  // 2) rAF 이후: 한 번 더 맞춤 (iOS Safari 대응)
+  const restore = () => {
+    if (targetAnchor) {
+      const el = document.getElementById(targetAnchor);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const abs = rect.top + window.scrollY - 80;
+        window.scrollTo({ top: abs, behavior: 'auto' });
+        return;
+      }
+    }
+    window.scrollTo({ top: targetScroll, behavior: 'auto' });
+  };
+  // 즉시 한 번
+  restore();
+  // DOM 재렌더 이후 한 번 더 (iOS/Android Chrome에서 display:none → display:block 전환 타이밍 이슈 대응)
+  requestAnimationFrame(() => {
+    restore();
+    // 최종 안전빵: 50ms 후에도 확인
+    setTimeout(restore, 50);
+  });
 }
 
 function returnToLastScroll() {
