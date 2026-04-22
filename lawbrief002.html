@@ -101,10 +101,38 @@
     flex-shrink: 0;
   }
   body.split-view .print-pane { display: block; }
+
+  /* ===== 모바일: 분할뷰 대신 전체화면 모달 오버레이로 표시 ===== */
   @media (max-width: 900px) {
-    body.split-view .main-pane { display: none; }
+    /* splitter는 숨김 (드래그 불필요) */
     body.split-view .splitter { display: none; }
-    .print-pane { width: 100% !important; min-width: 0; max-width: none; }
+    /* main-pane 은 숨기지 않고 그대로 유지 (원래 스크롤 위치 보존) */
+    body.split-view .main-pane { display: block; height: auto; overflow-y: visible; }
+    /* print-pane 을 전체 화면 오버레이로 띄움 */
+    .print-pane {
+      position: fixed !important;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100% !important;
+      max-width: none !important;
+      min-width: 0;
+      height: 100vh !important;
+      z-index: 1500;
+      border-left: none;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    }
+    /* 모바일 오버레이 상태에서도 본문 스크롤 방지 */
+    body.split-view {
+      position: fixed;
+      width: 100%;
+    }
+    /* 오버레이 등장 애니메이션 */
+    body.split-view .print-pane {
+      animation: mobile-modal-slide-up 0.25s ease-out;
+    }
+    @keyframes mobile-modal-slide-up {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
   }
 
   .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
@@ -2375,32 +2403,37 @@ function openPrintPane() {
   const cap = captureScrollPosition();
   if (cap && cap.anchorId) prePrintPaneScroll.anchorId = cap.anchorId;
 
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+
   document.body.classList.add('split-view');
   document.getElementById('printPane').setAttribute('aria-hidden', 'false');
   renderPrintPane();
 
-  // 분할뷰 진입 시 main-pane의 scrollTop을 window 스크롤 위치로 옮김
-  // (desktop은 main-pane 자체가 스크롤 컨테이너가 되니까 위치 이관 필요,
-  //  mobile은 main-pane이 display:none 이지만 설정만 해두면 해제 시 복원에 참고됨)
-  const mainPane = document.getElementById('mainPane');
-  mainPane.scrollTop = prePrintPaneScroll.scrollY || 0;
+  if (isMobile) {
+    // 모바일: body가 position:fixed가 되면서 스크롤이 0으로 리셋되므로
+    // 현재 스크롤 위치를 body top에 negative margin으로 유지
+    document.body.style.top = `-${prePrintPaneScroll.scrollY}px`;
+  } else {
+    // 데스크톱: main-pane 자체가 스크롤 컨테이너가 되니 위치 이관
+    const mainPane = document.getElementById('mainPane');
+    mainPane.scrollTop = prePrintPaneScroll.scrollY || 0;
+  }
 }
 
 function closePrintPane() {
-  const mainPane = document.getElementById('mainPane');
-  // desktop: main-pane 자체 스크롤을 읽음. mobile: display:none 이므로 0이 반환될 수 있어 사용 불가
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  // 현재 유효한 스크롤 값 결정
-  //   - mobile: 저장해둔 prePrintPaneScroll.scrollY 사용 (main-pane scrollTop은 신뢰 불가)
-  //   - desktop: main-pane.scrollTop 사용 (사용자가 패널 열고 스크롤했을 수 있음)
+  const mainPane = document.getElementById('mainPane');
+
   let targetAnchor = null;
   let targetScroll = 0;
+
   if (isMobile) {
+    // 모바일: 저장된 값 사용 (body top으로부터 복원)
     targetAnchor = prePrintPaneScroll && prePrintPaneScroll.anchorId;
     targetScroll = (prePrintPaneScroll && prePrintPaneScroll.scrollY) || 0;
   } else {
+    // 데스크톱: main-pane.scrollTop (사용자가 패널 내에서 본문 스크롤했을 수도 있음)
     targetScroll = mainPane.scrollTop;
-    // desktop 에서도 혹시 0이면 저장된 값으로 fallback
     if (targetScroll === 0 && prePrintPaneScroll && prePrintPaneScroll.scrollY) {
       targetScroll = prePrintPaneScroll.scrollY;
       targetAnchor = prePrintPaneScroll.anchorId;
@@ -2410,9 +2443,10 @@ function closePrintPane() {
   document.body.classList.remove('split-view');
   document.getElementById('printPane').setAttribute('aria-hidden', 'true');
 
-  // split-view 해제 직후 레이아웃 재계산이 필요하므로 두 단계로 스크롤 복원
-  // 1) 즉시: 앵커가 있으면 앵커 위치로, 없으면 저장된 좌표로
-  // 2) rAF 이후: 한 번 더 맞춤 (iOS Safari 대응)
+  // 모바일 fixed body 해제
+  document.body.style.top = '';
+
+  // 스크롤 복원 (3단계 - iOS Safari 대응)
   const restore = () => {
     if (targetAnchor) {
       const el = document.getElementById(targetAnchor);
@@ -2425,24 +2459,53 @@ function closePrintPane() {
     }
     window.scrollTo({ top: targetScroll, behavior: 'auto' });
   };
-  // 즉시 한 번
   restore();
-  // DOM 재렌더 이후 한 번 더 (iOS/Android Chrome에서 display:none → display:block 전환 타이밍 이슈 대응)
   requestAnimationFrame(() => {
     restore();
-    // 최종 안전빵: 50ms 후에도 확인
     setTimeout(restore, 50);
   });
 }
 
 function returnToLastScroll() {
   if (!prePrintPaneScroll) return;
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  if (isMobile) {
+    // 모바일: 오버레이 먼저 닫고 (위치 자동 복원), 플래시 효과만 추가
+    closePrintPane();
+    setTimeout(() => {
+      if (prePrintPaneScroll.anchorId) {
+        const el = document.getElementById(prePrintPaneScroll.anchorId);
+        if (el) {
+          el.classList.add('target-flash');
+          setTimeout(() => el.classList.remove('target-flash'), 1700);
+        }
+      }
+    }, 100);
+    return;
+  }
+  // 데스크톱: 분할뷰 유지한 채 본문(main-pane)에서 이동
   scrollToAnchor(prePrintPaneScroll.anchorId, prePrintPaneScroll.scrollY, true);
 }
 
 function jumpToStarred(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  if (isMobile) {
+    // 모바일: 오버레이 닫은 뒤 해당 위치로 이동 (본문이 보여야 하므로)
+    // 이동 목적지를 닫기 전 prePrintPaneScroll 에 임시로 기록
+    const savedPre = prePrintPaneScroll;
+    prePrintPaneScroll = { anchorId: id, scrollY: 0 };
+    closePrintPane();
+    // 원래 저장값 복원 (사용자가 다시 "이전 위치" 버튼을 쓸 수 있게)
+    prePrintPaneScroll = savedPre;
+    setTimeout(() => {
+      el.classList.add('target-flash');
+      setTimeout(() => el.classList.remove('target-flash'), 1700);
+    }, 100);
+    return;
+  }
+  // 데스크톱: 분할뷰 유지한 채 이동
   scrollToAnchor(id, null, true);
 }
 
