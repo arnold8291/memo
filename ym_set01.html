@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>약물학 1학기 중간고사 대비 모의고사 — 제1세트 (58문제) · Ch1~Ch13</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
+    background: linear-gradient(135deg, #eef2f5 0%, #e0e7ed 100%);
+    color: #2b2b2b;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ===== 헤더 ===== */
+  header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
+    padding: 35px 35px;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 4px 20px rgba(30, 60, 114, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "藥物學";
+    position: absolute;
+    right: 20px;
+    bottom: -10px;
+    font-size: 98px;
+    font-weight: bold;
+    opacity: 0.08;
+    letter-spacing: -4px;
+  }
+  header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  header .subtitle {
+    font-size: 15px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  header .set-badge {
+    display: inline-block;
+    background: #ffd700;
+    color: #1e3c72;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-left: 6px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== Sticky 영역 (컨트롤바 + 필터바) ===== */
+  .sticky-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .control-bar {
+    background: #fff;
+    padding: 16px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e0e7ed;
+  }
+  .progress-info {
+    font-size: 14px;
+    color: #555;
+    font-weight: 600;
+  }
+  .btn-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    line-height: 1;
+  }
+  .btn-primary { background: #1e3c72; color: #fff; }
+  .btn-primary:hover { background: #2a5298; transform: translateY(-1px); }
+  .btn-secondary { background: #e6ebf1; color: #1e3c72; }
+  .btn-secondary:hover { background: #d0dbe5; }
+  .btn-reset { background: #f5f5f5; color: #666; }
+  .btn-reset:hover { background: #e0e0e0; }
+
+  .btn-print {
+    background: #fff;
+    color: #1e3c72;
+    border: 1.5px solid #1e3c72;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .btn-print:hover { background: #1e3c72; color: #fff; }
+
+  .icon-legend {
+    background: #fff;
+    border: 1px solid #d4dce5;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0 0 0;
+    font-size: 13px;
+    color: #2b3d55;
+    box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  }
+  .icon-legend > strong {
+    display: block;
+    font-size: 13px;
+    color: #1e3c72;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .legend-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    align-items: center;
+    line-height: 1.6;
+  }
+  .legend-grid span b {
+    font-weight: 600;
+    margin-right: 4px;
+    color: #1e3c72;
+  }
+  .legend-sep {
+    color: #bbb;
+    font-weight: 300;
+  }
+  @media print { .icon-legend { display: none !important; } }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 14px 35px;
+    background: #f8fafd;
+    border-bottom: 2px solid #c8d4e0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .filter-label {
+    font-size: 13px;
+    color: #1e3c72;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 6px 14px; border: 1px solid #a0b4c8; background: #fff; border-radius: 20px;
+    font-size: 13px; cursor: pointer; transition: all 0.15s;
+  }
+  .filter-btn:hover:not(:disabled) { background: #e6ebf1; }
+  .filter-btn.active { background: #1e3c72; color: #fff; border-color: #1e3c72; }
+  .filter-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #f5f5f5; color: #999; }
+  .filter-btn .count {
+    display: inline-block; background: #1e3c72; color: #fff; font-size: 11px;
+    padding: 1px 7px; border-radius: 10px; margin-left: 5px; min-width: 18px; text-align: center;
+  }
+  .filter-btn.active .count { background: #fff; color: #1e3c72; }
+  .filter-btn:disabled .count { background: #bbb; color: #fff; }
+
+  /* ===== 본문 컨테이너 ===== */
+  main {
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .category-header {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3c72;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, #e6ebf1 0%, transparent 100%);
+    border-left: 4px solid #1e3c72;
+    margin: 30px 0 20px 0;
+    border-radius: 4px;
+  }
+  .category-header:first-child { margin-top: 0; }
+
+  /* ===== 문제 카드 ===== */
+  .question {
+    background: #f8fafd;
+    border: 1px solid #c8d4e0;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .question.answered { border-color: #a0b4c8; background: #f0f4f8; }
+  .question.correct { border-color: #81c784; background: #f1f8f1; }
+  .question.wrong { border-color: #e57373; background: #fdf3f2; }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .q-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .q-number {
+    display: inline-block;
+    background: #1e3c72;
+    color: #fff;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  
+  .q-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-q-grade, .btn-q-reset {
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-q-grade { background: #e6ebf1; color: #1e3c72; border: 1px solid #a0b4c8; }
+  .btn-q-grade:hover { background: #1e3c72; color: #fff; border-color: #1e3c72; }
+  .btn-q-reset { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+  .btn-q-reset:hover { background: #c62828; color: #fff; border-color: #c62828; }
+
+  .star-btn {
+    background: none; border: none; font-size: 24px; cursor: pointer; color: #ccc;
+    transition: all 0.2s; padding: 0 4px; line-height: 1;
+  }
+  .star-btn:hover { transform: scale(1.2); }
+  .star-btn.starred { color: #fbc02d; text-shadow: 0 0 8px rgba(251, 192, 45, 0.4); }
+  
+  .q-text { font-size: 15.5px; font-weight: 500; color: #1a1a1a; margin-bottom: 14px; line-height: 1.65; }
+  .q-text strong { color: #d32f2f; }
+  .options { display: flex; flex-direction: column; gap: 6px; }
+  .option-label {
+    display: flex; align-items: flex-start; padding: 10px 14px; background: #fff;
+    border: 1px solid #c8d4e0; border-radius: 8px; cursor: pointer; transition: all 0.15s; font-size: 14.5px; gap: 10px;
+  }
+  .option-label:hover { background: #f0f4f8; border-color: #a0b4c8; }
+  .option-label input[type="radio"] { margin-top: 4px; accent-color: #1e3c72; flex-shrink: 0; }
+  .option-label.selected { background: #e6ebf1; border-color: #1e3c72; }
+  .option-num { font-weight: 700; color: #1e3c72; margin-right: 6px; flex-shrink: 0; }
+  .option-label.marked-correct { background: #e8f5e9 !important; border-color: #2e7d32 !important; font-weight: 600; }
+  .option-label.marked-wrong { background: #ffebee !important; border-color: #c62828 !important; text-decoration: line-through; color: #888; }
+  .option-label.marked-correct::after { content: " ✓ 정답"; margin-left: auto; color: #2e7d32; font-weight: 700; }
+  .option-label.marked-wrong::after { content: " ✗ 내선택"; margin-left: auto; color: #c62828; font-weight: 700; }
+  
+  .explanation {
+    display: none; margin-top: 16px; padding: 14px 18px; background: #fffdf5;
+    border-left: 4px solid #fbc02d; border-radius: 6px; font-size: 14px; color: #333;
+  }
+  .explanation.show { display: block; }
+  .explanation .label { font-weight: 700; color: #f57f17; margin-right: 6px; }
+  .explanation strong { color: #1e3c72; }
+
+  /* ===== 결과 모달 ===== */
+  .result-banner {
+    display: none; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 24px; text-align: center;
+    box-shadow: 0 4px 20px rgba(30, 60, 114, 0.3);
+  }
+  .result-banner.show { display: block; }
+  .result-banner h2 { font-size: 26px; margin-bottom: 10px; }
+  .result-banner .score { font-size: 52px; font-weight: 700; margin: 10px 0; }
+  .result-banner .score-detail { font-size: 16px; opacity: 0.9; }
+
+  /* ===== 오답/별표 리스트 ===== */
+  .wrong-list-section, .starred-list-section {
+    display: none; padding: 24px; border-radius: 12px; margin-top: 30px;
+  }
+  .wrong-list-section { background: #fff8f7; border: 2px solid #e57373; }
+  .starred-list-section { background: #fffdf4; border: 2px solid #fbc02d; }
+  .wrong-list-section.show, .starred-list-section.show { display: block; }
+  .wrong-item { background: #fff; border: 1px solid #ffcdd2; border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
+  .wrong-item .wrong-q { font-weight: 600; margin-bottom: 8px; color: #1a1a1a; }
+  .wrong-item .wrong-answer { font-size: 14px; color: #2e7d32; margin-bottom: 6px; }
+  .wrong-item .wrong-explain { font-size: 13.5px; color: #1e3c72; background: #fafafa; padding: 10px 12px; border-radius: 6px; margin-top: 8px; line-height: 1.6; }
+  
+  .filter-empty-msg { text-align: center; padding: 40px 20px; color: #888; font-size: 14px; background: #fafbfc; border: 1px dashed #ccc; border-radius: 10px; }
+  
+  .question.kbd-focus { box-shadow: 0 0 0 3px #1e3c72, 0 4px 16px rgba(30, 60, 114, 0.18); transform: translateX(2px); }
+  .question.kbd-focus::before { content: "⌨️"; position: absolute; left: -30px; top: 22px; font-size: 18px; }
+
+  .scroll-top-btn {
+    position: fixed; bottom: 78px; right: 20px; width: 48px; height: 48px; border-radius: 50%;
+    background: #fff; color: #1e3c72; border: 2px solid #1e3c72; font-size: 20px; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.25); z-index: 200; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+  }
+  .scroll-top-btn.visible { opacity: 1; pointer-events: auto; }
+  .scroll-top-btn:hover { background: #1e3c72; color: #fff; transform: scale(1.08); }
+
+  .kbd-help-btn {
+    position: fixed; bottom: 20px; right: 20px; width: 48px; height: 48px; border-radius: 50%;
+    background: #1e3c72; color: #fff; border: none; font-size: 20px; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.3); z-index: 200; transition: all 0.15s;
+  }
+  .kbd-help-btn:hover { background: #2a5298; transform: scale(1.08); }
+  .kbd-help-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: center; justify-content: center; padding: 20px; }
+  .kbd-help-overlay.show { display: flex; }
+  .kbd-help-modal { background: #fff; border-radius: 12px; padding: 28px 32px; max-width: 460px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+  .kbd-help-modal h3 { color: #1e3c72; font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .kbd-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px dashed #e0e0e0; gap: 14px; }
+  .kbd-keys { flex-shrink: 0; min-width: 110px; display: flex; gap: 4px; flex-wrap: wrap; }
+  kbd { background: #f5f5f5; border: 1px solid #ccc; border-bottom-width: 2px; border-radius: 4px; padding: 3px 8px; font-family: monospace; font-size: 12px; font-weight: 700; color: #333; }
+  .kbd-desc { font-size: 14px; color: #444; }
+  .kbd-help-close { margin-top: 16px; width: 100%; padding: 10px; background: #1e3c72; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .kbd-help-close:hover { background: #2a5298; }
+
+  .footer-note { text-align: center; color: #888; font-size: 12px; padding: 20px; margin-top: 20px; }
+
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    header { padding: 24px 20px; }
+    header h1 { font-size: 20px; }
+    .control-bar, .filter-bar { padding: 12px 20px; }
+    main { padding: 20px; }
+    .btn { padding: 8px 12px; font-size: 15px; }
+    .question { padding: 18px; }
+    .q-actions { width: 100%; margin-top: 8px; justify-content: flex-end; }
+    .kbd-help-btn { display: none; }
+    .scroll-top-btn { bottom: 20px; }
+    .question.kbd-focus::before { display: none; }
+    .question.kbd-focus { box-shadow: none; transform: none; }
+  }
+
+  @media print {
+    @page { size: A4; margin: 15mm 12mm; }
+    body { background: #fff !important; padding: 0 !important; color: #000; font-size: 11pt; line-height: 1.5; }
+    .container { max-width: 100%; margin: 0; }
+    .sticky-wrapper, .control-bar, .filter-bar, .result-banner, .wrong-list-section, 
+    .starred-list-section, .star-btn, .q-actions, .footer-note, .filter-empty-msg, 
+    .kbd-help-btn, .kbd-help-overlay, .btn-group { display: none !important; }
+    
+    .question.kbd-focus { box-shadow: none !important; transform: none !important; }
+    .question.kbd-focus::before { display: none !important; }
+    
+    header {
+      background: none !important; color: #000 !important; padding: 0 0 10px 0 !important;
+      border-bottom: 2px solid #000; margin-bottom: 15px; box-shadow: none !important; border-radius: 0 !important;
+    }
+    header::before { display: none !important; }
+    header h1 { font-size: 18pt; color: #000 !important; }
+    header .subtitle { font-size: 10pt; opacity: 1; color: #333 !important; }
+    header .badge, header .set-badge { background: none !important; color: #555 !important; padding: 0 !important; font-size: 9pt; margin: 0 4px 0 0 !important; }
+    main { background: #fff !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; }
+    
+    .category-header { background: none !important; border-left: 3px solid #000 !important; color: #000 !important; font-size: 12pt !important; padding: 6px 10px !important; margin: 14px 0 10px 0 !important; page-break-after: avoid; break-after: avoid; }
+    .question { background: #fff !important; border: 1px solid #888 !important; padding: 10px 14px !important; margin-bottom: 10px !important; page-break-inside: avoid; break-inside: avoid; box-shadow: none !important; }
+    .question-header { margin-bottom: 8px !important; }
+    .q-number { background: #000 !important; color: #fff !important; font-size: 10pt !important; padding: 2px 8px !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .q-text { font-size: 11pt !important; color: #000 !important; margin-bottom: 8px !important; }
+    .q-text strong { color: #000 !important; font-weight: 700; }
+    .options { gap: 3px !important; }
+    .option-label { background: #fff !important; border: 1px solid #bbb !important; padding: 5px 10px !important; font-size: 10.5pt !important; color: #000 !important; }
+    .option-label.selected { background: #e8e8e8 !important; border-color: #000 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .option-label input[type="radio"] { display: inline-block !important; width: 10px; height: 10px; }
+    .option-num { color: #000 !important; }
+    
+    .option-label.marked-correct { background: #fff !important; border: 2px solid #000 !important; font-weight: 700; text-decoration: none !important; color: #000 !important; }
+    .option-label.marked-correct::after { content: " ← 정답" !important; color: #000 !important; }
+    .option-label.marked-wrong { background: #fff !important; border: 1px dashed #666 !important; text-decoration: line-through; color: #666 !important; }
+    .option-label.marked-wrong::after { content: " ✗ 내선택" !important; color: #666 !important; }
+    
+    .explanation { background: #f5f5f5 !important; border-left: 3px solid #000 !important; color: #000 !important; font-size: 10pt !important; padding: 8px 12px !important; page-break-inside: avoid; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .explanation .label { color: #000 !important; }
+    .explanation strong { color: #000 !important; }
+    
+    body.print-mode-all .question { display: block !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>약물학 1학기 중간고사 대비 모의고사</h1>
+  <div class="subtitle">Ch1~Ch13 핵심 기출 · 강조 개념 · 임상 적용 심화 58제</div>
+  <span class="badge">우석대학교 한약학과 · 중간고사 완벽 대비</span>
+  <span class="set-badge">SET 1</span>
+</header>
+
+<div class="icon-legend">
+  <strong>🔎 아이콘 안내</strong>
+  <div class="legend-grid">
+    <span><b>📝</b> 전체 채점</span>
+    <span><b>🔄</b> 전체 초기화</span>
+    <span><b>🖨️</b> 인쇄</span>
+    <span class="legend-sep">│</span>
+    <span><b>🗂️</b> 전체 문제</span>
+    <span><b>✏️</b> 푼 문제</span>
+    <span><b>⬜</b> 안 푼 문제</span>
+    <span><b>⭐</b> 별표</span>
+    <span><b>❌</b> 틀린 문제</span>
+    <span class="legend-sep">│</span>
+    <span><b>✓ 채점</b> 문제별 채점</span>
+    <span><b>↺ 취소</b> 채점 취소</span>
+    <span><b>☆ / ★</b> 중요 표시</span>
+  </div>
+</div>
+
+<div class="sticky-wrapper">
+  <div class="control-bar">
+    <div class="progress-info">
+      <span id="progressText">진행: 0 / 58</span>
+      &nbsp;|&nbsp;
+      <span id="starredCount" style="color: #d84315;">★ 0</span>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="gradeAll()" title="전체 채점하기">📝</button>
+      <button class="btn btn-reset" onclick="resetExam()" title="전체 초기화">🔄</button>
+      <button class="btn btn-print" onclick="printMode()" title="인쇄">🖨️</button>
+    </div>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <span class="filter-label" title="보기 필터">🔍</span>
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')" title="전체">🗂️ <span class="count" data-count="all">58</span></button>
+    <button class="filter-btn" data-filter="answered" onclick="setFilter('answered')" title="푼 문제">✏️ <span class="count" data-count="answered">0</span></button>
+    <button class="filter-btn" data-filter="unanswered" onclick="setFilter('unanswered')" title="안 푼 문제">⬜ <span class="count" data-count="unanswered">58</span></button>
+    <button class="filter-btn" data-filter="starred" onclick="setFilter('starred')" title="별표">⭐ <span class="count" data-count="starred">0</span></button>
+    <button class="filter-btn" data-filter="wrong" onclick="setFilter('wrong')" id="filterWrong" disabled title="틀린 문제">❌ <span class="count" data-count="wrong">-</span></button>
+  </div>
+</div>
+
+<main>
+<div class="result-banner" id="resultBanner">
+  <h2>채점 결과</h2>
+  <div class="score" id="scoreText">- / 58</div>
+  <div class="score-detail" id="scoreDetail"></div>
+</div>
+
+<div id="questionsContainer"></div>
+
+<div class="wrong-list-section" id="wrongListSection">
+  <h2 style="color:#c62828; margin-bottom:16px;">❌ 틀린 문제 오답 노트</h2>
+  <div id="wrongList"></div>
+</div>
+
+<div class="starred-list-section" id="starredListSection">
+  <h2 style="color:#f57f17; margin-bottom:16px;">⭐ 별표 표시한 중요 문제</h2>
+  <div id="starredList"></div>
+</div>
+</main>
+
+<div class="footer-note">
+  약물학 Ch1~Ch13 중간고사 대비 모의고사 (제1세트 · 총 58문제)<br>
+  <span style="color:#1e3c72; font-weight:600;">⌨️ 키보드 단축키 지원 — 우하단 버튼 또는 <kbd>?</kbd> 키를 눌러 확인</span>
+</div>
+
+</div>
+
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
+<button class="kbd-help-btn" onclick="toggleKbdHelp()" title="키보드 단축키 도움말 (?)">⌨️</button>
+<div class="kbd-help-overlay" id="kbdHelpOverlay" onclick="if(event.target===this)toggleKbdHelp()">
+  <div class="kbd-help-modal">
+    <h3>⌨️ 키보드 단축키</h3>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>1</kbd>~<kbd>5</kbd></div><div class="kbd-desc">답 선택/해제</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>←</kbd><kbd>→</kbd></div><div class="kbd-desc">이전/다음 문제 이동</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>↑</kbd><kbd>↓</kbd></div><div class="kbd-desc">5문제 단위로 점프</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>F</kbd></div><div class="kbd-desc">⭐ 별표 토글</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>X</kbd></div><div class="kbd-desc">답안 지우기</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>G</kbd></div><div class="kbd-desc">📝 전체 채점하기</div></div>
+    <div class="kbd-row"><div class="kbd-keys"><kbd>?</kbd> / <kbd>Esc</kbd></div><div class="kbd-desc">도움말 열기/닫기</div></div>
+    <button class="kbd-help-close" onclick="toggleKbdHelp()">닫기 (Esc)</button>
+  </div>
+</div>
+
+<script>
+// =========================================================
+// 58문제 데이터베이스 (제1세트 - Ch1~Ch13 핵심 기출 및 강조 개념)
+// =========================================================
+const questions = [
+  // ===== Ch1. 약의 특성과 약의 개발 및 규제 =====
+  { category: "Ch1. 약의 특성 · 약물 개발", q: "40대 여성 약사가 새로운 약물 후보 물질의 효력을 평가하고 있다. 다음 중 약력학적(pharmacodynamics) 원리에 해당하는 것은?", opts: ["약물의 흡수, 분포, 대사 및 배설", "약물이 신체에 미치는 효과와 약물-수용체 상호작용", "신장 기능 저하 환자에서의 약물 용량 조절", "간의 초회통과효과에 의한 생체이용률 감소", "cytochrome P450에 의한 생체내 변환"], ans: 2, exp: "약력학(Pharmacodynamics)은 <strong>'신체에 대한 약물의 효과'</strong>로, 약물-수용체 상호작용, 증상/질환에 대한 작용을 다룬다. 반대로 약동학(Pharmacokinetics)은 '약물에 대한 신체의 작용'으로 흡수-분포-대사-배설(ADME)을 다룬다." },
+  { category: "Ch1. 약의 특성 · 약물 개발", q: "이부프로펜(ibuprofen)은 dextro형과 levo형이 1:1로 혼합된 라세미체이다. 이 약물의 dextro형만을 정제하여 약효가 증강되고 부작용이 감소된 약물은?", opts: ["Dexamethasone", "Dexibuprofen", "Dextromethorphan", "Levofloxacin", "Levothyroxine"], ans: 2, exp: "비대칭탄소(chiral carbon)가 존재하면 광학이성체(dextro, levo)가 생기며, 이부프로펜의 <strong>dextro형</strong>만 정제한 것이 <strong>Dexibuprofen</strong>으로 약효 증강 및 부작용 감소 효과가 있다." },
+  { category: "Ch1. 약의 특성 · 약물 개발", q: "다음 중 공유결합(covalent bond)으로 수용체와 결합하여 생리적 조건에서 비가역적 작용을 나타내는 약물의 예로 옳은 것은?", opts: ["소수결합으로 작용하는 마취약", "수소결합으로 작용하는 항히스타민제", "정전기결합으로 작용하는 국소마취약", "aspirin의 COX 결합, 알킬화 항암제", "반데르발스 힘으로 작용하는 스테로이드"], ans: 4, exp: "<strong>공유결합(covalent bond)</strong>은 강한 결합으로, 생리적 조건에서 비가역적이다. 대표 예시가 <strong>aspirin-COX 결합</strong>과 <strong>알킬화제(항암약물)</strong>이다." },
+
+  // ===== Ch2. 약물수용체와 약력학 =====
+  { category: "Ch2. 약물수용체와 약력학", q: "비가역적 길항약으로 90%의 β-adrenaline 수용체를 차단한 후 catecholamine을 처리하여도 심근의 근수축 촉진효과는 여전히 최대반응 효과가 나타난다. 이러한 현상을 뒷받침하는 근거는? [2019-96 변형]", opts: ["약물 과민반응", "수용체 상향조절", "고아수용체의 존재", "수용체 탈민감(탈감작)화", "여분(잉여)수용체의 존재"], ans: 5, exp: "<strong>잉여수용체(spare receptor)</strong>는 모든 수용체가 점유되지 않아도 Emax가 나타나는 현상으로, 최대 효과를 내는 데 필요한 것보다 실제 수용체 수가 더 많은 상태를 말한다. 비가역적 길항약이 90%를 차단해도 남은 10%로 최대반응 유지가 가능한 이유이다." },
+  { category: "Ch2. 약물수용체와 약력학", q: "활성형 수용체(Ra)보다 비활성형 수용체(Ri)에 대한 친화력이 커서 기본구성활성을 감소시키며, 일반적인 효능약과 반대되는 효과를 이끌어내는 약물은? [2021-96 변형]", opts: ["역효능약(inverse agonist)", "부분효능약(partial agonist)", "화학적 길항약(chemical antagonist)", "경쟁적 길항약(competitive antagonist)", "생리적 길항약(physiological antagonist)"], ans: 1, exp: "<strong>역효능약(inverse agonist)</strong>은 Ri에 대한 친화도가 커서 Ri-D 비율을 높여 기본구성활성(constitutive activity)을 떨어뜨린다. Flumazenil, Naloxone 등이 해당한다." },
+  { category: "Ch2. 약물수용체와 약력학", q: "특정 수용체에 효능제와 길항제가 존재할 때, 효능제의 용량반응곡선이 최대반응(Emax)에 영향 받지 않고 길항제 농도 증가에 의해 오른쪽으로 이동하는 것은? [2022-96, 2025-96 변형]", opts: ["화학적(chemical) 길항", "별공간적(allosteric) 길항", "경쟁적(competitive) 길항", "생리적(physiological) 길항", "비경쟁적(noncompetitive) 길항"], ans: 3, exp: "<strong>경쟁적 길항약(가역적)</strong>은 효능약과 같은 부위에 결합 경쟁하며, 고농도 효능약으로 극복 가능하다. 특징: Emax 유지, 곡선은 오른쪽으로 이동. 반면 비경쟁적(비가역적) 길항약은 Emax가 감소한다." },
+  { category: "Ch2. 약물수용체와 약력학", q: "약물 길항작용의 기타 기전 중 '화학적 길항작용'의 가장 적절한 예는?", opts: ["glucocorticoid와 insulin의 혈당 조절", "atropine의 acetylcholine 수용체 차단", "propranolol의 β 수용체 차단", "protamine이 heparin과 이온결합하여 혈액응고 억제", "phentolamine의 α 수용체 차단"], ans: 4, exp: "<strong>화학적 길항작용</strong>은 수용체 관여 없이 단순 화학적 상호작용이다. 양전하 단백질인 <strong>protamine</strong>이 음전하 <strong>heparin</strong>과 이온결합하여 응고인자 상호작용을 방해하는 것이 대표 예이다." },
+  { category: "Ch2. 약물수용체와 약력학", q: "다음 수용체 중 신호 전달 속도가 '밀리초(mS)' 단위로 가장 빠른 수용체는?", opts: ["세포 내 수용체 (스테로이드 수용체)", "효소연결수용체 (인슐린, EGFR)", "이온통로 수용체 (nicotine, GABA)", "G단백 연결수용체 (M수용체)", "tyrosine kinase 연결수용체"], ans: 3, exp: "신호전달속도: <strong>이온통로(mS) < G단백연결(초) < 효소연결(분~시간) < 세포내 수용체(시간~일)</strong>. 니코틴 수용체, GABA 수용체는 이온통로로 즉각적인 반응(밀리초)을 보인다." },
+
+  // ===== Ch3. 약동학 =====
+  { category: "Ch3. 약동학", q: "특정 치료효과에서 ED50에 대한 TD50의 비율로 정의되는 것은? [2024-96 변형]", opts: ["청소율(clearance)", "생체이용률(bioavailability)", "치료지수(therapeutic index)", "축적지수(accumulation factor)", "지질:수액 분배계수"], ans: 3, exp: "<strong>치료지수(Therapeutic Index, TI) = TD50/ED50</strong>으로, 안전 폭의 척도이다. 값이 클수록 안전범위가 넓어 안전한 약물이다." },
+  { category: "Ch3. 약동학", q: "반감기가 긴 약물(예: digoxin, amiodarone)에서 혈장 약물농도가 유효농도에 즉시 도달할 수 있도록 투여하는 용량은?", opts: ["유지용량(maintenance dose)", "부하용량(loading dose)", "최대내성용량(MTD)", "최저유효용량(MED)", "반감기 용량"], ans: 2, exp: "<strong>부하용량(Loading Dose) = 분포용적 × 유효농도</strong>. 반감기가 긴 약물(digoxin, amiodarone)의 항정상태 도달 시간을 단축시키기 위해 사용한다. 일시적 독성 가능성에 주의." },
+  { category: "Ch3. 약동학", q: "초회통과효과(first-pass effect)를 회피할 수 있는 투여 경로로 옳지 않은 것은?", opts: ["설하정 (sublingual)", "경피흡수제제 (transdermal patch)", "직장 좌약 (rectal suppository)", "정맥주사 (intravenous)", "경구 투여 (oral)"], ans: 5, exp: "<strong>경구 투여(oral)</strong>는 장관 → 문맥 → 간을 거치므로 초회통과효과를 받는다. 설하정, 경피, 직장좌약, 정맥주사, 흡입(단, 폐 초회통과는 받을 수 있음)은 간 초회통과를 회피한다." },
+
+  // ===== Ch4. 약물의 생체내변환(대사) =====
+  { category: "Ch4. 생체내변환(대사)", q: "다음 설명에 해당하는 약물은? [2022-108 변형]<br>· 중간대사물 <strong>N-acetyl-p-benzoquinoneimine(NAPQI)</strong>에 의해 간독성이 나타날 수 있다.<br>· NAPQI는 glutathione의 -SH 그룹과 반응하면 무독화된다.<br>· 라이 증후군(Reye syndrome)의 위험성을 줄이기 위해, 바이러스에 감염된 소아에게 사용하는 해열 진통제이다.", opts: ["aspirin", "ibuprofen", "meloxicam", "indomethacin", "acetaminophen"], ans: 5, exp: "<strong>Acetaminophen(AAP)</strong>은 95%가 glucuronidation/sulfation으로 대사되나, 과량 투여 시 P450으로 인한 NAPQI 생성이 증가하고 GSH가 고갈되면 간독성이 발생한다. 바이러스 감염 소아에게 aspirin 대신 권고된다." },
+  { category: "Ch4. 생체내변환(대사)", q: "간의 P450 효소 중 자몽주스(grapefruit juice)에 의해 장점막에서 강하게 억제되어 felodipine, verapamil, cyclosporine 등의 생체이용률을 증가시키는 효소는?", opts: ["CYP1A2", "CYP2C9", "CYP2C19", "CYP2D6", "CYP3A4"], ans: 5, exp: "<strong>자몽주스는 장점막의 CYP3A4를 억제</strong>하고 CYP3A4의 단백분해를 증가시켜, CYP3A4로 초회통과 대사를 받는 약들(ergotamine, felodipine, nifedipine, terfenadine, verapamil, cyclosporine 등)의 생체이용률을 현저히 증가시킨다." },
+  { category: "Ch4. 생체내변환(대사)", q: "중등도~심한 우울증에 OTC 생약으로 사용되며, CYP3A4를 강력히 유도하여 alprazolam, estrogen 피임약, warfarin의 약효를 감소시킬 수 있는 약물은?", opts: ["St. John's wort (세인트존스워트)", "Ginkgo biloba (은행잎)", "Echinacea (에키나세아)", "Valeriana (쥐오줌풀)", "Panax ginseng (인삼)"], ans: 1, exp: "<strong>St. John's wort(Hypericum perforatum)</strong>는 대표적 CYP3A4 유도약으로, 병용 약물의 P450 의존적 대사를 촉진시켜 혈중농도를 낮춘다. 특히 warfarin, 경구피임약, 면역억제제 등에서 임상적으로 중요하다." },
+  { category: "Ch4. 생체내변환(대사)", q: "제1상(Phase I) 약물대사 반응의 특징으로 옳은 것은?", opts: ["내인성 물질(glucuronic acid, sulfate)과 결합반응을 일으킨다", "작용기(-OH, -NH2, -SH)를 도입하여 극성이 더 큰 대사산물로 전환한다", "transferase에 의해 고분자 결합체를 형성한다", "반응 속도가 제2상 반응보다 빠르다", "모든 대사산물은 활성이 소실된다"], ans: 2, exp: "<strong>제1상 반응</strong>: 작용기(-OH, -NH2, -SH) 도입 등으로 극성이 더 큰 대사산물로 전환(산화/환원/가수분해), 주로 CYP450이 관여. <strong>제2상 반응</strong>: 내인성 물질(glucuronic acid, sulfuric acid, acetic acid, 아미노산)과 결합반응(conjugation), transferase 관여, 1상보다 빠름." },
+
+  // ===== Ch5. 약리유전체학 =====
+  { category: "Ch5. 약리유전체학", q: "약리유전체학(Pharmacogenomics)과 관련하여 warfarin의 용량 결정에 영향을 미치는 다유전자(polygenic) 효과에 해당하는 유전자 조합은?", opts: ["CYP2D6과 NAT2", "CYP2C19과 TPMT", "CYP2C9과 VKORC1", "UGT1A1과 DPD", "CYP3A5과 OCT1"], ans: 3, exp: "<strong>Warfarin의 용량 변이</strong>는 대사효소 <strong>CYP2C9</strong>(1상 대사)와 표적분자 <strong>VKORC1</strong>(vitamin K epoxide reductase) 두 유전자의 변이에 모두 영향을 받는 대표적인 다유전자 약물반응 예이다." },
+
+  // ===== Ch6. 자율신경 약리학 서론 =====
+  { category: "Ch6. 자율신경 약리학", q: "체온 조절성 한선(땀샘)에 분포되어 있는 교감신경절이후 신경에서 분비되는 신경전달물질과 그 수용체가 바르게 연결된 것은? [2019-97, 2022-97 변형]", opts: ["dopamine - D1 receptor", "serotonin - GABAa receptor", "glutamate - nicotinic receptor", "acetylcholine - muscarinic receptor", "norepinephrine - adrenergic receptor"], ans: 4, exp: "교감신경 절후섬유는 대개 norepinephrine을 분비하지만, <strong>체온조절 땀샘에 분포하는 교감신경 절후섬유는 예외적으로 acetylcholine을 분비</strong>하고 <strong>muscarinic(M) 수용체</strong>에 작용한다(예외적인 '네 잎 클로버'). 매년 단골 기출!" },
+  { category: "Ch6. 자율신경 약리학", q: "다음에서 설명하는 수송체를 억제하는 약물은? [2021-98 변형]<br>· 아세틸콜린 합성의 속도조절 요소이다.<br>· <strong>나트륨 의존성 공수송체(symporter)</strong>이다.<br>· 콜린(choline)을 세포외액으로부터 시냅스이전 콜린성 신경말단으로 수송한다.", opts: ["reserpine", "vesamicol", "metyrosine", "hemicholinium", "botulinum toxin"], ans: 4, exp: "콜린 유입 공수송체(CHT, choline transporter)는 <strong>hemicholinium</strong>에 의해 차단된다. 암기: <strong>Vesamicol → VAT(소포수송) / Hemicholinium → CHT(콜린유입) / Botulinum toxin → SNARE 절단 → ACh 방출 억제</strong>." },
+  { category: "Ch6. 자율신경 약리학", q: "교감신경 말단에서 catecholamine 전환 과정 중 신경세포질에서 dopamine이 소포체로 들어가 norepinephrine으로 전환되도록 하는 역수송체(antiporter)를 억제하는 약물은?", opts: ["reserpine", "cocaine", "metyrosine", "hemicholinium", "amphetamine"], ans: 1, exp: "<strong>Reserpine</strong>은 <strong>소포모노아민수송체(VMAT, vesicular monoamine transporter)</strong>를 억제하여 dopamine의 소포체 유입을 방해함. 결과적으로 NE 저장이 고갈된다. 참고: metyrosine은 tyrosine hydroxylase 억제, cocaine은 NET 억제." },
+  { category: "Ch6. 자율신경 약리학", q: "자율신경계 구조에서 교감신경의 특성으로 옳지 않은 것은?", opts: ["유출부: 흉요부(thoracolumbar)", "신경절: 척수곁사슬(paravertebral chain) 내 위치", "작용범위: 비교적 넓음", "절전섬유는 짧고, 절후섬유는 길다", "모든 절후 섬유가 norepinephrine을 분비한다"], ans: 5, exp: "교감신경 절후섬유는 대부분 norepinephrine을 분비하지만 <strong>체온조절 땀샘에 분포하는 일부 교감신경 절후는 예외적으로 acetylcholine</strong>을 분비한다(니코틴 아님, 무스카린 수용체). 부교감신경은 두개골천골부에서 유출, 절전 길고 절후 짧다." },
+
+  // ===== Ch7. 콜린수용체 효능약 / cholinesterase 억제약 =====
+  { category: "Ch7. 콜린효능약 · AChE억제약", q: "체내 acetylcholinesterase에 대한 저항성이 크기 때문에 작용 지속 시간이 길고, 니코틴성 작용이 거의 없는 <strong>카르바민산(carbamic acid) 에스테르</strong> 약물은? [2025-97 변형]", opts: ["lobeline", "carbachol", "bethanechol", "acetylcholine", "methacholine"], ans: 3, exp: "<strong>Bethanechol</strong>은 carbamic acid ester(carbamate)로 AChE에 강한 저항성을 가져 작용 지속시간이 길며, 무스카린 선택적(니코틴 작용 거의 없음). 수술 후 장폐색, 소변정체 치료에 사용. Carbachol은 M/N 모두에 작용." },
+  { category: "Ch7. 콜린효능약 · AChE억제약", q: "파라티온(parathion)에 과다 노출된 농부가 축동, 침분비 과다, 발한, 기관지 수축, 구토, 설사 등의 급성 중독 증상을 보인다. 이 환자에게 <strong>cholinesterase 재생약</strong>으로 신속히 투여해야 하는 약물은? [2019-98 변형]", opts: ["neostigmine", "pralidoxime", "echothiophate", "edrophonium", "pyridostigmine"], ans: 2, exp: "<strong>Pralidoxime(PAM)</strong>은 organophosphate-AChE 복합체가 '노화(aging)' 되기 전에 인-효소 결합을 파괴하여 AChE를 재생시킨다. 함께 atropine(무스카린 증상 억제)을 투여한다. <strong>Pyridostigmine은 예방약</strong>(organophosphate 결합 전 차지)이지 치료약이 아님에 주의." },
+  { category: "Ch7. 콜린효능약 · AChE억제약", q: "중증 근무력증(myasthenia gravis)의 진단에 사용되며, 장시간 작용성 cholinesterase 억제약의 적합성 평가에 사용되는 약물은? [2022-98 변형]", opts: ["neostigmine", "acetylcholine", "edrophonium", "echothiophate", "pyridostigmine"], ans: 3, exp: "<strong>Edrophonium</strong>은 4차 알코올류로 AChE에 정전기적·수소결합으로 <strong>짧게(약 2~10분) 결합</strong>하므로 '진단'에 사용된다. 증상 개선 시 용량 증가 필요. 장기 치료는 <strong>Pyridostigmine</strong>(carbamate, 30분~6시간 작용)이 사용된다." },
+  { category: "Ch7. 콜린효능약 · AChE억제약", q: "콜린분해효소 억제제로 알츠하이머병(경도-중등도) 치료에 사용되며, 지용성이 커서 중추신경계에 잘 분포하는 carbamate 계열 약물은? [2024-98 변형]", opts: ["selegiline", "diazepam", "memantine", "rivastigmine", "chlorpromazine"], ans: 4, exp: "<strong>Rivastigmine</strong>은 3급 아민 carbamate로 지용성이 크며 BBB를 잘 통과해 알츠하이머 치료에 사용된다. 같은 용도: Donepezil(비carbamate), Galantamine, Tacrine(최초 약물이나 간독성으로 사용 제한). 참고: Memantine은 NMDA 수용체 길항약으로 작용기전이 다름." },
+  { category: "Ch7. 콜린효능약 · AChE억제약", q: "다음은 acetylcholine 신경전달물질 유리와 관련된 약물들이다. 잘못 연결된 것은?", opts: ["Hemicholinium - 나트륨 의존성 CHT 억제 → choline 유입 차단", "Vesamicol - 소포결합수송체(VAT) 억제 → ACh 소포저장 억제", "Botulinum toxin - SNARE 단백질 절단 → ACh 유리 억제 → 근육마비", "Pralidoxime - 효능약과 수용체 결합 경쟁적 차단", "Cholinesterase억제약 - ACh 분해 억제 → 시냅스 ACh 증가"], ans: 4, exp: "<strong>Pralidoxime(PAM)</strong>은 수용체 차단제가 아니라 <strong>cholinesterase 재생약</strong>이다. Organophosphate에 의해 인산화된 AChE에서 인을 떼어내어 효소를 재활성화시킨다. 나머지 연결은 모두 옳다." },
+
+  // ===== Ch8. 콜린수용체 차단약 =====
+  { category: "Ch8. 콜린수용체 차단약", q: "atropine에 의해 나타나는 생리적 반응으로 옳은 것은? [2020-97 변형]", opts: ["빈뇨", "축동", "기관지 수축", "타액 분비 촉진", "위장관 운동 감소"], ans: 5, exp: "Atropine은 무스카린 수용체 차단약(항콜린약). 부교감 차단 효과로 <strong>동공확대(산동), 기관지확장, 타액/분비 감소, 위장관 운동 감소, 뇨정체</strong>를 일으킨다. 반대 효과가 정답." },
+  { category: "Ch8. 콜린수용체 차단약", q: "50대 남자가 전립선비대증(BPH)으로 인한 절박뇨, 요실금을 호소한다. M3 수용체에 선택성이 높아 요실금 치료에 사용되는 항무스카린 약물은?", opts: ["atropine", "scopolamine", "ipratropium", "solifenacin", "pirenzepine"], ans: 4, exp: "<strong>Solifenacin, Darifenacin</strong>은 oxybutynin이나 trospium 보다 <strong>M3 수용체 선택성이 훨씬 큰</strong> 항무스카린약으로 성인의 요실금 치료에 사용된다. Oxybutynin도 M3 선택성이 있어 방광연축에 사용됨. 주의: 녹내장, 전립선 비대에는 금기." },
+  { category: "Ch8. 콜린수용체 차단약", q: "다음 중 주된 치료 용도가 '멀미(motion sickness) 예방'이며 투과성 있는 3급 아민 항무스카린 약물로 키미테(Kimite) 패치의 주성분인 것은?", opts: ["atropine", "ipratropium", "scopolamine", "oxybutynin", "glycopyrrolate"], ans: 3, exp: "<strong>Scopolamine</strong>은 3급 아민으로 BBB를 빠르고 완전히 통과하여 CNS 효과가 크다. 전정장애(vestibular disturbance, 멀미)에 유효한 항무스카린약으로 경피 패치(키미테) 형태로 사용된다. 상용량에서도 졸음 유발 가능." },
+  { category: "Ch8. 콜린수용체 차단약", q: "COPD 또는 천식 치료에 흡입제로 사용되는 <strong>4급 아민 항무스카린 약물</strong>로 옳게 짝지어진 것은?", opts: ["atropine + scopolamine", "ipratropium + tiotropium", "oxybutynin + solifenacin", "neostigmine + pyridostigmine", "pilocarpine + carbachol"], ans: 2, exp: "<strong>Ipratropium, tiotropium, aclidinium, umeclidinium</strong>은 M3 선택성 합성 atropine 유사체(4급 아민)로, 흡입 시 국소에 머물러 기관지 확장 작용을 나타내며 COPD, 천식에 사용된다. 4급 아민이라 전신 흡수가 적고 CNS 영향 미미." },
+
+  // ===== Ch9. 아드레날린수용체 효능약 =====
+  { category: "Ch9. 아드레날린효능약", q: "다음에서 설명하는 신경전달물질은? [2024-97 변형]<br>· <strong>dopamine β-hydroxylase</strong>에 의하여 dopamine으로부터 생성된다.<br>· monoamine oxidase(MAO)에 의하여 dihydroxymandelic acid로 변환된다.<br>· catechol-O-methyltransferase(COMT)에 의하여 normetanephrine으로 변환된다.", opts: ["serotonin", "histamine", "epinephrine", "acetylcholine", "norepinephrine"], ans: 5, exp: "카테콜아민 합성 순서: <strong>Tyrosine → dopa → dopamine → (DβH) → norepinephrine → (PNMT, 부신수질) → epinephrine</strong>. MAO와 COMT에 의한 대사물이 dihydroxymandelic acid와 normetanephrine인 것은 <strong>norepinephrine</strong>이다." },
+  { category: "Ch9. 아드레날린효능약", q: "아드레날린 수용체의 작용제(agonist) 효과로 옳은 것은? [2025-98 변형]", opts: ["전립선 이완", "지방분해 촉진", "심장 수축력 억제", "혈소판 응집 억제", "기관지 평활근 수축"], ans: 2, exp: "아드레날린 수용체 작용제의 일반 효과: <strong>지방분해 촉진(β3)</strong>, 심장 수축력 증가(β1), 전립선 수축(α1), 혈소판 응집 촉진(α2), 기관지 확장(β2). 정답은 지방분해 촉진." },
+  { category: "Ch9. 아드레날린효능약", q: "우울증 치료약으로 MAO 억제약을 복용하는 환자가 <strong>tyramine</strong>을 다량 함유한 치즈, 말린 소시지 등을 과량 섭취하였다. 이때 나타날 수 있는 가장 위험한 증상은? [2020-100 변형]", opts: ["정신병", "위장장애", "악성 고혈압(malignant hypertension)", "기관지 확장증", "세로토닌 증후군"], ans: 3, exp: "<strong>Tyramine</strong>은 정상적으로 간의 MAO에 의해 신속 대사되어 경구 시 거의 활성이 없다(높은 초회통과). <strong>MAO 억제약(특히 MAO-A)</strong> 복용 중 tyramine 다량 섭취시 대사 차단 → NE 유리 극대화 → <strong>악성 고혈압</strong> 유발." },
+  { category: "Ch9. 아드레날린효능약", q: "아나필락시스 쇼크(anaphylactic shock) 치료에 있어 1차 선택약이며 기관지확장(β2), 혈관수축(α), 심박출량 증가(β1) 효과를 모두 나타내는 약물의 가장 권장되는 투여 경로는?", opts: ["피하주사 (subcutaneous)", "근육주사 (intramuscular)", "경구 투여", "설하정", "피부 패치"], ans: 2, exp: "<strong>Epinephrine</strong>이 아나필락시스 치료 1차 선택약. 권장 투여 경로는 <strong>근육주사(특히 대퇴부)</strong>가 피하주사보다 선호된다. 흡수 속도가 더 빠르고 작용 신속, 심혈관 붕괴 방지에 유리." },
+  { category: "Ch9. 아드레날린효능약", q: "주의력결핍과잉행동장애(ADHD)에 사용되는 약물 중 <strong>norepinephrine 수송체(NET)의 선택적 억제약</strong>으로, 오남용 가능성이 매우 낮은 비-자극제(non-stimulant)는?", opts: ["methylphenidate", "amphetamine", "modafinil", "atomoxetine", "cocaine"], ans: 4, exp: "<strong>Atomoxetine</strong>은 NET 선택적 억제약으로 ADHD에 사용된다. Methylphenidate(리탈린/콘서타)나 amphetamine은 오남용 가능성이 높으나, atomoxetine은 자극제가 아니며 clonidine-유사 중추작용으로 심혈관계 안전성이 좋다." },
+
+  // ===== Ch10. 아드레날린수용체 길항약 =====
+  { category: "Ch10. 아드레날린길항약", q: "50대 남자가 고혈압과 양성전립선비대증(BPH)을 치료받는 중이다. 이 두 가지 질환 치료에 모두 사용될 수 있으며 세동맥과 세정맥의 α1 수용체를 선택적으로 차단하는 약물은? [2020-98, 2025-99, 2026-98 변형]", opts: ["verapamil", "doxazosin", "acebutolol", "pilocarpine", "edrophonium"], ans: 2, exp: "<strong>Prazosin, terazosin, doxazosin</strong>은 α1 선택적 길항약으로 세동맥-세정맥 확장 → 혈압 강하, 전립선-방광기저부 평활근 이완 → 뇨유출 개선. <strong>고혈압과 BPH 동반 환자</strong>에 특히 유용. 초회용량현상(first-dose phenomenon) 주의." },
+  { category: "Ch10. 아드레날린길항약", q: "다음 중 β1 수용체에 대한 선택성이 가장 높은 차단약이며, 내피세포의 산화질소(NO) 생산을 촉진하여 혈관확장을 유도하는 약물은? [2023-98 변형]", opts: ["timolol", "labetalol", "nebivolol", "carvedilol", "bucindolol"], ans: 3, exp: "<strong>Nebivolol</strong>은 β1 수용체 선택성이 가장 높으며, 내피세포에서 NO 유리를 증가시켜 혈관확장 효과를 추가로 나타내는 독특한 약물. 인슐린 감수성 증가, 혈중 지질에 유해하지 않음. 협심증, 고혈압, 부정맥에 사용." },
+  { category: "Ch10. 아드레날린길항약", q: "크롬친화세포종(pheochromocytoma) 환자의 수술 전 처치에 사용되는 <strong>비가역적 α 수용체 차단제</strong>는?", opts: ["phentolamine", "prazosin", "phenoxybenzamine", "labetalol", "metyrosine"], ans: 3, exp: "<strong>Phenoxybenzamine</strong>은 α 수용체와 공유결합하는 비가역적 차단약. 크롬친화세포종의 수술 전 처치에 선호됨. Phentolamine은 가역적 차단약. Metyrosine은 tyrosine hydroxylase 억제제(catecholamine 합성 억제)로 병용 사용." },
+  { category: "Ch10. 아드레날린길항약", q: "β 수용체 길항약의 유해반응 중 <strong>비선택적 β 차단약</strong> 투여 시 특히 주의해야 하는 것은?", opts: ["저혈당 시 초기 아드레날린성 경고증상 은폐 및 회복 지연", "심박수 증가와 심계항진", "기관지 확장", "말초혈관 확장", "VLDL 감소"], ans: 1, exp: "β 차단약은 저혈당 시 나타나는 <strong>아드레날린성 경고증상(빈맥, 발한, 불안)을 차단</strong>하고 정상 혈당 회복도 지연시킨다. 당뇨병 환자(특히 insulin 의존성)에 β 차단약 사용 시 매우 주의. 비선택적 β 차단은 말초혈관수축(레이노 악화), 천식 악화도 주의해야 함." },
+  { category: "Ch10. 아드레날린길항약", q: "초단시간 작용(반감기 약 10분) β1 선택적 수용체 길항약으로, 적혈구 esterase에 의해 신속하게 대사되어 급성 환자의 상심실성 부정맥, 수술 전후 고혈압 및 심근 허혈 조절에 사용되는 약물은?", opts: ["propranolol", "metoprolol", "atenolol", "esmolol", "nadolol"], ans: 4, exp: "<strong>Esmolol</strong>은 분자내 ester 결합이 있어 <strong>적혈구 esterase</strong>에 의해 신속하게 β 수용체 친화력이 낮은 대사체로 분해된다(반감기 약 9~10분). 정맥 투여용으로 급성 환자의 부정맥·고혈압 급히 조절해야 할 때 유용." },
+
+  // ===== Ch11. 항고혈압약 =====
+  { category: "Ch11. 항고혈압약", q: "세동맥과 세정맥에 있는 α1 아드레날린 수용체를 선택적으로 차단하여 고혈압에 사용하는 약물은? [2025-99 변형]", opts: ["aliskiren", "prazosin", "diltiazem", "amlodipine", "furosemide"], ans: 2, exp: "<strong>Prazosin, terazosin, doxazosin</strong>은 α1 선택적 차단약으로 세동맥, 세정맥 모두 확장시킨다. 반사빈맥은 비선택적 α 차단약(phentolamine)보다 적음. 단독 치료는 권장되지 않고 이뇨약이나 β 차단약 병용이 효과적." },
+  { category: "Ch11. 항고혈압약", q: "혈관확장약으로 세동맥은 확장시키지만 정맥은 확장시키지 못하며, 발모 촉진 작용이 있어 국소 적용으로 탈모 치료(Rogaine)에도 사용되는 고혈압 치료약은? [2019-104, 2025-100 변형]", opts: ["clonidine", "minoxidil", "amiloride", "hydralazine", "guanethidine"], ans: 2, exp: "<strong>Minoxidil</strong>은 평활근 세포막의 K+ 통로 개방 → K+ 투과성 증가 → 세포막 안정화 → 혈관평활근 이완. 세동맥만 확장(정맥은 X). 유해반응: 두통, 발한, 다모증(hypertrichosis) → 국소형은 Rogaine 대머리 교정약으로 사용." },
+  { category: "Ch11. 항고혈압약", q: "경도의 심근경색이 있는 고혈압 환자가 captopril, carvedilol, aspirin을 처방받아 복용한 후 부작용으로 <strong>마른기침과 혈관부종</strong>을 보였다. 이 부작용의 원인 물질은? [2021-103, 2026-102 변형]", opts: ["serotonin", "bradykinin", "enkephalin", "acetylcholine", "neuropeptide Y"], ans: 2, exp: "ACE(=kininase II=peptidyl dipeptidase)는 ①angiotensin I → II 전환 ②<strong>bradykinin 분해</strong>의 두 기능을 한다. ACEI(captopril, enalapril) 투여 시 bradykinin이 축적되어 마른기침(10-20%), 혈관부종을 유발. <strong>ARB로 대체</strong>하면 해소됨." },
+  { category: "Ch11. 항고혈압약", q: "bradykinin 불활성화 효소를 억제하는 항고혈압약으로, 심근경색, 당뇨 또는 만성 신장질환에도 사용되는 약물은? [2024-99, 2026-99 변형]", opts: ["aliskiren", "atenolol", "enalapril (또는 lisinopril)", "valsartan", "fenoldopam"], ans: 3, exp: "<strong>ACE 억제약(enalapril, lisinopril, captopril 등)</strong>은 단백뇨 감소와 신장기능 안정화 효과로 만성신장병, 당뇨병(고혈압 없어도), 심부전, 심근경색 후 치료에 유용. 단, 임신 중기/후기 사용 금기. 부작용: 마른기침, 혈관부종, 고K혈증." },
+  { category: "Ch11. 항고혈압약", q: "고혈압 치료를 위해 enalapril을 복용한 후 마른기침을 부작용으로 호소하는 환자를 치료하기 위해 선택할 수 있는 대체 약물은? [2023-99 변형]", opts: ["ibutilide", "verapamil", "phenytoin", "inamrinone", "candesartan"], ans: 5, exp: "ACEI 부작용(기침, 혈관부종)은 bradykinin 축적이 원인. <strong>ARB (candesartan, losartan, valsartan 등)</strong>는 AT1 수용체 선택적 차단으로 bradykinin 대사와 무관하여 기침과 혈관부종이 드물다. 현재 ARB로 처음부터 시작이 일반적." },
+  { category: "Ch11. 항고혈압약", q: "심장질환자가 심한 폐부종 치료를 위해 처방받은 이뇨약 furosemide를 투약한 결과 저칼륨혈증이 발생했고 심장기능 손상이 가중됐다. 이때 취할 수 있는 적절한 치료 방안은? [2026-100 변형]", opts: ["streptomycin 투여", "유기수은이뇨약 투여", "나트륨 이온 섭취 증가", "spironolactone으로 치환 또는 병용", "hydrochlorothiazide로 치환"], ans: 4, exp: "Furosemide(loop계)와 thiazide계는 모두 K+ 손실을 초래. <strong>Spironolactone (알도스테론 수용체 길항제)</strong>은 K+ 보존 이뇨제로 K+ 고갈을 예방하고 다른 이뇨약의 Na+ 배설 작용을 보강. 심부전, 간경화 부종에도 유용." },
+  { category: "Ch11. 항고혈압약", q: "다음 중 Ca2+ 채널 차단제(CCB)의 특성이 <strong>잘못</strong> 연결된 것은? [2024-100 변형]", opts: ["Dihydropyridine(DHP)계(amlodipine, nifedipine) - 혈관에 더 선택적, 고혈압에 주로 사용", "Verapamil - 심장에 가장 선택적, 심박수·심박출량 감소, 부정맥에 유용", "Diltiazem - 혈관-심장 중간 정도의 작용", "DHP계 - 반사성 빈맥으로 심박출량 유지 혹은 증가", "Verapamil과 β차단약 병용은 반사성 빈맥 예방을 위해 1차 권고된다"], ans: 5, exp: "<strong>β차단약 + verapamil(또는 diltiazem) 병용</strong>은 방실차단(AV block)과 심실기능 저하를 유발할 수 있어 매우 신중해야 한다. 오히려 금기에 가까운 조합. DHP계는 심장 작용이 덜하므로 β차단약과 조합 가능." },
+  { category: "Ch11. 항고혈압약", q: "임신 중 고혈압 치료에 주로 사용되며, 방향족 아미노산 수송체를 통해 뇌로 들어가 α-methylnorepinephrine으로 전환되어 중추 α2 수용체를 자극함으로써 혈압을 낮추는 약물은?", opts: ["clonidine", "methyldopa", "reserpine", "guanethidine", "hydralazine"], ans: 2, exp: "<strong>Methyldopa</strong>는 L-dopa 유사체로 뇌에서 α-methylnorepinephrine으로 전환되어 중추 α2 수용체를 자극 → 교감신경 출력 감소 → 혈압강하. 반사빈맥이 없고 신장혈관저항 감소의 장점으로 <strong>임신 중 고혈압에 선호</strong>됨." },
+  { category: "Ch11. 항고혈압약", q: "Clonidine(α2 효능약)을 갑자기 중단할 때 나타날 수 있는 가장 심각한 현상은?", opts: ["지속적인 저혈압", "우울증 발현", "심한 고혈압위기(hypertensive crisis)", "기립성저혈압의 재발", "부정맥의 악화"], ans: 3, exp: "<strong>Clonidine 급속 중단 시 금단증후군(withdrawal syndrome)</strong>으로 <strong>고혈압위기</strong>가 발생할 수 있음. 1~2회 복용 누락만으로도 신경과민, 빈맥, 두통, 발한 등의 증상이 나타남. 점진적 감량이 필수." },
+
+  // ===== Ch12. 혈관확장약과 협심증 치료 =====
+  { category: "Ch12. 혈관확장약·협심증", q: "협심증 치료에 사용되는 Nitroglycerin의 주요 작용기전으로 옳은 것은?", opts: ["cGMP 감소 → 평활근 수축 → 혈관수축", "Nitric oxide(NO) 유리 → guanylyl cyclase 활성화 → cGMP 증가 → 혈관평활근 이완", "β 수용체 차단 → 심근 수축력 감소", "Ca2+ 채널 차단 → 심근 수축력 감소", "aldosterone 분비 증가"], ans: 2, exp: "<strong>Nitroglycerin</strong>은 체내에서 NO로 전환되어 <strong>용해성 guanylate cyclase를 활성화 → cGMP 증가 → 미오신 경쇄 탈인산화 → 평활근 이완</strong>. 정맥에 더 민감(전부하 감소) → 심실벽 장력 감소 → 심근 산소요구량 감소. 운동협심증 완화의 주요 기전." },
+  { category: "Ch12. 혈관확장약·협심증", q: "Nitroglycerin의 설하정(sublingual tablet)을 선호하는 투여경로로 사용하는 가장 중요한 이유는?", opts: ["경구보다 흡수가 느려 작용시간이 길다", "간의 초회통과효과(first-pass effect)를 회피하여 수 분 내에 유효 혈중농도 도달", "수용액 안정성이 높아 장기보관 가능", "간독성이 적어 만성 사용에 안전", "혈관연축성 협심증에만 유효하기 때문"], ans: 2, exp: "Organic nitrate는 경구 투여 시 심한 초회통과 대사를 받아 생체이용률이 매우 낮다. <strong>설하 투여</strong>는 간을 거치지 않고 직접 전신 순환으로 흡수되어 수 분 내 유효농도 달성. 빛에 민감X, 휘발성과 플라스틱 흡착 때문에 유리병에 보관." },
+  { category: "Ch12. 혈관확장약·협심증", q: "다음 중 심근 산소 <strong>요구량(수요)</strong> 감소에 작용하는 3가지 약물군으로 옳게 묶인 것은?", opts: ["ACE억제약, ARB, 이뇨약", "Organic nitrates, Ca2+ 통로차단약, β 차단약", "Aspirin, clopidogrel, heparin", "Statins, fibrates, ezetimibe", "Digoxin, dobutamine, milrinone"], ans: 2, exp: "협심증에 작용하는 <strong>3가지 약물군</strong>은 (①organic nitrates, ②CCB(-dipine), ③β차단약(-olol))로 심장의 크기, 심박수, 혈압, 수축력 감소 → 산소요구량 감소. Nitrates와 CCB는 관상동맥 혈류 재분포로 공급 증가 효과도 추가로 있음." },
+  { category: "Ch12. 혈관확장약·협심증", q: "Calcium 통로 차단약 중 <strong>verapamil과 diltiazem</strong>은 dihydropyridine(DHP) 계열과 달리 심장의 방실결절 전도를 현저히 감소시킨다. 이로 인한 주요 임상적 용도는?", opts: ["천식의 급성 증상 완화", "심실상부 회귀성 빈맥(SVT), 심방 세동/조동의 심실 박동수 조절", "당뇨병 환자의 혈당 조절", "파킨슨병의 떨림 완화", "녹내장의 안압 조절"], ans: 2, exp: "<strong>Verapamil, diltiazem</strong>은 방실결절 전도속도를 감소시켜 <strong>심실상부 회귀성 빈맥(SVT)</strong> 치료, <strong>심방세동/조동 시 심실 박동수 감소</strong>에 유용. 반면 DHP계(nifedipine, amlodipine)는 방실전도 영향 없고 반사빈맥 있음." },
+  { category: "Ch12. 혈관확장약·협심증", q: "혈관연축성 협심증(이형협심증, Prinzmetal's angina) 치료에 효과가 있으며, 반대로 <strong>사용해서는 안되는 약물군</strong>은?", opts: ["Nitrates - 효과 / β 차단약 - 금기", "Nitrates - 금기 / β 차단약 - 효과", "CCB - 효과 / Nitrates - 금기", "CCB - 금기 / ACE억제약 - 효과", "Aspirin - 금기 / statins - 효과"], ans: 1, exp: "이형(혈관연축성) 협심증에서 <strong>Nitrates와 CCB는 효과적</strong>이나 <strong>β 차단약은 α 매개 혈관수축을 악화시킬 수 있어 사용하면 안 된다(X)</strong>. 운동협심증과 구별되는 중요 차이점." },
+
+  // ===== Ch13. 심부전 치료약 =====
+  { category: "Ch13. 심부전 치료약", q: "심근세포막에 있는 <strong>Na+/K+-ATPase를 억제</strong>하여 심부전 치료에 효능이 있는 강심배당체는? [2023-100 변형]", opts: ["digoxin", "captopril", "reserpine", "hydralazine", "dobutamine"], ans: 1, exp: "<strong>Digoxin(디기탈리스)</strong>은 Na+/K+-ATPase 억제 → 세포내 Na+ 증가 → NCX 교환기 역할 감소 → <strong>세포내 Ca2+ 증가 → 심근 수축력 증가</strong>. 만성 수축기 심부전의 증상 경감에 사용. 치료범위 좁음, 저칼륨혈증 시 독성 증가 주의." },
+  { category: "Ch13. 심부전 치료약", q: "심부전 환자 A씨가 피로감을 호소하여 검사한 결과, 좌심실 박출량 감소에 의한 것으로 확인되었다. 이 환자의 심장 박출량을 증가시키는 데에 도움을 줄 수 있는 <strong>동맥+정맥 모두 확장시키는</strong> 혈관확장약은? [2022-103 변형]", opts: ["nitrate", "milrinone", "carvedilol", "hydralazine", "ethacrynic acid"], ans: 4, exp: "<strong>Hydralazine</strong>은 세동맥 확장 위주(후부하 감소), <strong>질산염(nitrate)은 정맥 확장 위주(전부하 감소)</strong>. 심부전에서 둘을 병용하는 것이 표준 요법(특히 ACEI 불내성 환자). Milrinone은 PDE3 억제(강심효과), Carvedilol은 β차단(재형성 억제)." },
+  { category: "Ch13. 심부전 치료약", q: "심부전의 병태생리 중 심실 기능곡선(Starling curve)에서 전부하(preload)가 약 몇 mmHg를 초과하면 폐울혈이 발생하기 시작하는가?", opts: ["5 mmHg", "10 mmHg", "20~25 mmHg", "40~50 mmHg", "80~90 mmHg"], ans: 3, exp: "<strong>전부하(좌심실 충만압)가 20~25 mmHg보다 크면 폐울혈</strong>이 발생한다. 심부전 치료에서 <strong>이뇨약(혈액량 감소)과 정맥확장약(혈액 재분산)</strong>을 사용하는 주된 근거. 심부전의 좌심실 기능 곡선은 정상보다 낮아져 있다." },
+  { category: "Ch13. 심부전 치료약", q: "심부전 치료약 중 심장 재형성(cardiac remodeling) 및 악순환을 끊어 사망률을 감소시키는 것으로 입증되어, 만성 심부전의 장기 치료에 권장되는 β 차단약들은?", opts: ["propranolol, atenolol, timolol", "metoprolol(서방형), bisoprolol, carvedilol", "esmolol, sotalol, acebutolol", "pindolol, penbutolol, carteolol", "labetalol, nadolol, nebivolol"], ans: 2, exp: "<strong>Metoprolol(서방형), bisoprolol, carvedilol</strong>은 만성 심부전 환자의 사망률 감소에 효과가 입증된 β차단약. 특히 carvedilol은 α1 차단 효과도 있어 후부하 감소 추가 이점. 심부전 + 고혈압 동반 환자에 유용." },
+  { category: "Ch13. 심부전 치료약", q: "심근세포의 수축 조절에서 β 수용체 활성화 시 protein kinase A가 phospholamban을 인산화하여 SERCA의 억제를 해제하는 현상의 결과로 올바른 것은?", opts: ["세포질 Ca2+ 감소 → 수축력 감소", "SR 저장 Ca2+ 증가 → 수축기 Ca2+ 급증 → 수축력 증가 및 이완 촉진", "Na+/K+-ATPase 활성 증가 → 세포내 Na+ 증가", "RyR 통로 폐쇄 → SR Ca2+ 유리 억제", "L-type Ca2+ 통로 억제 → 유발자 Ca2+ 감소"], ans: 2, exp: "β 수용체 활성화 → cAMP 증가 → PKA 활성 → <strong>phospholamban 인산화 → SERCA 억제 해제 → SR로 Ca2+ 재흡수 촉진</strong>. 결과적으로 SR의 Ca2+ 저장량 증가 + 이완 속도 증가 → 다음 수축기에 더 많은 Ca2+ 방출 가능 → 수축력 증가. 교감신경 흥분의 정상 심장 반응." }
+];
+
+// =========================================================
+// 상태 관리 및 저장
+// =========================================================
+const STORAGE_KEY = 'pharmacology_midterm_set1_v1';
+let state = { 
+  answers: {}, 
+  starred: {}, 
+  graded: {},
+  globalGraded: false, 
+  filter: 'all' 
+};
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) { }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.answers) state.answers = data.answers;
+    if (data.starred) state.starred = data.starred;
+    if (data.graded) state.graded = data.graded;
+    if (data.globalGraded) state.globalGraded = data.globalGraded;
+    if (data.filter) state.filter = data.filter;
+  } catch(e) { }
+}
+
+const container = document.getElementById('questionsContainer');
+
+function shouldShowQuestion(q, idx) {
+  if (state.filter === 'all') return true;
+  if (state.filter === 'answered') return state.answers[idx] !== undefined;
+  if (state.filter === 'unanswered') return state.answers[idx] === undefined;
+  if (state.filter === 'starred') return !!state.starred[idx];
+  if (state.filter === 'wrong') return state.graded[idx] && state.answers[idx] !== undefined && state.answers[idx] !== q.ans;
+  if (state.filter === 'correct') return state.graded[idx] && state.answers[idx] === q.ans;
+  return true;
+}
+
+function setFilter(f) {
+  state.filter = f;
+  renderQuestions();
+}
+
+function updateProgress() {
+  const answered = Object.keys(state.answers).length;
+  const starred = Object.keys(state.starred).filter(k => state.starred[k]).length;
+  document.getElementById('progressText').textContent = `진행: ${answered} / ${questions.length}`;
+  document.getElementById('starredCount').textContent = `★ ${starred}`;
+}
+
+function toggleStar(idx) {
+  state.starred[idx] = !state.starred[idx];
+  if (!state.starred[idx]) delete state.starred[idx];
+  saveState();
+  renderQuestions();
+}
+
+function gradeSingle(idx) {
+  if (state.answers[idx] === undefined) {
+    state.answers[idx] = 0;
+  }
+  state.graded[idx] = true;
+  saveState();
+  renderQuestions();
+  updateProgress();
+}
+
+function resetSingle(idx) {
+  state.graded[idx] = false;
+  if (state.answers[idx] === 0) delete state.answers[idx];
+  state.globalGraded = false;
+  document.getElementById('resultBanner').classList.remove('show');
+  saveState();
+  renderQuestions();
+  updateProgress();
+}
+
+function renderQuestions() {
+  container.innerHTML = '';
+  let currentCategory = '';
+  let shownCount = 0;
+
+  questions.forEach((q, idx) => {
+    if (!shouldShowQuestion(q, idx)) return;
+    shownCount++;
+
+    if (q.category !== currentCategory) {
+      const ch = document.createElement('div');
+      ch.className = 'category-header';
+      ch.textContent = q.category;
+      container.appendChild(ch);
+      currentCategory = q.category;
+    }
+
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question';
+    qDiv.id = `q-${idx}`;
+    if (state.answers[idx] !== undefined) qDiv.classList.add('answered');
+    if (state.starred[idx]) qDiv.classList.add('is-starred');
+    if (state.graded[idx]) {
+      if (state.answers[idx] === q.ans) qDiv.classList.add('correct');
+      else { qDiv.classList.add('wrong'); qDiv.classList.add('is-wrong'); }
+    }
+
+    const header = document.createElement('div');
+    header.className = 'question-header';
+    
+    const leftWrap = document.createElement('div');
+    leftWrap.className = 'q-header-left';
+    
+    const qNum = document.createElement('span');
+    qNum.className = 'q-number';
+    qNum.textContent = `문제 ${idx + 1}`;
+    leftWrap.appendChild(qNum);
+
+    const qActions = document.createElement('div');
+    qActions.className = 'q-actions';
+    
+    const btnGrade = document.createElement('button');
+    btnGrade.className = 'btn-q-grade';
+    btnGrade.textContent = '✓ 채점';
+    btnGrade.onclick = () => gradeSingle(idx);
+    
+    const btnReset = document.createElement('button');
+    btnReset.className = 'btn-q-reset';
+    btnReset.textContent = '↺ 취소';
+    btnReset.onclick = () => resetSingle(idx);
+
+    if (state.graded[idx]) {
+      btnGrade.style.display = 'none';
+      btnReset.style.display = 'inline-block';
+    } else {
+      btnGrade.style.display = 'inline-block';
+      btnReset.style.display = 'none';
+    }
+    
+    qActions.appendChild(btnGrade);
+    qActions.appendChild(btnReset);
+    leftWrap.appendChild(qActions);
+    header.appendChild(leftWrap);
+    
+    const starBtn = document.createElement('button');
+    starBtn.className = 'star-btn' + (state.starred[idx] ? ' starred' : '');
+    starBtn.innerHTML = state.starred[idx] ? '★' : '☆';
+    starBtn.onclick = () => toggleStar(idx);
+    header.appendChild(starBtn);
+    
+    qDiv.appendChild(header);
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.innerHTML = q.q;
+    qDiv.appendChild(qText);
+
+    const optsDiv = document.createElement('div');
+    optsDiv.className = 'options';
+    q.opts.forEach((opt, oIdx) => {
+      const label = document.createElement('label');
+      label.className = 'option-label';
+      if (state.answers[idx] === oIdx + 1) label.classList.add('selected');
+      if (state.graded[idx]) {
+        if (oIdx + 1 === q.ans) label.classList.add('marked-correct');
+        else if (state.answers[idx] === oIdx + 1) label.classList.add('marked-wrong');
+      }
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `q${idx}`;
+      input.value = oIdx + 1;
+      input.checked = state.answers[idx] === oIdx + 1;
+      input.disabled = state.graded[idx];
+      input.addEventListener('click', (e) => {
+        if (state.graded[idx]) return;
+        const selected = oIdx + 1;
+        if (state.answers[idx] === selected) {
+          delete state.answers[idx]; input.checked = false; e.preventDefault();
+        } else { state.answers[idx] = selected; }
+        saveState(); updateProgress(); renderQuestions();
+      });
+      label.appendChild(input);
+      
+      const numSpan = document.createElement('span');
+      numSpan.className = 'option-num';
+      numSpan.textContent = `①②③④⑤`[oIdx];
+      label.appendChild(numSpan);
+      
+      const textSpan = document.createElement('span');
+      textSpan.innerHTML = opt;
+      label.appendChild(textSpan);
+      optsDiv.appendChild(label);
+    });
+    qDiv.appendChild(optsDiv);
+
+    if (state.graded[idx]) {
+      const exp = document.createElement('div');
+      exp.className = 'explanation show';
+      exp.innerHTML = `<span class="label">💡 풀이:</span> ${q.exp}`;
+      qDiv.appendChild(exp);
+    }
+    container.appendChild(qDiv);
+  });
+
+  if (shownCount === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'filter-empty-msg';
+    empty.textContent = '조건에 맞는 문제가 없습니다.';
+    container.appendChild(empty);
+  }
+
+  updateFilterButtons();
+  updateProgress();
+}
+
+function updateFilterButtons() {
+  const hasAnyGraded = Object.values(state.graded).some(v => v);
+  document.getElementById('filterWrong').disabled = !hasAnyGraded;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === state.filter);
+  });
+  
+  let answered = 0, starred = 0, wrong = 0, correct = 0;
+  questions.forEach((q, i) => {
+    if (state.answers[i] !== undefined) answered++;
+    if (state.starred[i]) starred++;
+    if (state.graded[i] && state.answers[i] !== undefined) {
+      if (state.answers[i] === q.ans) correct++; else wrong++;
+    }
+  });
+  document.querySelector(`.count[data-count="all"]`).textContent = questions.length;
+  document.querySelector(`.count[data-count="answered"]`).textContent = answered;
+  document.querySelector(`.count[data-count="unanswered"]`).textContent = questions.length - answered;
+  document.querySelector(`.count[data-count="starred"]`).textContent = starred;
+  document.querySelector(`.count[data-count="wrong"]`).textContent = hasAnyGraded ? wrong : '-';
+}
+
+function gradeAll() {
+  const answered = Object.keys(state.answers).filter(k => state.answers[k] !== 0).length;
+  if (answered < questions.length && !confirm(`아직 ${questions.length - answered}문제를 풀지 않았습니다. 미선택 문제는 오답으로 처리됩니다. 전체 채점하시겠습니까?`)) return;
+  
+  questions.forEach((_, i) => {
+    if (state.answers[i] === undefined) state.answers[i] = 0;
+    state.graded[i] = true;
+  });
+  state.globalGraded = true;
+  saveState();
+
+  let correct = 0;
+  questions.forEach((q, idx) => { if (state.answers[idx] === q.ans) correct++; });
+  const pct = Math.round((correct / questions.length) * 100);
+
+  const banner = document.getElementById('resultBanner');
+  banner.classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${questions.length}`;
+  let grade = pct >= 90 ? '🎉 매우 우수 (A+ 예상)' : pct >= 80 ? '👍 우수 (A 예상)' : pct >= 70 ? '✏️ 양호 (B 예상)' : pct >= 60 ? '📖 보완 필요 (C 예상)' : '📚 집중 복습 필요';
+  document.getElementById('scoreDetail').textContent = `정답률 ${pct}% · ${grade}`;
+
+  renderQuestions();
+  renderWrongList();
+  renderStarredList();
+  banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderWrongList() {
+  const section = document.getElementById('wrongListSection');
+  const list = document.getElementById('wrongList');
+  list.innerHTML = '';
+  let count = 0;
+  questions.forEach((q, idx) => {
+    if (state.graded[idx] && state.answers[idx] !== undefined && state.answers[idx] !== q.ans) {
+      count++;
+      const item = document.createElement('div');
+      item.className = 'wrong-item';
+      item.innerHTML = `
+        <div class="wrong-q">문제 ${idx + 1}. ${q.q}</div>
+        <div class="wrong-answer">✓ 정답: ${`①②③④⑤`[q.ans - 1]} ${q.opts[q.ans - 1]}</div>
+        <div class="wrong-explain">💡 ${q.exp}</div>
+      `;
+      list.appendChild(item);
+    }
+  });
+  if (count > 0 && state.globalGraded) section.classList.add('show'); else section.classList.remove('show');
+}
+
+function renderStarredList() {
+  const section = document.getElementById('starredListSection');
+  const list = document.getElementById('starredList');
+  list.innerHTML = '';
+  let count = 0;
+  questions.forEach((q, idx) => {
+    if (state.starred[idx]) {
+      count++;
+      const item = document.createElement('div');
+      item.className = 'wrong-item';
+      item.style.borderColor = '#fbc02d';
+      item.innerHTML = `
+        <div class="wrong-q">문제 ${idx + 1}. ${q.q}</div>
+        <div class="wrong-answer">✓ 정답: ${`①②③④⑤`[q.ans - 1]} ${q.opts[q.ans - 1]}</div>
+        ${state.graded[idx] ? `<div class="wrong-explain">💡 ${q.exp}</div>` : ''}
+      `;
+      list.appendChild(item);
+    }
+  });
+  if (count > 0 && state.globalGraded) section.classList.add('show'); else section.classList.remove('show');
+}
+
+function resetExam() {
+  if (!confirm('모든 답안과 채점 결과가 초기화됩니다. 계속하시겠습니까?')) return;
+  state = { answers: {}, starred: {}, graded: {}, globalGraded: false, filter: 'all' };
+  saveState();
+  document.getElementById('resultBanner').classList.remove('show');
+  document.getElementById('wrongListSection').classList.remove('show');
+  document.getElementById('starredListSection').classList.remove('show');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function printMode() {
+  document.body.classList.add('print-mode-all');
+  setTimeout(() => { window.print(); setTimeout(() => { document.body.classList.remove('print-mode-all'); }, 500); }, 100);
+}
+
+let kbdFocusIdx = 0;
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement.tagName === 'INPUT') return;
+  if (/^[1-5]$/.test(e.key)) {
+    e.preventDefault();
+    if (state.graded[kbdFocusIdx]) return;
+    const num = parseInt(e.key);
+    if(state.answers[kbdFocusIdx] === num) delete state.answers[kbdFocusIdx];
+    else state.answers[kbdFocusIdx] = num;
+    saveState(); renderQuestions();
+  }
+  if (e.key === 'ArrowDown') { kbdFocusIdx = Math.min(kbdFocusIdx + 1, questions.length - 1); const el = document.getElementById(`q-${kbdFocusIdx}`); if(el) el.scrollIntoView({behavior: 'smooth', block: 'center'}); }
+  if (e.key === 'ArrowUp') { kbdFocusIdx = Math.max(kbdFocusIdx - 1, 0); const el = document.getElementById(`q-${kbdFocusIdx}`); if(el) el.scrollIntoView({behavior: 'smooth', block: 'center'}); }
+  if (e.key === 'g' || e.key === 'G') { gradeAll(); }
+  if (e.key === 'f' || e.key === 'F') { toggleStar(kbdFocusIdx); }
+  if (e.key === 'x' || e.key === 'X') { delete state.answers[kbdFocusIdx]; saveState(); renderQuestions(); }
+  if (e.key === '?' || e.key === 'Escape') { toggleKbdHelp(); }
+});
+
+function toggleKbdHelp() { document.getElementById('kbdHelpOverlay').classList.toggle('show'); }
+
+(function() {
+  const btn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', function() {
+    btn.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+})();
+
+loadState();
+if (state.globalGraded) {
+  let correct = 0;
+  questions.forEach((q, idx) => { if (state.answers[idx] === q.ans) correct++; });
+  const pct = Math.round((correct / questions.length) * 100);
+  document.getElementById('resultBanner').classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${questions.length}`;
+  let grade = pct >= 90 ? '🎉 매우 우수 (A+ 예상)' : pct >= 80 ? '👍 우수 (A 예상)' : pct >= 70 ? '✏️ 양호 (B 예상)' : pct >= 60 ? '📖 보완 필요 (C 예상)' : '📚 집중 복습 필요';
+  document.getElementById('scoreDetail').textContent = `정답률 ${pct}% · ${grade} · (이전 세션 복원됨)`;
+  renderWrongList();
+  renderStarredList();
+}
+renderQuestions();
+</script>
+</body>
+</html>
