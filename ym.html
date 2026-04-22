@@ -3,828 +3,657 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>약물학 중간고사 대비 모의고사 모음 · 우석대학교 한약학과</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Pharmacology · 藥物學</title>
 <style>
   :root {
-    --ink: #1a1815;
-    --ink-soft: #3a3632;
-    --ink-muted: #6b665f;
-    --paper: #f6f1e8;
-    --paper-deep: #ede6d7;
-    --paper-card: #fbf7ef;
-    --accent: #8b3a2e;         /* deep brick red, like old medical books */
-    --accent-soft: #b85d4f;
-    --accent-wash: #e8d5d1;
-    --blue: #2d4a5c;           /* muted petrol blue */
-    --blue-soft: #4d6b7d;
-    --gold: #a68a4d;           /* muted antique gold */
-    --hairline: rgba(26, 24, 21, 0.14);
-    --hairline-soft: rgba(26, 24, 21, 0.08);
-    --shadow-soft: 0 1px 2px rgba(26, 24, 21, 0.04), 0 8px 24px rgba(26, 24, 21, 0.06);
-    --shadow-lift: 0 2px 4px rgba(26, 24, 21, 0.06), 0 20px 40px rgba(26, 24, 21, 0.12);
+    --bg: #f5f1ea;
+    --bg-paper: #fffdf8;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #8a8379;
+    --accent: #8b2332;
+    --accent-soft: #a8475a;
+    --gold: #b08d57;
+    --line: #d8cfc2;
+    --line-soft: #e8e1d4;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
   body {
-    font-family: 'Noto Serif KR', 'Cormorant Garamond', serif;
-    background: var(--paper);
+    font-family: "Noto Serif KR", "Nanum Myeongjo", "Batang", Georgia, serif;
+    background: var(--bg);
     color: var(--ink);
     line-height: 1.7;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
+    -webkit-font-smoothing: antialiased;
   }
-
-  /* Paper texture via SVG noise */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.6;
-    mix-blend-mode: multiply;
-  }
-
-  /* Decorative grid lines faint background */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-image:
-      linear-gradient(var(--hairline-soft) 1px, transparent 1px),
-      linear-gradient(90deg, var(--hairline-soft) 1px, transparent 1px);
-    background-size: 48px 48px;
-    opacity: 0.5;
-  }
-
-  .page {
-    position: relative;
-    z-index: 2;
-    max-width: 1180px;
+  .container {
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 48px 32px 80px;
+    padding: 60px 40px;
   }
-
-  /* HEADER */
-  .masthead {
-    border-top: 3px double var(--ink);
-    border-bottom: 1px solid var(--ink);
-    padding: 28px 0 20px;
-    margin-bottom: 48px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 24px;
-    align-items: end;
+  
+  /* Header */
+  header {
+    text-align: center;
+    padding-bottom: 40px;
+    border-bottom: 3px double var(--line);
+    margin-bottom: 60px;
   }
-
-  .mast-left {
-    font-family: 'JetBrains Mono', monospace;
+  .uni-mark {
+    font-family: "Times New Roman", serif;
     font-size: 11px;
-    letter-spacing: 0.12em;
+    letter-spacing: 4px;
+    color: var(--ink-mute);
     text-transform: uppercase;
-    color: var(--ink-muted);
-  }
-  .mast-left .line {
-    display: block;
-  }
-
-  .mast-center {
-    text-align: center;
-  }
-  .mast-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
-    font-style: italic;
-    font-size: clamp(28px, 4vw, 42px);
-    letter-spacing: 0.01em;
-    line-height: 1.1;
-    color: var(--ink);
-  }
-  .mast-subtitle {
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 400;
-    font-size: clamp(13px, 1.4vw, 15px);
-    margin-top: 8px;
-    color: var(--ink-soft);
-    letter-spacing: 0.02em;
-  }
-
-  .mast-right {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    text-align: right;
-  }
-  .mast-right .line { display: block; }
-
-  /* INTRO */
-  .intro {
-    max-width: 760px;
-    margin: 0 auto 64px;
-    text-align: center;
-    position: relative;
-  }
-
-  .intro-marker {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-  }
-
-  .intro-marker::before, .intro-marker::after {
-    content: '';
-    display: inline-block;
-    width: 32px;
-    height: 1px;
-    background: var(--accent);
-    vertical-align: middle;
-    margin: 0 12px 3px;
-  }
-
-  .intro-lede {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: var(--ink-soft);
-    margin-bottom: 24px;
-  }
-
-  .intro-stats {
-    display: inline-flex;
-    gap: 40px;
-    padding: 16px 32px;
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-    margin-top: 8px;
-  }
-
-  .stat {
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 1;
-    color: var(--accent);
-  }
-  .stat-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    margin-top: 6px;
-  }
-
-  /* SECTION HEADER */
-  .section {
-    margin-bottom: 72px;
-  }
-
-  .section-header {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: baseline;
-    gap: 20px;
-    margin-bottom: 32px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--ink);
-  }
-
-  .section-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 44px;
-    line-height: 1;
-    color: var(--accent);
-  }
-
-  .section-title-wrap {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .section-title {
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 600;
-    font-size: clamp(20px, 2.4vw, 26px);
-    letter-spacing: -0.01em;
-    color: var(--ink);
-  }
-
-  .section-meta {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-  }
-
-  .section-desc {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 17px;
-    color: var(--ink-soft);
-    margin: 0 0 24px 64px;
-    max-width: 640px;
-    line-height: 1.55;
-  }
-
-  /* CARDS GRID */
-  .cards {
-    display: grid;
-    gap: 20px;
-  }
-
-  .cards-brief {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-
-  .cards-hint {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
-
-  .card {
-    position: relative;
-    background: var(--paper-card);
-    border: 1px solid var(--hairline);
-    padding: 28px 26px 24px;
-    text-decoration: none;
-    color: var(--ink);
-    display: flex;
-    flex-direction: column;
-    transition: all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--ink);
-    transition: background 0.35s ease;
-  }
-
-  .card::after {
-    content: '';
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--hairline);
-    border-radius: 50%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b665f' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 L17 7'/%3E%3Cpath d='M8 7 L17 7 L17 16'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 14px;
-    transition: all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
-    opacity: 0.6;
-  }
-
-  .card:hover {
-    background: var(--paper);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lift);
-    border-color: var(--ink);
-  }
-
-  .card:hover::before {
-    background: var(--accent);
-    width: 6px;
-  }
-
-  .card:hover::after {
-    opacity: 1;
-    border-color: var(--accent);
-    background-color: var(--accent);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fbf7ef' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 L17 7'/%3E%3Cpath d='M8 7 L17 7 L17 16'/%3E%3C/svg%3E");
-    transform: rotate(45deg);
-  }
-
-  .card-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    margin-bottom: 16px;
-  }
-
-  .card-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
-    font-size: 28px;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 10px;
-    padding-right: 40px;
-  }
-
-  .card-title .num {
-    font-style: italic;
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  .card-korean {
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 500;
-    font-size: 15px;
-    color: var(--ink-soft);
-    margin-bottom: 18px;
-    letter-spacing: -0.01em;
-  }
-
-  .card-desc {
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 400;
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--ink-muted);
-    margin-bottom: 24px;
-    flex-grow: 1;
-  }
-
-  .card-foot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 14px;
-    border-top: 1px solid var(--hairline);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-  }
-
-  .card-foot .count {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  /* Hint Set cards get accent coloring */
-  .card-hint {
-    background: linear-gradient(180deg, var(--paper-card) 0%, var(--paper) 100%);
-  }
-
-  .card-hint::before {
-    background: var(--blue);
-  }
-  .card-hint:hover::before {
-    background: var(--accent);
-  }
-
-  .card-hint .card-title .num {
-    color: var(--blue);
-  }
-  .card-hint:hover .card-title .num {
-    color: var(--accent);
-  }
-
-  /* Featured card (Set04) */
-  .card.featured {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
-  .card.featured::before {
-    background: var(--gold);
-    width: 6px;
-  }
-  .card.featured::after {
-    border-color: rgba(246, 241, 232, 0.3);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f6f1e8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 L17 7'/%3E%3Cpath d='M8 7 L17 7 L17 16'/%3E%3C/svg%3E");
-  }
-  .card.featured .card-label { color: var(--gold); }
-  .card.featured .card-title { color: var(--paper); }
-  .card.featured .card-title .num { color: var(--gold); }
-  .card.featured .card-korean { color: var(--paper-deep); }
-  .card.featured .card-desc { color: rgba(246, 241, 232, 0.75); }
-  .card.featured .card-foot {
-    border-top-color: rgba(246, 241, 232, 0.2);
-    color: rgba(246, 241, 232, 0.6);
-  }
-  .card.featured .card-foot .count { color: var(--gold); }
-  .card.featured:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 2px 4px rgba(26, 24, 21, 0.2), 0 20px 50px rgba(26, 24, 21, 0.4);
-  }
-  .card.featured:hover::before {
-    background: var(--gold);
-  }
-  .card.featured:hover::after {
-    background-color: var(--gold);
-    border-color: var(--gold);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1815' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 L17 7'/%3E%3Cpath d='M8 7 L17 7 L17 16'/%3E%3C/svg%3E");
-    transform: rotate(45deg);
-  }
-
-  /* STUDY PLAN */
-  .plan {
-    margin: 80px 0 40px;
-    padding: 40px 36px;
-    background: var(--paper-card);
-    border: 1px solid var(--hairline);
-    position: relative;
-  }
-
-  .plan::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: 32px;
-    right: 32px;
-    height: 3px;
-    background: var(--accent);
-  }
-
-  .plan-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: 28px;
-    color: var(--ink);
     margin-bottom: 8px;
   }
-
-  .plan-subtitle {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    margin-bottom: 28px;
-  }
-
-  .plan-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px 24px;
-    position: relative;
-  }
-
-  .plan-step {
-    position: relative;
-    padding-left: 20px;
-  }
-
-  .plan-step-num {
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-family: 'Cormorant Garamond', serif;
+  .uni-name {
+    font-family: "Times New Roman", serif;
     font-style: italic;
-    font-weight: 500;
-    font-size: 22px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 30px;
+  }
+  h1.main-title {
+    font-family: "Noto Serif KR", "Batang", serif;
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  h1.main-title .latin {
+    font-family: "Times New Roman", serif;
+    font-weight: normal;
+    font-style: italic;
+  }
+  h1.main-title .dot {
+    color: var(--accent);
+    margin: 0 10px;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: var(--ink-soft);
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+  .meta-line {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-family: "Times New Roman", serif;
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .meta-line .sep {
+    color: var(--gold);
+  }
+  
+  /* Stats */
+  .stats-section {
+    text-align: center;
+    margin: 50px 0 70px;
+  }
+  .stats-title {
+    font-family: "Times New Roman", serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+  .stats-desc {
+    max-width: 550px;
+    margin: 0 auto 40px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.9;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+  }
+  .stat-item .number {
+    font-family: "Times New Roman", serif;
+    font-size: 42px;
+    font-weight: 700;
     color: var(--accent);
     line-height: 1;
   }
-
-  .plan-step-time {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
+  .stat-item .label {
+    font-family: "Times New Roman", serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--ink-mute);
     text-transform: uppercase;
-    color: var(--ink-muted);
+    margin-top: 8px;
+  }
+  
+  /* Section */
+  section {
+    margin-top: 80px;
+  }
+  .sec-number {
+    font-family: "Times New Roman", serif;
+    font-size: 120px;
+    font-weight: 400;
+    color: var(--line);
+    line-height: 0.8;
+    position: absolute;
+    top: -30px;
+    left: -10px;
+    z-index: 0;
+    font-style: italic;
+  }
+  .sec-header {
+    position: relative;
+    padding-left: 80px;
+    padding-top: 20px;
+    margin-bottom: 50px;
+  }
+  .sec-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    position: relative;
+    z-index: 1;
     margin-bottom: 6px;
   }
-
-  .plan-step-name {
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-
-  .plan-step-desc {
-    font-family: 'Noto Serif KR', serif;
+  .sec-meta {
+    font-family: "Times New Roman", serif;
     font-size: 12px;
-    line-height: 1.5;
-    color: var(--ink-soft);
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 12px;
   }
-
-  /* FOOTER */
-  .footer {
-    margin-top: 64px;
-    padding-top: 24px;
-    border-top: 3px double var(--ink);
+  .sec-desc {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  .cards.three { grid-template-columns: repeat(3, 1fr); }
+  .cards.four { grid-template-columns: repeat(2, 1fr); }
+  
+  .card {
+    background: var(--bg-paper);
+    border: 1px solid var(--line);
+    padding: 30px 28px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    min-height: 240px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(139, 35, 50, 0.12);
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .card:hover::before { transform: scaleX(1); }
+  
+  .card-label {
+    font-family: "Times New Roman", serif;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .card-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .card-sub {
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .card-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+  .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .card-badge {
+    font-family: "Times New Roman", serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--ink-mute);
     text-transform: uppercase;
-    color: var(--ink-muted);
   }
-
-  .footer .ornament {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    text-transform: none;
-    letter-spacing: 0;
+  .card-arrow {
+    font-family: "Times New Roman", serif;
+    font-size: 13px;
     color: var(--accent);
-    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 600;
   }
-
-  /* Staggered entrance animation */
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .card-arrow::after {
+    content: " →";
   }
-
-  .masthead { animation: rise 0.7s ease-out both; }
-  .intro { animation: rise 0.7s 0.1s ease-out both; }
-  .section:nth-of-type(3) { animation: rise 0.7s 0.2s ease-out both; }
-  .section:nth-of-type(4) { animation: rise 0.7s 0.3s ease-out both; }
-  .plan { animation: rise 0.7s 0.4s ease-out both; }
-  .footer { animation: rise 0.7s 0.5s ease-out both; }
-
-  /* Responsive */
-  @media (max-width: 720px) {
-    .page { padding: 24px 18px 60px; }
-    .masthead {
-      grid-template-columns: 1fr;
-      text-align: center;
-      gap: 12px;
-      padding: 20px 0 16px;
-    }
-    .mast-left, .mast-right { text-align: center; }
-    .intro-stats { gap: 24px; padding: 14px 20px; flex-wrap: wrap; justify-content: center; }
-    .section { margin-bottom: 56px; }
-    .section-header { grid-template-columns: 1fr; gap: 6px; }
-    .section-number { font-size: 32px; }
-    .section-desc { margin-left: 0; }
-    .plan { padding: 28px 22px; }
-    .card { padding: 24px 22px 20px; }
-    .card-title { font-size: 24px; }
+  
+  /* Special styling for the new memo card */
+  .card.memo {
+    background: linear-gradient(135deg, #fffdf8 0%, #fdf6e8 100%);
+    border-color: var(--gold);
+  }
+  .card.memo::before { background: var(--accent); transform: scaleX(1); }
+  .card.memo .card-label { color: var(--gold); }
+  .card.memo .card-arrow { color: var(--gold); }
+  .card.memo .new-tag {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: var(--accent);
+    color: #fff;
+    font-family: "Times New Roman", serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+  
+  /* Final card highlight */
+  .card.final {
+    background: linear-gradient(135deg, #fffdf8 0%, #f9f4ea 100%);
+  }
+  .card.final::before { background: var(--accent); transform: scaleX(1); }
+  
+  /* Roadmap */
+  .roadmap {
+    margin-top: 100px;
+    padding: 50px 40px;
+    background: var(--bg-paper);
+    border: 1px solid var(--line);
+  }
+  .roadmap-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .roadmap-sub {
+    text-align: center;
+    font-family: "Times New Roman", serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .roadmap-items {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+  }
+  .rm-item {
+    text-align: center;
+    padding: 15px 8px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    transition: all 0.2s;
+  }
+  .rm-item:hover { border-color: var(--accent); }
+  .rm-num {
+    font-family: "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .rm-day {
+    font-family: "Times New Roman", serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--ink-mute);
+    margin: 8px 0 10px;
+  }
+  .rm-ttl {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .rm-desc {
+    font-size: 10px;
+    color: var(--ink-mute);
+    line-height: 1.4;
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 60px 0 30px;
+    margin-top: 80px;
+    border-top: 3px double var(--line);
+  }
+  .footer-mark {
+    font-family: "Times New Roman", serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+  .footer-latin {
+    font-family: "Times New Roman", serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .footer-prof {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  
+  @media (max-width: 768px) {
+    .container { padding: 40px 20px; }
+    h1.main-title { font-size: 36px; }
+    .cards, .cards.three, .cards.four { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .roadmap-items { grid-template-columns: repeat(2, 1fr); }
+    .sec-number { font-size: 80px; }
+    .sec-header { padding-left: 60px; }
+    .sec-title { font-size: 24px; }
+    .meta-line { flex-direction: column; gap: 8px; }
   }
 </style>
 </head>
 <body>
-<main class="page">
 
-  <!-- MASTHEAD -->
-  <header class="masthead">
-    <div class="mast-left">
-      <span class="line">Woosuk University</span>
-      <span class="line">College of Pharmacy</span>
-    </div>
-    <div class="mast-center">
-      <h1 class="mast-title">Pharmacology · 藥物學</h1>
-      <div class="mast-subtitle">중간고사 대비 모의고사 모음 &nbsp;·&nbsp; Professor 이병수</div>
-    </div>
-    <div class="mast-right">
-      <span class="line">Vol. I · 2026</span>
-      <span class="line">Ch. 1 &mdash; Ch. 13</span>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="uni-mark">Woosuk University</div>
+    <div class="uni-name">College of Pharmacy</div>
+    <h1 class="main-title">
+      Pharmacology <span class="dot">·</span> <span class="latin">藥物學</span>
+    </h1>
+    <p class="subtitle">중간고사 대비 모의고사 모음 · Professor 이병수</p>
+    <div class="meta-line">
+      <span>Vol. I</span>
+      <span class="sep">◆</span>
+      <span>2026</span>
+      <span class="sep">◆</span>
+      <span>Ch. 1 — Ch. 13</span>
     </div>
   </header>
 
-  <!-- INTRO -->
-  <section class="intro">
-    <div class="intro-marker">Study Resource Index</div>
-    <p class="intro-lede">
-      약력학·약동학·자율신경약리·심혈관약리를 관통하는<br>
-      세 권의 이론 정리와 네 세트의 힌트기반 모의고사.
+  <!-- Intro Stats -->
+  <div class="stats-section">
+    <div class="stats-title">— Study Resource Index —</div>
+    <p class="stats-desc">
+      약력학 · 약동학 · 자율신경약리 · 심혈관약리를 관통하는<br>
+      <b>네 권의 이론 정리</b>와 <b>네 세트의 힌트기반 모의고사</b>.
     </p>
-    <div class="intro-stats">
-      <div class="stat">
-        <div class="stat-num">3</div>
-        <div class="stat-label">Theory Briefs</div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="number">4</div>
+        <div class="label">Theory Briefs</div>
       </div>
-      <div class="stat">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Mock Exams</div>
+      <div class="stat-item">
+        <div class="number">4</div>
+        <div class="label">Mock Exams</div>
       </div>
-      <div class="stat">
-        <div class="stat-num">244</div>
-        <div class="stat-label">Total Questions</div>
+      <div class="stat-item">
+        <div class="number">244</div>
+        <div class="label">Total Questions</div>
       </div>
-      <div class="stat">
-        <div class="stat-num">25</div>
-        <div class="stat-label">Hint Topics</div>
+      <div class="stat-item">
+        <div class="number">25</div>
+        <div class="label">Hint Topics</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- SECTION I: THEORY BRIEFS (이론정리) -->
-  <section class="section">
-    <div class="section-header">
-      <div class="section-number">I</div>
-      <div class="section-title-wrap">
-        <h2 class="section-title">이론 정리 &mdash; 개념·구조·암기 포인트</h2>
-        <div class="section-meta">Series · Theory Brief</div>
-      </div>
+  <!-- Section I: Theory Briefs -->
+  <section>
+    <div class="sec-header">
+      <div class="sec-number">I</div>
+      <div class="sec-meta">Series · Theory Brief</div>
+      <h2 class="sec-title">이론 정리 — 개념·구조·암기 포인트</h2>
+      <p class="sec-desc">
+        모의고사 풀이 전 먼저 보는 이론 정리. 전체 범위 개관 → 자율신경 집중 정리 → 
+        교수님 힌트 주제별 핵심 암기 → 자율신경 약물 카드형 암기 노트까지.
+      </p>
     </div>
-    <p class="section-desc">
-      모의고사 풀이 전 먼저 보는 이론 정리. 전체 범위 개관 → 자율신경 집중 정리 → 교수님 힌트 주제별 핵심 암기까지.
-    </p>
 
-    <div class="cards cards-brief">
-
+    <div class="cards four">
       <a href="https://arnold8291.github.io/memo/ymbrief_01.html" class="card">
         <div class="card-label">Theory Brief · Vol. 01</div>
-        <h3 class="card-title"><span class="num">I.</span> 전체 이론 정리</h3>
-        <div class="card-korean">약물학 Ch1~Ch13 · 전범위 이론</div>
-        <p class="card-desc">
+        <div class="card-title">Ⅰ. 전체 이론 정리</div>
+        <div class="card-sub">약물학 Ch1~Ch13 · 전범위 이론</div>
+        <div class="card-desc">
           약력학·약동학·자율신경·심혈관까지 중간고사 전체 범위를 한 권으로 관통하는 이론 정리.
-        </p>
-        <div class="card-foot">
-          <span>Full Range · Ch1&ndash;13</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">Full Range · Ch1–13</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
 
       <a href="https://arnold8291.github.io/memo/ymbrief_02.html" class="card">
         <div class="card-label">Theory Brief · Vol. 02</div>
-        <h3 class="card-title"><span class="num">II.</span> 자율신경 이론 정리</h3>
-        <div class="card-korean">Ch6~Ch10 · 자율신경 약리학</div>
-        <p class="card-desc">
+        <div class="card-title">Ⅱ. 자율신경 이론 정리</div>
+        <div class="card-sub">Ch6~Ch10 · 자율신경 약리학</div>
+        <div class="card-desc">
           콜린성·아드레날린성 시냅스부터 수용체 아형·차단약까지, 자율신경 파트만 집중 심화.
-        </p>
-        <div class="card-foot">
-          <span>ANS · Focused</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">ANS · Focused</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
 
       <a href="https://arnold8291.github.io/memo/ymbrief_03.html" class="card">
         <div class="card-label">Theory Brief · Vol. 03</div>
-        <h3 class="card-title"><span class="num">III.</span> 힌트기반 이론 정리</h3>
-        <div class="card-korean">교수님 예상문제 25개 주제</div>
-        <p class="card-desc">
+        <div class="card-title">Ⅲ. 힌트기반 이론 정리</div>
+        <div class="card-sub">교수님 예상문제 25개 주제</div>
+        <div class="card-desc">
           이병수 교수님께서 제공하신 25개 예상문제 주제별 핵심 개념·비교표·암기 포인트 총정리.
-        </p>
-        <div class="card-foot">
-          <span>25 Topics</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">25 Topics</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
 
+      <a href="https://arnold8291.github.io/memo/ymbrief_04.html" class="card memo">
+        <span class="new-tag">NEW</span>
+        <div class="card-label">Theory Brief · Vol. 04</div>
+        <div class="card-title">Ⅳ. 자율신경 암기 노트</div>
+        <div class="card-sub">카드형 · 색상 암기 · 별표 체크</div>
+        <div class="card-desc">
+          교감·부교감·AChE 억제제·유기인 독성까지. 클릭 가리기, ⭐ 별표 토글, 인쇄까지 지원하는 카드형 암기 툴.
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">Card · Interactive</span>
+          <span class="card-arrow">Open</span>
+        </div>
+      </a>
     </div>
   </section>
 
-  <!-- SECTION II: HINT MOCK EXAMS -->
-  <section class="section">
-    <div class="section-header">
-      <div class="section-number">II</div>
-      <div class="section-title-wrap">
-        <h2 class="section-title">힌트기반 모의고사 &mdash; 25개 예상문제 주제 실전 공략</h2>
-        <div class="section-meta">Series · Mock Exam</div>
-      </div>
+  <!-- Section II: Mock Exams -->
+  <section>
+    <div class="sec-header">
+      <div class="sec-number">II</div>
+      <div class="sec-meta">Series · Mock Exam</div>
+      <h2 class="sec-title">힌트기반 모의고사 — 25개 예상문제 주제 실전 공략</h2>
+      <p class="sec-desc">
+        이병수 교수님 예상문제 25개 주제를 각도를 달리하며 네 번 돌려 공략한 네 세트의 모의고사.
+        <br>Set01 → 04로 갈수록 난이도와 통합도가 상승.
+      </p>
     </div>
-    <p class="section-desc">
-      이병수 교수님 예상문제 25개 주제를 각도를 달리하며 네 번 돌려 공략한 네 세트의 모의고사.
-      Set01 → 04로 갈수록 난이도와 통합도가 상승.
-    </p>
 
-    <div class="cards cards-hint">
-
-      <a href="https://arnold8291.github.io/memo/ym_hset01.html" class="card card-hint">
+    <div class="cards">
+      <a href="https://arnold8291.github.io/memo/ym_hset01.html" class="card">
         <div class="card-label">Mock · Set 01</div>
-        <h3 class="card-title"><span class="num">01</span> 첫번째 모의고사</h3>
-        <div class="card-korean">힌트기반 Set01 · 개념 이해</div>
-        <p class="card-desc">
+        <div class="card-title">01 첫번째 모의고사</div>
+        <div class="card-sub">힌트기반 Set01 · 개념 이해</div>
+        <div class="card-desc">
           25개 주제의 기본 정의·비교·핵심 개념. 힌트 체계 전체를 처음 훑는 관문 세트.
-        </p>
-        <div class="card-foot">
-          <span>61 Questions</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">61 Questions</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
 
-      <a href="https://arnold8291.github.io/memo/ym_hset02.html" class="card card-hint">
+      <a href="https://arnold8291.github.io/memo/ym_hset02.html" class="card">
         <div class="card-label">Mock · Set 02</div>
-        <h3 class="card-title"><span class="num">02</span> 두번째 모의고사</h3>
-        <div class="card-korean">힌트기반 Set02 · 임상 시나리오</div>
-        <p class="card-desc">
+        <div class="card-title">02 두번째 모의고사</div>
+        <div class="card-sub">힌트기반 Set02 · 임상 시나리오</div>
+        <div class="card-desc">
           환자 사례 중심의 응용 세트. 약물 상호작용, 임상 변별, 기전 응용을 집중 공략.
-        </p>
-        <div class="card-foot">
-          <span>61 Questions</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">61 Questions</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
 
-      <a href="https://arnold8291.github.io/memo/ym_hset03.html" class="card card-hint">
+      <a href="https://arnold8291.github.io/memo/ym_hset03.html" class="card">
         <div class="card-label">Mock · Set 03</div>
-        <h3 class="card-title"><span class="num">03</span> 세번째 모의고사</h3>
-        <div class="card-korean">힌트기반 Set03 · 표·함정·심화</div>
-        <p class="card-desc">
+        <div class="card-title">03 세번째 모의고사</div>
+        <div class="card-sub">힌트기반 Set03 · 표·함정·심화</div>
+        <div class="card-desc">
           "옳지 않은" 부정형 · 표 해석 · 고난이도 함정 선택지 중심의 실전형 세트.
-        </p>
-        <div class="card-foot">
-          <span>61 Questions</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">61 Questions</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
 
-      <a href="https://arnold8291.github.io/memo/ym_hset04.html" class="card card-hint featured">
-        <div class="card-label">Mock · Set 04 &nbsp;·&nbsp; Final</div>
-        <h3 class="card-title"><span class="num">04</span> 네번째 모의고사</h3>
-        <div class="card-korean">힌트기반 Set04 · 통합·기출·금기</div>
-        <p class="card-desc">
+      <a href="https://arnold8291.github.io/memo/ym_hset04.html" class="card final">
+        <div class="card-label">Mock · Set 04 · Final</div>
+        <div class="card-title">04 네번째 모의고사</div>
+        <div class="card-sub">힌트기반 Set04 · 통합·기출·금기</div>
+        <div class="card-desc">
           여러 힌트를 교차하는 통합형, 기출 원형 복원, 약물 금기·주의사항 강조. 시험 전날 최종 점검용.
-        </p>
-        <div class="card-foot">
-          <span>61 Questions</span>
-          <span class="count">→ Open</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-badge">61 Questions</span>
+          <span class="card-arrow">Open</span>
         </div>
       </a>
-
     </div>
   </section>
 
-  <!-- STUDY PLAN -->
-  <section class="plan">
-    <h2 class="plan-title">권장 학습 로드맵</h2>
-    <div class="plan-subtitle">Recommended Study Sequence</div>
-
-    <div class="plan-grid">
-      <div class="plan-step">
-        <div class="plan-step-num">①</div>
-        <div class="plan-step-time">D − 14</div>
-        <div class="plan-step-name">전체 이론 정리</div>
-        <div class="plan-step-desc">전범위 개관 · Brief 01</div>
+  <!-- Roadmap -->
+  <div class="roadmap">
+    <h3 class="roadmap-title">권장 학습 로드맵</h3>
+    <div class="roadmap-sub">— Recommended Study Sequence —</div>
+    <div class="roadmap-items">
+      <div class="rm-item">
+        <div class="rm-num">①</div>
+        <div class="rm-day">D − 14</div>
+        <div class="rm-ttl">전체 이론 정리</div>
+        <div class="rm-desc">전범위 개관<br>Brief 01</div>
       </div>
-      <div class="plan-step">
-        <div class="plan-step-num">②</div>
-        <div class="plan-step-time">D − 12</div>
-        <div class="plan-step-name">자율신경 이론</div>
-        <div class="plan-step-desc">ANS 집중 · Brief 02</div>
+      <div class="rm-item">
+        <div class="rm-num">②</div>
+        <div class="rm-day">D − 12</div>
+        <div class="rm-ttl">자율신경 이론</div>
+        <div class="rm-desc">ANS 집중<br>Brief 02</div>
       </div>
-      <div class="plan-step">
-        <div class="plan-step-num">③</div>
-        <div class="plan-step-time">D − 10</div>
-        <div class="plan-step-name">힌트기반 이론</div>
-        <div class="plan-step-desc">25개 주제 · Brief 03</div>
+      <div class="rm-item">
+        <div class="rm-num">③</div>
+        <div class="rm-day">D − 10</div>
+        <div class="rm-ttl">힌트기반 이론</div>
+        <div class="rm-desc">25개 주제<br>Brief 03</div>
       </div>
-      <div class="plan-step">
-        <div class="plan-step-num">④</div>
-        <div class="plan-step-time">D − 7</div>
-        <div class="plan-step-name">첫번째 모의고사</div>
-        <div class="plan-step-desc">개념 이해 · Mock 01</div>
+      <div class="rm-item">
+        <div class="rm-num">④</div>
+        <div class="rm-day">D − 9</div>
+        <div class="rm-ttl">자율신경 암기</div>
+        <div class="rm-desc">카드 암기<br>Brief 04</div>
       </div>
-      <div class="plan-step">
-        <div class="plan-step-num">⑤</div>
-        <div class="plan-step-time">D − 5</div>
-        <div class="plan-step-name">두번째 모의고사</div>
-        <div class="plan-step-desc">임상 시나리오 · Mock 02</div>
+      <div class="rm-item">
+        <div class="rm-num">⑤</div>
+        <div class="rm-day">D − 7</div>
+        <div class="rm-ttl">첫번째 모의</div>
+        <div class="rm-desc">개념 이해<br>Mock 01</div>
       </div>
-      <div class="plan-step">
-        <div class="plan-step-num">⑥</div>
-        <div class="plan-step-time">D − 3</div>
-        <div class="plan-step-name">세번째 모의고사</div>
-        <div class="plan-step-desc">표·함정·심화 · Mock 03</div>
+      <div class="rm-item">
+        <div class="rm-num">⑥</div>
+        <div class="rm-day">D − 5</div>
+        <div class="rm-ttl">두번째 모의</div>
+        <div class="rm-desc">임상 시나리오<br>Mock 02</div>
       </div>
-      <div class="plan-step">
-        <div class="plan-step-num">⑦</div>
-        <div class="plan-step-time">D − 1</div>
-        <div class="plan-step-name">네번째 모의고사</div>
-        <div class="plan-step-desc">통합·금기·최종 · Mock 04</div>
+      <div class="rm-item">
+        <div class="rm-num">⑦</div>
+        <div class="rm-day">D − 3</div>
+        <div class="rm-ttl">세번째 모의</div>
+        <div class="rm-desc">표·함정·심화<br>Mock 03</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-num">⑧</div>
+        <div class="rm-day">D − 1</div>
+        <div class="rm-ttl">네번째 모의</div>
+        <div class="rm-desc">통합·최종<br>Mock 04</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div>우석대학교 한약학과 &nbsp;·&nbsp; 2026 학년도 1학기</div>
-    <div class="ornament">&mdash; Ars longa, vita brevis &mdash;</div>
-    <div>약물학 &nbsp;·&nbsp; 이병수 교수</div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-mark">우석대학교 한약학과 · 2026 학년도 1학기</div>
+    <div class="footer-latin">— Ars longa, vita brevis —</div>
+    <div class="footer-prof">약물학 · 이병수 교수</div>
   </footer>
 
-</main>
+</div>
+
 </body>
 </html>
