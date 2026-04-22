@@ -671,9 +671,132 @@
     transform: scale(1.1);
   }
   .print-item-unstar:active { transform: scale(0.95); }
-  .print-item-content { font-size: 13px; }
-  .print-item-content .hl { background: #fde68a !important; color: #7c2d12 !important; border-bottom: none; }
-  .print-item-content .hl-duty { background: #fecaca !important; color: #991b1b !important; border-bottom: none; }
+  .print-item-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  /* 첫 요소의 상단 여백 제거 — wrapper 때문에 빈 공간이 뜨지 않도록 */
+  .print-item-content > *:first-child { margin-top: 0; }
+  .print-item-content > *:last-child { margin-bottom: 0; }
+  /* 원본 본문의 텍스트 서식(색·굵기·크기)을 인쇄 패널에도 그대로 유지 ─ 패널 폭에 맞춰 약간만 축소 */
+  .print-item-content h2 {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 6px;
+    margin: 0 0 10px 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .print-item-content h3 {
+    color: var(--secondary);
+    border-left: 4px solid var(--secondary);
+    padding-left: 8px;
+    margin: 12px 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .print-item-content h4 {
+    color: #374151;
+    background: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 10px 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .print-item-content .article-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .print-item-content .article {
+    background: #f9fafb;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin: 8px 0;
+    border-left: 3px solid var(--secondary);
+  }
+  .print-item-content .sub {
+    background: #eff6ff;
+    padding: 8px 10px;
+    border-radius: 5px;
+    margin: 6px 0;
+    border-left: 3px solid #60a5fa;
+    font-size: 12px;
+  }
+  .print-item-content .warn-box {
+    background: #fef3c7;
+    border-left: 3px solid var(--accent);
+    padding: 8px 10px;
+    border-radius: 5px;
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  .print-item-content .danger-box {
+    background: #fee2e2;
+    border-left: 3px solid var(--danger);
+    padding: 8px 10px;
+    border-radius: 5px;
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  .print-item-content .exam-box {
+    background: #dcfce7;
+    border-left: 3px solid var(--success);
+    padding: 8px 10px;
+    border-radius: 5px;
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  .print-item-content .exam-box::before {
+    content: "📝 기출: ";
+    font-weight: 700;
+    color: var(--success);
+  }
+  .print-item-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+    font-size: 11.5px;
+    background: white;
+  }
+  .print-item-content th,
+  .print-item-content td {
+    padding: 5px 7px;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  .print-item-content th {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+  }
+  .print-item-content tr:nth-child(even) { background: #f9fafb; }
+  .print-item-content ul,
+  .print-item-content ol { padding-left: 20px; margin: 6px 0; }
+  .print-item-content li { margin: 3px 0; }
+  .print-item-content b, .print-item-content strong { font-weight: 700; }
+  .print-item-content p { margin: 4px 0; }
+  /* 강조 (노란/빨간) */
+  .print-item-content .hl {
+    background: #fde68a !important;
+    color: #7c2d12 !important;
+    border-bottom: none;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .print-item-content .hl-duty {
+    background: #fecaca !important;
+    color: #991b1b !important;
+    border-bottom: none;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
   .print-pane-empty {
     padding: 40px 20px;
     text-align: center;
@@ -2370,7 +2493,8 @@ function getCleanHTML(el) {
   // 상호작용 관련 클래스 제거
   clone.classList.remove('starred', 'has-starred-descendant', 'show-as-context', 'target-flash');
   clone.removeAttribute('style');
-  return clone.innerHTML || clone.outerHTML;
+  // outerHTML 로 반환해서 원본 wrapper(article/h2/h3 등)까지 그대로 보존 → 스타일 유지
+  return clone.outerHTML;
 }
 
 function renderPrintPane() {
