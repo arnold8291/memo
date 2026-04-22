@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>약물학 1학기 중간고사 교수님 Hint 문제 이론정리</title>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --secondary: #3b82f6;
+    --accent: #f59e0b;
+    --danger: #dc2626;
+    --success: #059669;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --border: #e5e7eb;
+    --hl: #fde68a;
+    --hl-hidden: #d1d5db;
+    --star: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ===== 분할 뷰 레이아웃 ===== */
+  body.split-view { overflow: hidden; }
+  .app-root { display: flex; min-height: 100vh; width: 100%; }
+  .main-pane { flex: 1; min-width: 0; overflow-y: auto; height: 100vh; }
+  body:not(.split-view) .main-pane { height: auto; overflow-y: visible; }
+  .splitter {
+    display: none; width: 6px; height: 100vh; background: #e5e7eb; cursor: col-resize; flex-shrink: 0; position: relative; transition: background 0.15s; z-index: 50;
+  }
+  body.split-view .splitter { display: block; }
+  .splitter:hover, .splitter.dragging { background: var(--primary); }
+  .splitter::before {
+    content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 2px; height: 42px; background: #94a3b8; border-radius: 2px; box-shadow: 4px 0 0 #94a3b8, -4px 0 0 #94a3b8; transition: background 0.15s, box-shadow 0.15s;
+  }
+  .splitter:hover::before, .splitter.dragging::before { background: white; box-shadow: 4px 0 0 white, -4px 0 0 white; }
+  body.splitter-dragging { cursor: col-resize !important; user-select: none !important; }
+  body.splitter-dragging iframe, body.splitter-dragging .main-pane, body.splitter-dragging .print-pane { pointer-events: none; }
+
+  .print-pane {
+    display: none; width: 500px; min-width: 280px; height: 100vh; overflow-y: auto; background: white; box-shadow: -4px 0 16px rgba(0,0,0,0.1); flex-shrink: 0;
+  }
+  body.split-view .print-pane { display: block; }
+
+  @media (max-width: 900px) {
+    body.split-view .splitter { display: none; }
+    body.split-view .main-pane { display: block; height: auto; overflow-y: visible; }
+    .print-pane {
+      position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; max-width: none !important; min-width: 0; height: 100vh !important; z-index: 1500; border-left: none; box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    }
+    body.split-view { position: fixed; width: 100%; }
+    body.split-view .print-pane { animation: mobile-modal-slide-up 0.25s ease-out; }
+    @keyframes mobile-modal-slide-up {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+  header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 28px 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2); }
+  header h1 { margin: 0 0 8px 0; font-size: 28px; }
+  header .subtitle { opacity: 0.95; font-size: 15px; }
+
+  .toolbar { position: sticky; top: 0; z-index: 100; background: white; padding: 12px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-wrap: wrap; gap: 8px; border: 2px solid var(--primary); }
+  @media (max-width: 768px) { header h1 { font-size: 20px; } h2 { font-size: 18px; } h3 { font-size: 16px; } }
+
+  .toolbar button.icon-btn { padding: 0; width: 44px; height: 44px; font-size: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; background: white; border: 2px solid; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.15s; }
+  .toolbar button.icon-btn.btn-primary { border-color: var(--primary); color: var(--primary); }
+  .toolbar button.icon-btn.btn-secondary { border-color: var(--secondary); color: var(--secondary); }
+  .toolbar button.icon-btn.btn-success { border-color: var(--success); color: var(--success); }
+  .toolbar button.icon-btn.btn-danger { border-color: var(--danger); color: var(--danger); }
+  .toolbar button.icon-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .toolbar button.icon-btn.btn-primary:hover { background: #eff6ff; }
+  .toolbar button.icon-btn.btn-secondary:hover { background: #eff6ff; }
+  .toolbar button.icon-btn.btn-success:hover { background: #ecfdf5; }
+  .toolbar button.icon-btn.btn-danger:hover { background: #fef2f2; }
+  .toolbar button.icon-btn.active { background: currentColor !important; color: white !important; }
+  @media (max-width: 768px) { .toolbar button.icon-btn { width: 38px; height: 38px; font-size: 17px; } }
+
+  .icon-legend { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; }
+  .icon-legend b { color: var(--primary); display: block; margin-bottom: 6px; font-size: 13px; }
+  .icon-legend-items { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .icon-legend-items > span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #374151; }
+  .icon-box { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 5px; font-size: 14px; background: white; border: 2px solid; flex-shrink: 0; }
+  .icon-box.ic-primary { border-color: var(--primary); color: var(--primary); }
+  .icon-box.ic-secondary { border-color: var(--secondary); color: var(--secondary); }
+  .icon-box.ic-success { border-color: var(--success); color: var(--success); }
+  .icon-box.ic-danger { border-color: var(--danger); color: var(--danger); }
+
+  .hl { background: var(--hl); padding: 1px 4px; border-radius: 3px; cursor: pointer; font-weight: 700; color: #7c2d12; transition: all 0.2s; user-select: text; border-bottom: 2px solid #d97706; }
+  .hl:hover { background: #fcd34d; }
+  .hl.hidden { background: var(--hl-hidden); color: transparent; border-bottom-color: transparent; }
+  .hl.hidden:hover { background: #9ca3af; }
+  body.all-hidden .hl { background: var(--hl-hidden); color: transparent; border-bottom-color: transparent; }
+  
+  .hl-duty { background: #fecaca; padding: 1px 4px; border-radius: 3px; cursor: pointer; font-weight: 700; color: #991b1b; transition: all 0.2s; user-select: text; border-bottom: 2px solid #dc2626; }
+  .hl-duty:hover { background: #fca5a5; }
+  .hl-duty.hidden { background: var(--hl-hidden); color: transparent; border-bottom-color: transparent; }
+  body.all-hidden .hl-duty { background: var(--hl-hidden); color: transparent; border-bottom-color: transparent; }
+
+  .starrable { cursor: pointer; transition: background 0.2s; border-radius: 4px; position: relative; }
+  .starrable:hover { background: rgba(245, 158, 11, 0.05); }
+  p.starrable { padding: 2px 4px; }
+  p.starrable.starred { background: transparent; box-shadow: inset 4px 0 0 var(--star); padding-left: 12px; }
+  p.starrable.starred::before { content: "⭐ "; font-size: 14px; margin-right: 4px; }
+  li.starrable { padding: 2px 4px; }
+  li.starrable.starred { background: transparent; box-shadow: inset 3px 0 0 var(--star); padding-left: 10px; list-style-position: inside; }
+  li.starrable.starred::marker { color: var(--star); }
+  .sub.starrable.starred, .warn-box.starrable.starred, .danger-box.starrable.starred, .exam-box.starrable.starred { box-shadow: 0 0 0 3px var(--star); position: relative; }
+  .sub.starrable.starred::after, .warn-box.starrable.starred::after, .danger-box.starrable.starred::after, .exam-box.starrable.starred::after { content: "⭐"; position: absolute; top: 4px; right: 8px; font-size: 18px; background: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px var(--star); }
+  tr.starrable { cursor: pointer; }
+  tr.starrable:hover td { background: rgba(245, 158, 11, 0.05); }
+  tr.starrable.starred td { background: rgba(254, 243, 199, 0.6) !important; box-shadow: inset 0 3px 0 var(--star), inset 0 -3px 0 var(--star); }
+  tr.starrable.starred td:first-child { box-shadow: inset 4px 0 0 var(--star), inset 0 3px 0 var(--star), inset 0 -3px 0 var(--star); }
+  tr.starrable.starred td:first-child::before { content: "⭐ "; font-size: 12px; }
+  .article.starrable { padding-right: 40px; }
+  .article.starrable.starred { box-shadow: 0 0 0 3px var(--star); position: relative; }
+  .article.starrable.starred::after { content: "⭐"; position: absolute; top: 8px; right: 10px; font-size: 18px; background: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px var(--star); }
+  h2.starrable.starred, h3.starrable.starred, h4.starrable.starred { background: rgba(254, 243, 199, 0.7) !important; box-shadow: inset 4px 0 0 var(--star); padding-left: 14px; }
+  h2.starrable.starred::after, h3.starrable.starred::after, h4.starrable.starred::after { content: " ⭐"; }
+
+  section { background: var(--card); padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+  h2 { color: var(--primary); border-bottom: 3px solid var(--primary); padding-bottom: 8px; margin-top: 0; font-size: 22px; }
+  h3 { color: var(--secondary); border-left: 5px solid var(--secondary); padding-left: 10px; margin-top: 28px; font-size: 18px; }
+  h4 { color: #374151; margin-top: 20px; font-size: 15px; background: #f3f4f6; padding: 6px 10px; border-radius: 5px; }
+  .article { background: #f9fafb; padding: 14px 18px; border-radius: 8px; margin: 12px 0; border-left: 4px solid var(--secondary); }
+  .article-title { font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 8px; }
+  .sub { background: #eff6ff; padding: 10px 14px; border-radius: 6px; margin: 8px 0; border-left: 3px solid #60a5fa; font-size: 14px; }
+  .warn-box { background: #fef3c7; border-left: 4px solid var(--accent); padding: 10px 14px; border-radius: 6px; margin: 10px 0; font-size: 14px; }
+  .danger-box { background: #fee2e2; border-left: 4px solid var(--danger); padding: 10px 14px; border-radius: 6px; margin: 10px 0; font-size: 14px; }
+  .exam-box { background: #dcfce7; border-left: 4px solid var(--success); padding: 10px 14px; border-radius: 6px; margin: 10px 0; font-size: 14px; }
+  .exam-box::before { content: "📝 기출예상: "; font-weight: 700; color: var(--success); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; background: white; }
+  th, td { padding: 8px 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  th { background: var(--primary); color: white; font-weight: 700; }
+  tr:nth-child(even):not(.starred) { background: #f9fafb; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+
+  .toc { background: #f1f5f9; padding: 16px; border-radius: 8px; margin-bottom: 20px; }
+  .toc a { color: var(--primary); text-decoration: none; font-weight: 600; }
+  .toc a:hover { text-decoration: underline; }
+
+  .status-bar { font-size: 12px; color: #6b7280; padding: 8px; background: #f3f4f6; border-radius: 6px; margin-bottom: 8px; }
+  .tip { background: #dbeafe; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; border-left: 3px solid var(--secondary); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; padding: 10px; background: #f9fafb; border-radius: 6px; font-size: 12px; margin-bottom: 10px; }
+  .legend span { padding: 2px 8px; border-radius: 3px; font-weight: 700; }
+
+  body.starred-only .starrable:not(.starred):not(.has-starred-descendant):not(.show-as-context) { display: none !important; }
+  body.starred-only section.no-starred-descendant { display: none !important; }
+  body.starred-only p.show-as-context, body.starred-only div.show-as-context { display: block !important; }
+  body.starred-only li.show-as-context { display: list-item !important; }
+  body.starred-only tr.show-as-context { display: table-row !important; }
+  body.starred-only h2.show-as-context, body.starred-only h3.show-as-context, body.starred-only h4.show-as-context { display: block !important; }
+  body.starred-only .toc { display: none !important; }
+  body.starred-only .starred-only-notice { display: block !important; }
+  .starred-only-notice { display: none; background: #fef3c7; border: 2px solid #f59e0b; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px; font-weight: 700; color: #92400e; text-align: center; }
+  #starOnlyBtn.active { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); }
+
+  @keyframes flash { 0%, 100% { background: transparent; } 30%, 70% { background: rgba(245, 158, 11, 0.35); } }
+  .target-flash { animation: flash 1.6s ease-in-out; }
+
+  .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--primary); color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3); transition: all 0.3s ease; z-index: 999; opacity: 0; visibility: hidden; transform: translateY(20px); }
+  .scroll-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  .scroll-to-top:hover { background: #172554; transform: translateY(-2px) scale(1.05); }
+  body.split-view .scroll-to-top { display: none; }
+
+  .print-pane-header { position: sticky; top: 0; background: var(--primary); color: white; padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .print-pane-header h3 { margin: 0; color: white; border: none; padding: 0; font-size: 16px; flex: 1; min-width: 140px; }
+  .print-pane-header button { padding: 6px 12px; font-size: 13px; font-weight: 700; border-radius: 6px; border: 2px solid white; background: white; cursor: pointer; transition: all 0.15s; }
+  .print-pane-header button.act-return { color: var(--primary); }
+  .print-pane-header button.act-return:hover { background: #e0e7ff; }
+  .print-pane-header button.act-print { color: var(--success); border-color: var(--success); }
+  .print-pane-header button.act-print:hover { background: #ecfdf5; }
+  .print-pane-header button.act-close { color: var(--danger); border-color: var(--danger); }
+  .print-pane-header button.act-close:hover { background: #fef2f2; }
+
+  .print-pane-body { padding: 16px 20px 60px; }
+  .print-pane-title { font-size: 14px; color: #475569; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .print-item { margin-bottom: 14px; padding: 12px 14px; background: #fffbeb; border-left: 4px solid var(--star); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+  .print-item:hover { background: #fef3c7; transform: translateX(-3px); box-shadow: 2px 2px 8px rgba(0,0,0,0.08); }
+  .print-item-label { font-size: 11px; color: #92400e; font-weight: 700; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+  .print-item-label-left { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+  .print-item-label .jump-hint { font-size: 10px; color: var(--primary); font-weight: 600; opacity: 0; transition: opacity 0.15s; white-space: nowrap; }
+  .print-item:hover .jump-hint { opacity: 1; }
+  .print-item-unstar { border: 2px solid var(--danger); color: var(--danger); background: white; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-size: 13px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; transition: all 0.15s; padding: 0; line-height: 1; }
+  .print-item-unstar:hover { background: var(--danger); color: white; transform: scale(1.1); }
+  
+  @keyframes newly-added-flash { 0% { background: #fde68a; box-shadow: 0 0 0 3px var(--star), 0 4px 14px rgba(245, 158, 11, 0.45); transform: scale(1); } 50% { background: #fef3c7; box-shadow: 0 0 0 3px var(--star), 0 3px 10px rgba(245, 158, 11, 0.3); transform: scale(1.02); } 100% { background: #fffbeb; box-shadow: none; transform: scale(1); } }
+  .print-item.newly-added { animation: newly-added-flash 1.7s ease-out; }
+  .print-item-content { font-size: 13px; line-height: 1.6; color: var(--text); }
+  .print-item-content > *:first-child { margin-top: 0; }
+  .print-item-content > *:last-child { margin-bottom: 0; }
+  .print-item-content h2 { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 6px; margin: 0 0 10px 0; font-size: 17px; font-weight: 700; }
+  .print-item-content h3 { color: var(--secondary); border-left: 4px solid var(--secondary); padding-left: 8px; margin: 12px 0 8px; font-size: 15px; font-weight: 700; }
+  .print-item-content h4 { color: #374151; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; margin: 10px 0 6px; font-size: 13px; font-weight: 700; }
+  .print-item-content .article-title { font-weight: 700; color: var(--primary); font-size: 14px; margin-bottom: 6px; }
+  .print-item-content .article { background: #f9fafb; padding: 10px 12px; border-radius: 6px; margin: 8px 0; border-left: 3px solid var(--secondary); }
+  .print-item-content .sub { background: #eff6ff; padding: 8px 10px; border-radius: 5px; margin: 6px 0; border-left: 3px solid #60a5fa; font-size: 12px; }
+  .print-item-content .warn-box { background: #fef3c7; border-left: 3px solid var(--accent); padding: 8px 10px; border-radius: 5px; margin: 8px 0; font-size: 12px; }
+  .print-item-content .danger-box { background: #fee2e2; border-left: 3px solid var(--danger); padding: 8px 10px; border-radius: 5px; margin: 8px 0; font-size: 12px; }
+  .print-item-content .exam-box { background: #dcfce7; border-left: 3px solid var(--success); padding: 8px 10px; border-radius: 5px; margin: 8px 0; font-size: 12px; }
+  .print-item-content .exam-box::before { content: "📝 기출예상: "; font-weight: 700; color: var(--success); }
+  .print-item-content table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 11.5px; background: white; }
+  .print-item-content th, .print-item-content td { padding: 5px 7px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  .print-item-content th { background: var(--primary); color: white; font-weight: 700; }
+  .print-item-content tr:nth-child(even) { background: #f9fafb; }
+  .print-item-content ul, .print-item-content ol { padding-left: 20px; margin: 6px 0; }
+  .print-item-content li { margin: 3px 0; }
+  .print-item-content .hl { background: #fde68a !important; color: #7c2d12 !important; border-bottom: none; padding: 1px 4px; border-radius: 3px; font-weight: 700; }
+  .print-item-content .hl-duty { background: #fecaca !important; color: #991b1b !important; border-bottom: none; padding: 1px 4px; border-radius: 3px; font-weight: 700; }
+  .print-pane-empty { padding: 40px 20px; text-align: center; color: #6b7280; }
+
+  body.starred-only .main-pane header, body.starred-only .main-pane .toolbar, body.starred-only .main-pane .icon-legend, body.starred-only .main-pane .legend, body.starred-only .main-pane .tip, body.starred-only .main-pane .status-bar { display: block; }
+  body.starred-only .main-pane .toolbar { display: flex; }
+  body.starred-only .main-pane .legend { display: flex; }
+
+  @media print {
+    body.split-view .main-pane { display: none !important; }
+    body.split-view .print-pane { display: block !important; width: 100% !important; max-width: none !important; min-width: 0 !important; height: auto !important; border: none !important; box-shadow: none !important; overflow: visible !important; }
+    body.split-view .print-pane-header { display: none !important; }
+    body.split-view .print-pane-body { padding: 0 !important; }
+    body.split-view .print-item { page-break-inside: avoid; cursor: default !important; }
+    body.split-view .print-item:hover { transform: none !important; box-shadow: none !important; }
+    body.split-view .print-item .jump-hint { display: none !important; }
+    body.split-view .print-item .print-item-unstar { display: none !important; }
+    body { overflow: visible !important; }
+    .scroll-to-top { display: none !important; }
+    .toolbar { display: none !important; }
+    .splitter { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-root">
+<div class="main-pane" id="mainPane">
+<div class="container">
+
+<header>
+  <h1>📚 약물학 1학기 중간고사 교수님 Hint 문제 이론정리</h1>
+  <div class="subtitle">담당: 이병수 교수 | 2026학년도 1학기 예상문제 & 정답 총망라 [cite: 1, 2, 3]</div>
+</header>
+
+<div class="icon-legend">
+  <b>🎛 버튼 안내</b>
+  <div class="icon-legend-items">
+    <span><span class="icon-box ic-primary">🔘</span> 모든 강조 가리기/보이기</span>
+    <span><span class="icon-box ic-secondary">⭐</span> 별표한 것만 보기</span>
+    <span><span class="icon-box ic-success">📋</span> 별표 내용 분할화면 보기·인쇄</span>
+    <span><span class="icon-box ic-danger">🗑</span> 모든 별표 지우기</span>
+    <span><span class="icon-box ic-primary">🖨</span> 전체 인쇄</span>
+  </div>
+</div>
+
+<div class="toolbar">
+  <button class="icon-btn btn-primary" onclick="toggleAllHighlights()" title="모든 강조 가리기/보이기" aria-label="모든 강조 가리기/보이기">🔘</button>
+  <button class="icon-btn btn-secondary" onclick="toggleStarredOnly()" id="starOnlyBtn" title="별표한 것만 보기" aria-label="별표한 것만 보기">⭐</button>
+  <button class="icon-btn btn-success" onclick="openPrintPane()" title="별표 내용 분할화면 보기·인쇄" aria-label="별표 내용 분할화면">📋</button>
+  <button class="icon-btn btn-danger" onclick="clearAllStars()" title="모든 별표 지우기" aria-label="모든 별표 지우기">🗑</button>
+  <button class="icon-btn btn-primary" onclick="window.print()" title="전체 인쇄" aria-label="전체 인쇄">🖨</button>
+</div>
+
+<div class="legend">
+  <span style="background:#fde68a; color:#7c2d12;">노란색</span> = 핵심 개념·수용체·약물명 등 (명사 위주)
+  <span style="background:#fecaca; color:#991b1b;">빨간색</span> = 금기·부작용·경고 사항
+  <span style="background:rgba(245,158,11,0.15); box-shadow:inset 3px 0 0 #f59e0b; padding-left:8px;">⭐ 별표</span> = 클릭으로 표시/제거
+</div>
+
+<div class="tip">
+  💡 <b>사용법</b>: 색상 글자 클릭 = 가림/보임 (암기용) | <b>요소 클릭</b>으로 ⭐별표 토글 (조문 박스 클릭 시 내부 모두 함께 표시) | 📋 버튼으로 오른쪽 별표 목록 보기·인쇄 | 오른쪽 ✕ = 항목 통째 해제 / 본문에서 개별 클릭 = 해당 문장만 해제 | <b>분할 막대 드래그</b>로 창 크기 조절
+</div>
+
+<div class="status-bar" id="statusBar">준비중...</div>
+
+<div class="starred-only-notice">
+  ⭐ <b>별표한 항목만 표시 중</b> — 별표가 없는 내용은 숨겨졌습니다. 다시 버튼을 눌러 전체 보기로 돌아갈 수 있습니다.
+</div>
+
+<div class="toc">
+  <b>📑 목차</b>
+  <ul>
+    <li><a href="#ch1">Ch1~Ch2 약력학 (용량반응, 길항작용, 수용체 등)</a></li>
+    <li><a href="#ch2">Ch3~Ch5 약동학 (약동학 지표, CYP 효소 등)</a></li>
+    <li><a href="#ch3">Ch6~Ch10 자율신경약리학 (교감·부교감신경계, 수용체 등)</a></li>
+    <li><a href="#ch4">Ch11~Ch12 심혈관약리학 (협심증, 혈관확장, RAAS 등)</a></li>
+  </ul>
+</div>
+
+<section id="ch1">
+  <h2 class="starrable">🧪 Ch1~Ch2 약력학 [cite: 4, 14]</h2>
+
+  <div class="exam-box starrable">기출빈출: 19-96, 20-96, 22-96, 23-96, 24-96, 25-96 [cite: 16, 42]</div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 1. 용량반응곡선 해석하기 [cite: 6]</div>
+    <p class="starrable"><span class="hl">용량-반응 곡선(Dose-Response Curve)</span>은 약물의 용량(log scale)과 반응의 관계를 나타내는 S자형 곡선이다. [cite: 7]</p>
+    
+    <h4 class="starrable">핵심 개념 [cite: 8, 17]</h4>
+    <table class="starrable">
+      <thead><tr><th>개념</th><th>정의</th><th>의미</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td><span class="hl">Emax</span></td><td>약물에 의해 발생할 수 있는 최대 효과 [cite: 9, 18]</td><td><span class="hl">효능(Efficacy)</span>의 지표 [cite: 9, 18]</td></tr>
+        <tr class="starrable"><td><span class="hl">EC50</span></td><td>최대 약물효과의 50% 발생에 필요한 농도 [cite: 9, 18]</td><td><span class="hl">효력(Potency)</span>의 지표 [cite: 9, 18]</td></tr>
+        <tr class="starrable"><td><span class="hl">Bmax</span></td><td>수용체에 결합하는 약물의 총농도 [cite: 9, 18]</td><td>수용체 총 수 [cite: 9, 18]</td></tr>
+        <tr class="starrable"><td><span class="hl">Kd</span></td><td>50% 최대결합이 일어나는 약물 농도 [cite: 9, 18]</td><td>평형해리상수 [cite: 9, 18]</td></tr>
+      </tbody>
+    </table>
+
+    <h4 class="starrable">효능(Efficacy) vs 효력(Potency) 구분 [cite: 10, 19]</h4>
+    <table class="starrable">
+      <thead><tr><th>구분</th><th>효능 (Efficacy)</th><th>효력 (Potency)</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td>의미</td><td>얼마나 큰 최대 효과 [cite: 11, 21]</td><td>얼마나 적은 용량으로 효과 [cite: 11, 21]</td></tr>
+        <tr class="starrable"><td>지표</td><td><span class="hl">Emax</span> [cite: 11, 21]</td><td><span class="hl">EC50</span> (낮을수록 강함) [cite: 11, 21]</td></tr>
+        <tr class="starrable"><td>그래프</td><td>y축 높이가 높을수록 큼 [cite: 11, 21]</td><td>x축에서 왼쪽일수록 강함 [cite: 11, 21]</td></tr>
+      </tbody>
+    </table>
+    <div class="sub starrable">
+      암기법: 능력 = 양/질 = 최고치/좌우 = y축 높이/x축 위치 [cite: 12, 20]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 2 & 3. 길항작용의 종류와 용량효과 곡선 변화 [cite: 35, 39]</div>
+    <table class="starrable">
+      <thead><tr><th>종류</th><th>특성 및 예시</th><th>곡선 및 Emax 변화</th></tr></thead>
+      <tbody>
+        <tr class="starrable">
+          <td><span class="hl">경쟁적 길항작용</span><br>(Competitive)</td>
+          <td>같은 결합부위에서 경쟁, 가역적, 효능약 고농도로 <span class="hl">극복 가능</span>. 예: Atropine vs ACh [cite: 37, 44]</td>
+          <td>곡선 <span class="hl">오른쪽 이동</span> (Rightward shift), Emax <span class="hl">유지</span> [cite: 40, 44, 60]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">비경쟁적 길항작용</span><br>(Noncompetitive)</td>
+          <td>비가역적(공유결합). 효능약 고농도로도 <span class="hl-duty">극복 불가</span>. 예: Phenoxybenzamine [cite: 37, 44, 46, 47]</td>
+          <td>Emax <span class="hl-duty">감소</span>, 극복 불가 (공유결합) [cite: 40, 44, 60]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">부분효능약</span><br>(Partial Agonist)</td>
+          <td>완전효능약과 경쟁 시 효과 억제 [cite: 40]</td>
+          <td>자체 Emax가 완전효능약보다 낮음 [cite: 40]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">화학적 길항작용</span></td>
+          <td>수용체가 관여하지 않음! 약물 간 직접 화학반응. 예: Protamine(+) + Heparin(-) [cite: 37]</td>
+          <td>수용체 무관 곡선 형태 예측 어려움 [cite: 40]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">생리적 길항작용</span></td>
+          <td>서로 다른 수용체 효과기계에 작용하지만 결과가 서로 길항. 예: Glucocorticoid(혈당↑) vs Insulin(혈당↓) [cite: 37]</td>
+          <td>기전에 따라 다름 [cite: 40]</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warn-box starrable">
+      <span class="hl">비경쟁적 길항약</span>의 작용 지속시간은 수용체 분자의 전환 속도에 의존적이다. [cite: 44, 48]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 4. 리간드의 종류와 수용체의 결합부위 [cite: 62]</div>
+    <table class="starrable">
+      <thead><tr><th>리간드 종류</th><th>결합부위</th><th>작용</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td><span class="hl">효능약 (Agonist)</span></td><td>정위(Orthosteric) 부위 [cite: 64]</td><td>수용체 활성화 (Ra에 결합) [cite: 64]</td></tr>
+        <tr class="starrable"><td><span class="hl">길항약 (Antagonist)</span></td><td>정위(Orthosteric) 부위 [cite: 64]</td><td>수용체 활성화 없이 다른 분자 결합 방해 [cite: 64]</td></tr>
+        <tr class="starrable"><td><span class="hl">역효능약 (Inverse Agonist)</span></td><td>정위(Orthosteric) 부위 [cite: 64]</td><td>Ri에 친화도 높음 → 기본구성활성 감소 [cite: 64]</td></tr>
+        <tr class="starrable"><td><span class="hl">알로스테릭 작용제</span></td><td>이위(Allosteric) 부위 [cite: 64]</td><td>효능약 결합 방해 없이 효과 증가/억제 [cite: 64]</td></tr>
+        <tr class="starrable"><td><span class="hl">불활성 결합부위</span></td><td>비기능적 부위 [cite: 64]</td><td>결합은 하지만 기능 변화 없음 [cite: 64]</td></tr>
+      </tbody>
+    </table>
+    <div class="sub starrable">
+      수용체 작용 조건: ①리간드에 대해 선택적 ②결합에 의해 기능 변화 [cite: 85]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 5. 효능약/역효능약의 의미와 특성 [cite: 90]</div>
+    <p class="starrable">수용체 상태 모델: <span class="hl">Ra</span> = 활성형 수용체 (Active) / <span class="hl">Ri</span> = 비활성형 수용체 (Inactive) [cite: 94]</p>
+    <p class="starrable">기본구성활성 (Constitutive Activity): 약물 없이도 Ra Ri 비율은 일정함 [cite: 95]</p>
+    <table class="starrable">
+      <thead><tr><th>약물 종류</th><th>작용 기전</th><th>핵심 포인트</th></tr></thead>
+      <tbody>
+        <tr class="starrable">
+          <td><span class="hl">완전효능약 (Full Agonist)</span></td>
+          <td>Ra에 결합 → 모든 수용체를 Ra-D로 전환 [cite: 91, 97]</td>
+          <td>Emax 최대치까지 활성화 [cite: 91, 97]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">부분효능약 (Partial Agonist)</span></td>
+          <td>Ra에 결합하지만 내재적 활성(efficacy)이 낮음 [cite: 91, 97]</td>
+          <td>친화력 문제(X), <span class="hl">내재적 활성 문제(○)</span>. 아무리 높은 농도로도 완전효능약만큼 효과 못냄 [cite: 91, 97]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">역효능약 (Inverse Agonist)</span></td>
+          <td>Ra보다 <span class="hl">Ri에 친화도가 큼</span> → Ri-D 비율 높임 [cite: 91, 97, 109]</td>
+          <td><span class="hl-duty">기본구성활성을 감소시킴</span> (효능약과 반대 효과) [cite: 91, 97, 114]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">길항약 (Antagonist)</span></td>
+          <td>Ra와 Ri에 동일한 친화도로 결합 [cite: 91, 97]</td>
+          <td>중성 길항작용 수용체 활성화 없이 다른 분자 결합 방해 [cite: 91, 97]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 6~7. 수용체 종류별 특징과 약물 [cite: 117]</div>
+    <table class="starrable">
+      <thead><tr><th>수용체 유형</th><th>위치</th><th>리간드 특성 및 작용 기전</th><th>반응 속도</th><th>대표 예시</th></tr></thead>
+      <tbody>
+        <tr class="starrable">
+          <td><span class="hl">이온통로 (이온채널)</span></td><td>세포막 관통 [cite: 116]</td><td>ACH, GABA 등 / 이온 유출입 [cite: 116, 154]</td><td><span class="hl">ms (가장 빠름)</span> [cite: 116, 154]</td><td>Nicotinic AChR, GABA_A [cite: 116, 154]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">GPCR (G단백연결)</span></td><td>세포막 관통 [cite: 116]</td><td>매우 다양 / G단백질 2차전달물질 [cite: 116, 154]</td><td><span class="hl">초</span> [cite: 116, 154]</td><td>Muscarinic AChR, a,b-Adr R [cite: 116, 154]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">효소연결 (RTK)</span></td><td>세포막 관통 [cite: 116]</td><td>인슐린, GF / 이합체 인산화 [cite: 116, 154]</td><td><span class="hl">분~시간</span> [cite: 116, 154]</td><td>Insulin R, Growth Factor R [cite: 116, 154]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">세포내 수용체</span></td><td>세포질 안 [cite: 116]</td><td>높은 지용성 / 전사 조절 [cite: 116, 154]</td><td><span class="hl">수 시간~일</span> [cite: 116, 154]</td><td>Steroid R [cite: 116, 154]</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="sub starrable">
+      반응 속도 순서 암기: <b>이온통로(ms) > GPCR(초) > RTK(분~시간) > 세포내(시간~일)</b> [cite: 119, 155]
+    </div>
+
+    <h4 class="starrable">GPCR의 G단백질별 효과기전 [cite: 120]</h4>
+    <table class="starrable">
+      <thead><tr><th>수용체</th><th>G단백질</th><th>세포내 변화</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td><span class="hl">α1</span></td><td>Gq/11</td><td>Phospholipase C → <span class="hl">↑ IP3, DAG, Ca2+</span> [cite: 121]</td></tr>
+        <tr class="starrable"><td><span class="hl">α2</span></td><td>Gi/o</td><td>Adenylyl cyclase 억제 → <span class="hl-duty">↓ CAMP</span> [cite: 121]</td></tr>
+        <tr class="starrable"><td><span class="hl">β1, β2, β3</span></td><td>Gs</td><td>Adenylyl cyclase 활성화 → <span class="hl">↑ CAMP</span> [cite: 121]</td></tr>
+        <tr class="starrable"><td><span class="hl">M1, M3, M5</span></td><td>Gq/11</td><td>Phospholipase C → <span class="hl">↑ IP3, DAG</span> [cite: 121]</td></tr>
+        <tr class="starrable"><td><span class="hl">M2, M4</span></td><td>Gi/o</td><td>Adenylyl cyclase 억제 → <span class="hl-duty">↓ CAMP, K+통로 개방</span> [cite: 121]</td></tr>
+        <tr class="starrable"><td><span class="hl">D1</span> / <span class="hl">D2</span></td><td>Gs / Gi/o</td><td><span class="hl">↑ cAMP</span> (혈관확장) / <span class="hl-duty">↓ CAMP</span> [cite: 121]</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="ch2">
+  <h2 class="starrable">💊 Ch3~Ch5 약동학 [cite: 4]</h2>
+
+  <div class="article starrable">
+    <div class="article-title">문제 8. 약동학적 용어 [cite: 157]</div>
+    <table class="starrable">
+      <thead><tr><th>용어</th><th>정의</th><th>핵심 포인트</th></tr></thead>
+      <tbody>
+        <tr class="starrable">
+          <td><span class="hl">생체이용률 (Bioavailability, F)</span></td>
+          <td>전신 순환에 도달한 대사되지 않은 약물 분획 [cite: 158]</td>
+          <td>IV=100% (정의상), PO < 100% [cite: 158]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">초회통과효과 (First-Pass Effect)</span></td>
+          <td>약물이 장관벽·문맥혈→간을 거치면서 전신 순환 전에 대사되는 과정 [cite: 158]</td>
+          <td><span class="hl">설하, 경피, 직장 투여</span>로 회피 가능 [cite: 158]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">청소율 (Clearance, CL)</span></td>
+          <td>약물을 체내에서 제거할 수 있는 능력 [cite: 158]</td>
+          <td>CL = 제거 속도 / 농도(C) [cite: 158]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">치료지수 (Therapeutic Index)</span></td>
+          <td>약물의 안전성 지표 [cite: 158]</td>
+          <td>TI = TD50 / ED50. <span class="hl">TI가 클수록 안전</span> [cite: 158, 179, 180]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">치료 범위 (Therapeutic Window)</span></td>
+          <td>효과~독성 사이의 농도 범위 [cite: 158]</td>
+          <td>좁은 범위: <span class="hl-duty">Warfarin</span> / 넓은 범위: Penicillin [cite: 158]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">분포용적 (Vd)</span></td>
+          <td>약물을 함유하는 체내 겉보기 공간 [cite: 158]</td>
+          <td>Vd = 체내 약물 양 / 혈장 농도 [cite: 158]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">반감기 (t1/2)</span></td>
+          <td>혈중 약물 농도가 절반으로 감소하는 시간 [cite: 158]</td>
+          <td>약물 완전 제거: 4~5 반감기 [cite: 158]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">부하용량</span></td>
+          <td>반감기 긴 약물의 빠른 항정상태 도달을 위함 [cite: 158]</td>
+          <td>부하용량 = Vd × 유효농도 [cite: 158]</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 class="starrable">비연속적 용량-효과 곡선 (Quantal effect) [cite: 159, 161]</h4>
+    <ul>
+      <li class="starrable"><span class="hl">ED50 (중간유효용량)</span>: 50%의 피험자에게 특정 치료효과를 나타내는 용량 [cite: 162, 175]</li>
+      <li class="starrable"><span class="hl">TD50 (중간독성용량)</span>: 50%의 동물에서 특정 독성 효과를 나타내는 용량 [cite: 162, 176]</li>
+      <li class="starrable"><span class="hl">LD50 (중간치사용량)</span>: 50%의 동물에서 사망을 일으키는 용량 [cite: 162, 176]</li>
+    </ul>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 9. CYP P450 효소 억제약/유도약 [cite: 184]</div>
+    <table class="starrable">
+      <thead><tr><th>구분</th><th>약물 예시</th><th>기전/영향</th></tr></thead>
+      <tbody>
+        <tr class="starrable">
+          <td rowspan="2"><span class="hl-duty">억제약</span> [cite: 185]</td>
+          <td><span class="hl">Cimetidine, Ketoconazole</span> [cite: 186]</td>
+          <td>P450 헴의 철에 강력 결합 (Imidazole기). 영향을 받는 약물(warfarin, diazepam 등)의 <span class="hl-duty">대사 감소</span> [cite: 186]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">Erythromycin</span>, <span class="hl">자몽주스 (Grapefruit)</span> [cite: 186]</td>
+          <td>장점막 CYP3A4 억제 → 생체이용률 <span class="hl">증가</span> [cite: 186]</td>
+        </tr>
+        <tr class="starrable">
+          <td rowspan="3"><span class="hl">유도약</span> [cite: 187]</td>
+          <td><span class="hl">Phenobarbital</span> (Barbiturates) [cite: 188]</td>
+          <td>효소 유도 → 영향을 받는 약물(warfarin, phenytoin 등)의 대사 증가 [cite: 188]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">Rifampin</span> [cite: 188]</td>
+          <td>강력 유도 → warfarin, OC, metoprolol 등 대사 증가 [cite: 188]</td>
+        </tr>
+        <tr class="starrable">
+          <td><span class="hl">St. John's wort</span> [cite: 188]</td>
+          <td>OTC 생약. CYP3A4 유도 → alprazolam, cyclosporine 대사 증가 [cite: 188]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="ch3">
+  <h2 class="starrable">🧠 Ch6~Ch10 자율신경약리학 [cite: 4]</h2>
+
+  <div class="article starrable">
+    <div class="article-title">문제 11. 교감/부교감 자극 시 장기별 효능 [cite: 196]</div>
+    <table class="starrable">
+      <thead><tr><th>기관</th><th>교감신경 효과 (수용체)</th><th>부교감신경 효과 (수용체)</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td>심장</td><td>수축력↑, 심박수↑ (<span class="hl">β1</span>) [cite: 197]</td><td>심박수↓, 수축력↓ (<span class="hl">M2</span>) [cite: 197]</td></tr>
+        <tr class="starrable"><td>폐(기관지)</td><td>기관지 이완 (<span class="hl">β2</span>) [cite: 197]</td><td><span class="hl-duty">기관지 수축</span> (<span class="hl">M3</span>) [cite: 197]</td></tr>
+        <tr class="starrable"><td>방광(배뇨근)</td><td>이완 (<span class="hl">β3</span>) [cite: 197]</td><td>수축 → 배뇨촉진 (<span class="hl">M3</span>) [cite: 197]</td></tr>
+        <tr class="starrable"><td>눈(동공)</td><td>동공산대 / 산대근 수축 (<span class="hl">α1</span>) [cite: 197]</td><td>동공축소(축동) / 윤장근 수축 (<span class="hl">M3</span>) [cite: 197]</td></tr>
+        <tr class="starrable"><td>소화관</td><td>운동↓, 괄약근 수축 [cite: 197]</td><td>운동↑, 괄약근 이완 (<span class="hl">M3</span>) [cite: 197]</td></tr>
+        <tr class="starrable"><td>혈관</td><td>수축 (<span class="hl">α1</span>) [cite: 197]</td><td>내피 NO 유리 → 확장 (<span class="hl">M3</span>) [cite: 197]</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box starrable">
+      <b>핵심 예외:</b><br>
+      ① <span class="hl">침샘</span>: 교감+부교감 모두 분비 촉진 (길항적 아님!) [cite: 198]<br>
+      ② <span class="hl">땀샘</span>: 교감신경만 지배하지만 예외적으로 <span class="hl">ACh 분비 (M수용체)</span> [cite: 198]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 12 & 14. 자율신경 전달물질과 카테콜아민 합성 [cite: 200, 280]</div>
+    <table class="starrable">
+      <thead><tr><th>구분</th><th>절전신경</th><th>절후신경</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td>교감신경 (일반)</td><td>ACh → N수용체 [cite: 202]</td><td><span class="hl">NE</span> → α, β 수용체 [cite: 202]</td></tr>
+        <tr class="starrable"><td>교감신경 (땀샘 예외)</td><td>ACh → N수용체 [cite: 202]</td><td><span class="hl">ACh</span> → M수용체 [cite: 202]</td></tr>
+        <tr class="starrable"><td>부교감신경</td><td>ACh → N수용체 [cite: 202]</td><td><span class="hl">ACh</span> → M수용체 [cite: 202]</td></tr>
+        <tr class="starrable"><td>부신수질</td><td>ACh → N수용체 [cite: 202]</td><td>NE, <span class="hl">Epi</span> 분비 (호르몬) [cite: 202]</td></tr>
+      </tbody>
+    </table>
+
+    <h4 class="starrable">카테콜아민 합성 경로 (초중요!) [cite: 281]</h4>
+    <ul>
+      <li class="starrable">1단계: Tyrosine → DOPA (효소: Tyrosine hydroxylase, <span class="hl-duty">속도제한단계</span>, 신경세포질) [cite: 282]</li>
+      <li class="starrable">2단계: DOPA → Dopamine (신경세포질) [cite: 282]</li>
+      <li class="starrable">3단계: Dopamine → Norepinephrine (소포체 내) [cite: 282]</li>
+      <li class="starrable">4단계: NE → Epinephrine (효소: PNMT, <span class="hl">부신수질에서만!</span>) [cite: 282, 283]</li>
+    </ul>
+    <p class="starrable">교감신경 말단 최종 생성물 = <span class="hl">Norepinephrine (NE)</span> [cite: 283, 293]</p>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 13 & 15. 아드레날린 시냅스 약물 및 수용체 [cite: 207, 320]</div>
+    <table class="starrable">
+      <thead><tr><th>약물</th><th>작용 타겟 및 효과</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td><span class="hl">Metyrosine</span></td><td>Tyrosine hydroxylase 억제 → NE 고갈 [cite: 208]</td></tr>
+        <tr class="starrable"><td><span class="hl">Reserpine</span></td><td>VMAT 억제 → DA 소포체 유입 억제 → NE 고갈 [cite: 208]</td></tr>
+        <tr class="starrable"><td><span class="hl">Bretylium, Guanethidine</span></td><td>신경전달물질 방출 차단 [cite: 208]</td></tr>
+        <tr class="starrable"><td><span class="hl">Cocaine, TCA</span></td><td>NET(재흡수수송체) 억제 → 시냅스 NE 활성 증가 [cite: 208]</td></tr>
+        <tr class="starrable"><td><span class="hl">Amphetamine</span></td><td>NET 기질 + 역수송 → 소포 NE 대치하여 방출↑ [cite: 208]</td></tr>
+      </tbody>
+    </table>
+
+    <h4 class="starrable">신경절 차단약 [cite: 211]</h4>
+    <p class="starrable">교감/부교감 자율신경절의 니코틴(N)수용체 경쟁적 차단[cite: 212]. 효과기 수용체 차단 아님. 임상사용 드묾. [cite: 221, 222]<br>
+    - 주요 약물: Hexamethonium, Mecamylamine [cite: 216, 217]<br>
+    - 부작용: 눈 조절마비, 체위저혈압, 빈맥, 위산억제, 변비 등 [cite: 220]</p>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 16 & 19. 콜린에스터라제(AChE) 억제약과 유기인농약 [cite: 364, 399]</div>
+    <table class="starrable">
+      <thead><tr><th>분류</th><th>약물 예시</th><th>결합 방식 및 특성</th></tr></thead>
+      <tbody>
+        <tr class="starrable">
+          <td>알코올류</td><td><span class="hl">Edrophonium</span> [cite: 366]</td><td>수소결합(가역적), 매우 빠름, 2~10분 지속 [cite: 366, 369]</td>
+        </tr>
+        <tr class="starrable">
+          <td>Carbamate (3급)</td><td><span class="hl">Physostigmine, Rivastigmine</span> [cite: 366]</td><td>Carbamylation(공유결합), BBB통과 가능(중추작용) [cite: 366, 369, 372]</td>
+        </tr>
+        <tr class="starrable">
+          <td>Carbamate (4급)</td><td><span class="hl">Neostigmine, Pyridostigmine</span> [cite: 366]</td><td>Carbamylation, BBB통과 불가(말초작용) [cite: 366, 369, 372]</td>
+        </tr>
+        <tr class="starrable">
+          <td>Organophosphate<br>(유기인농약)</td><td><span class="hl-duty">Echothiophate, Sarin(신경가스)</span> [cite: 366]</td><td>인산화(비가역적). <span class="hl-duty">노화(aging)</span> 발생 시 영구적 [cite: 366, 369, 402]</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="danger-box starrable">
+      <b>유기인(Organophosphate) 중독 치료:</b> [cite: 400, 403]<br>
+      1. <span class="hl">Atropine (3급아민)</span>: 무스카린 증상(SLUDGE+BB) 억제 (경쟁적 차단). 4급은 중추 통과 못하므로 필수. [cite: 404, 427, 428, 429]<br>
+      2. <span class="hl">Pralidoxime (PAM)</span>: AChE 재활성화. 단, <span class="hl-duty">노화(aging) 전에만 효과!</span> [cite: 404, 417]<br>
+      3. Benzodiazepine (발작 억제) [cite: 404]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 20. 아트로핀(Atropine) 기전과 증상 [cite: 442]</div>
+    <p class="starrable">기전: 가역적 M수용체 차단제(역효능약). 3급아민 알칼로이드로 <span class="hl">BBB 통과 가능</span>. [cite: 444, 445]</p>
+    <ul>
+      <li class="starrable">낮은 치료용량: M1 자가수용체 차단 → ACh 유리 억제 차단 → <span class="hl">서맥(bradycardia)</span> [cite: 447]</li>
+      <li class="starrable">높은 치료용량: SA node M2 직접 차단 → <span class="hl">빈맥(tachycardia)</span> [cite: 447]</li>
+    </ul>
+    <div class="sub starrable">
+      <b>아트로핀 중독 증상 암기법: "건·확·빠·홍·미"</b> [cite: 448]<br>
+      건(구강건조), 확(동공확대/산동), 빠(빠른맥/빈맥), 홍(홍조/체온상승), 미(초조/섬망) [cite: 449]<br>
+      치료: <span class="hl">Physostigmine</span> (3급 AChE 억제약으로 역전) [cite: 450]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 21 & 22. 수용체 조절과 베타수용체 [cite: 453, 464]</div>
+    <p class="starrable"><span class="hl">동종 탈민감(Homologous)</span>: 활성화된 표적수용체만 반응성 소실. 기전: GRK 수용체 인산화 → β-Arrestin 결합 → 세포내 이동(내재화) [cite: 456, 457]<br>
+    <span class="hl">이종 탈민감(Heterologous)</span>: 표적 외 다른 수용체도 소실 (PKA, PKC 등 인산화 피드백) [cite: 456]</p>
+
+    <h4 class="starrable">β수용체 차단약 임상 독성 [cite: 468]</h4>
+    <ul>
+      <li class="starrable">서맥 (보편적 심장작용) [cite: 469]</li>
+      <li class="starrable">기도폐색 악화: 비선택적 β2 차단 → <span class="hl-duty">천식 악화</span> [cite: 469]</li>
+      <li class="starrable">저혈당 경고 차단: 빈맥 등 경고증상 차단으로 <span class="hl-duty">당뇨환자 주의</span> [cite: 469]</li>
+      <li class="starrable">급성 중단 위험: 갑자기 중단 시 수용체 상향조절로 인한 심근경색(MI) 촉발 가능 [cite: 461, 469]</li>
+    </ul>
+  </div>
+</section>
+
+<section id="ch4">
+  <h2 class="starrable">❤️ Ch11~Ch12 심혈관약리학 [cite: 4]</h2>
+
+  <div class="article starrable">
+    <div class="article-title">문제 23. 협심증 치료약물 [cite: 471]</div>
+    <table class="starrable">
+      <thead><tr><th>항목</th><th>Nitrates (질산염)</th><th>CCB (칼슘통로차단제)</th><th>β 차단약</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td>심박수</td><td>반사빈맥(↑) [cite: 473]</td><td>DHP:빈맥 / V,D:서맥 [cite: 473]</td><td><span class="hl-duty">감소(↓)</span> [cite: 473]</td></tr>
+        <tr class="starrable"><td>수축력 / 전부하 / 후부하</td><td>전부하 <span class="hl">감소</span> (주작용) [cite: 473]</td><td>후부하 <span class="hl">감소</span> [cite: 473]</td><td>수축력 감소 [cite: 473]</td></tr>
+        <tr class="starrable"><td>이형협심증(혈관연축성)</td><td>○ 유용 [cite: 473, 475]</td><td>○ 유용 [cite: 473, 475]</td><td><span class="hl-duty">X (금기!)</span> [cite: 473, 475]</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box starrable">
+      <b>위험한 병용:</b><br>
+      ① β차단약 + Verapamil/Diltiazem → <span class="hl-duty">방실차단, 심부전</span> [cite: 476]<br>
+      ② Nitrates + Sildenafil (PDE5i) → <span class="hl-duty">과도한 저혈압</span> [cite: 476]<br>
+      ③ Verapamil + Digoxin → <span class="hl-duty">Digoxin 혈중농도 증가</span> [cite: 476]
+    </div>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 24. 혈관확장약 기전 [cite: 478]</div>
+    <table class="starrable">
+      <thead><tr><th>기전</th><th>경로 및 관련 약물</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td><span class="hl">cGMP 증가</span></td><td>NO → sGC 활성 → cGMP↑ → 이완 (<span class="hl">Nitrates, Nitroprusside</span>) [cite: 480, 483, 484]</td></tr>
+        <tr class="starrable"><td><span class="hl">세포내 Ca2+ 감소</span></td><td>Ca2+ 통로 차단 → MLCK 활성↓ (<span class="hl">CCB: Verapamil, DHP계</span>) [cite: 480, 485, 486]</td></tr>
+        <tr class="starrable"><td><span class="hl">세포막 안정화</span></td><td>K+ 투과↑ → 막 안정화/탈분극 방지 (<span class="hl">Minoxidil</span> 등) [cite: 480, 487]</td></tr>
+        <tr class="starrable"><td><span class="hl">cAMP 증가</span></td><td>cAMP↑ → MLCK 불활성화 (<span class="hl">β2 효능약, Fenoldopam(D1)</span>) [cite: 480, 488]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">문제 25. RAAS 억제약 [cite: 539]</div>
+    <p class="starrable">경로: Angiotensinogen (Renin) → Ang I (ACE) → Ang II. <span class="hl">Ang II</span>는 가장 강력한 혈관수축물질 [cite: 541, 542]<br>
+    ACE는 kininase II로도 불리며 <span class="hl">Bradykinin 불활성화</span>를 담당. [cite: 543]</p>
+    
+    <h4 class="starrable">ACEI vs ARB 비교 [cite: 546]</h4>
+    <table class="starrable">
+      <thead><tr><th>항목</th><th>ACEI (Captopril 등)</th><th>ARB (Losartan 등)</th></tr></thead>
+      <tbody>
+        <tr class="starrable"><td>작용점</td><td>ACE 억제 [cite: 547]</td><td>AT1 수용체 차단 [cite: 547]</td></tr>
+        <tr class="starrable"><td>Bradykinin</td><td><span class="hl">축적</span> (마른 기침, 혈관부종 원인) [cite: 547, 549]</td><td>무관 (기침 드묾) [cite: 547]</td></tr>
+        <tr class="starrable"><td>임신</td><td><span class="hl-duty">금기 (태아 기형 등)</span> [cite: 547, 549]</td><td><span class="hl-duty">금기</span> [cite: 547]</td></tr>
+        <tr class="starrable"><td>병용 금기</td><td colspan="2"><span class="hl-duty">ACEI + ARB (또는 Aliskiren) 병용 비권고 (독성 문제)</span> [cite: 550]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+</div>
+</div>
+
+<div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="왼쪽/오른쪽 창 크기 조절" tabindex="0"></div>
+
+<aside class="print-pane" id="printPane" aria-hidden="true">
+  <div class="print-pane-header">
+    <h3>⭐ 별표 내용 보기</h3>
+    <button class="act-return" onclick="returnToLastScroll()" title="인쇄 창 열기 전 위치로 이동">↩ 이전 위치</button>
+    <button class="act-print" onclick="printPaneContent()" title="이 패널 내용 인쇄">🖨 인쇄</button>
+    <button class="act-close" onclick="closePrintPane()" title="닫기">✕ 닫기</button>
+  </div>
+  <div class="print-pane-body" id="printPaneBody"></div>
+</aside>
+</div><button class="scroll-to-top" id="scrollToTop" title="맨위로 가기">↑</button>
+
+<script>
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('hl') || e.target.classList.contains('hl-duty')) {
+    e.stopPropagation();
+    e.target.classList.toggle('hidden');
+    saveState();
+  }
+});
+
+function toggleAllHighlights() {
+  document.body.classList.toggle('all-hidden');
+  if (!document.body.classList.contains('all-hidden')) {
+    document.querySelectorAll('.hl.hidden, .hl-duty.hidden').forEach(el => el.classList.remove('hidden'));
+  }
+  saveState();
+  updateStatus();
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('hl') || e.target.classList.contains('hl-duty')) return;
+  if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+  if (e.target.closest('.toolbar') || e.target.closest('.print-pane')) return;
+  let el = e.target.closest('.starrable');
+  if (el) {
+    const isContainer = el.classList.contains('article') ||
+                        el.classList.contains('warn-box') ||
+                        el.classList.contains('danger-box') ||
+                        el.classList.contains('exam-box') ||
+                        el.classList.contains('sub');
+    const willBeStarred = !el.classList.contains('starred');
+    el.classList.toggle('starred');
+    if (isContainer) {
+      el.querySelectorAll('.starrable').forEach(child => {
+        if (willBeStarred) child.classList.add('starred');
+        else child.classList.remove('starred');
+      });
+    }
+    if (document.body.classList.contains('starred-only')) {
+      markStarredAncestors();
+    }
+    if (willBeStarred) {
+      let topEl = el;
+      let p = el.parentElement;
+      while (p) {
+        if (p.classList && p.classList.contains('starrable') && p.classList.contains('starred')) {
+          topEl = p;
+        }
+        p = p.parentElement;
+      }
+      if (!topEl.id) ensureId(topEl);
+      lastStarredId = topEl.id;
+    }
+    if (document.body.classList.contains('split-view')) {
+      renderPrintPane();
+      if (willBeStarred && lastStarredId) {
+        scrollPrintPaneTo(lastStarredId);
+      }
+    }
+    saveState();
+    updateStatus();
+  }
+});
+
+function scrollPrintPaneTo(targetId) {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const delay = isMobile ? 320 : 30;
+  setTimeout(() => {
+    const pane = document.getElementById('printPane');
+    const item = pane && pane.querySelector(`.print-item[data-target-id="${targetId}"]`);
+    if (!item) return;
+    const paneRect = pane.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    const offset = (itemRect.top - paneRect.top) + pane.scrollTop - (pane.clientHeight / 2) + (item.offsetHeight / 2);
+    pane.scrollTo({ top: offset, behavior: 'smooth' });
+    item.classList.add('newly-added');
+    setTimeout(() => item.classList.remove('newly-added'), 1800);
+  }, delay);
+}
+
+function clearAllStars() {
+  if (!confirm('정말 모든 별표를 지우시겠습니까?')) return;
+  document.querySelectorAll('.starrable.starred').forEach(el => el.classList.remove('starred'));
+  if (document.body.classList.contains('starred-only')) {
+    document.body.classList.remove('starred-only');
+    const btn = document.getElementById('starOnlyBtn');
+    btn.classList.remove('active');
+    btn.textContent = '⭐';
+    btn.title = '별표한 것만 보기';
+  }
+  if (document.body.classList.contains('split-view')) {
+    renderPrintPane();
+  }
+  saveState();
+  updateStatus();
+}
+
+let preStarredOnlyScroll = null;
+let lastStarredId = null;
+
+function captureScrollPosition(pane) {
+  const scrollEl = pane || (document.body.classList.contains('split-view') ? document.getElementById('mainPane') : window);
+  const curScroll = scrollEl === window ? window.scrollY : scrollEl.scrollTop;
+  const viewportTop = curScroll + 80;
+  const candidates = document.querySelectorAll('#mainPane section[id], #mainPane h2[id], #mainPane h3[id], #mainPane h4[id], #mainPane div[id]');
+  let nearest = null;
+  let minDist = Infinity;
+  candidates.forEach(el => {
+    if (el.offsetParent === null && el.tagName !== 'SECTION') return;
+    const rect = el.getBoundingClientRect();
+    const mainPane = document.getElementById('mainPane');
+    const paneRect = mainPane.getBoundingClientRect();
+    const absTop = (rect.top - paneRect.top) + mainPane.scrollTop;
+    const dist = Math.abs(absTop - viewportTop);
+    if (dist < minDist) { minDist = dist; nearest = el; }
+  });
+  return { anchorId: nearest ? nearest.id : null, scrollY: curScroll };
+}
+
+function scrollToAnchor(anchorId, scrollY, withFlash) {
+  const mainPane = document.getElementById('mainPane');
+  const useScrollContainer = document.body.classList.contains('split-view');
+  if (anchorId) {
+    const el = document.getElementById(anchorId);
+    if (el) {
+      if (useScrollContainer) {
+        const paneRect = mainPane.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
+        const target = (rect.top - paneRect.top) + mainPane.scrollTop - 80;
+        mainPane.scrollTo({ top: target, behavior: 'smooth' });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      if (withFlash) {
+        setTimeout(() => {
+          el.classList.add('target-flash');
+          setTimeout(() => el.classList.remove('target-flash'), 1700);
+        }, 400);
+      }
+      return;
+    }
+  }
+  if (typeof scrollY === 'number') {
+    if (useScrollContainer) {
+      mainPane.scrollTo({ top: scrollY, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: scrollY, behavior: 'smooth' });
+    }
+  }
+}
+
+function toggleStarredOnly() {
+  const btn = document.getElementById('starOnlyBtn');
+  const starredCount = document.querySelectorAll('.starrable.starred').length;
+  if (!document.body.classList.contains('starred-only') && starredCount === 0) {
+    alert('아직 별표 표시한 항목이 없습니다.\n본문 요소를 클릭해 별표를 먼저 표시해주세요.');
+    return;
+  }
+  const entering = !document.body.classList.contains('starred-only');
+
+  if (entering) preStarredOnlyScroll = captureScrollPosition();
+  document.body.classList.toggle('starred-only');
+  btn.classList.toggle('active');
+
+  if (document.body.classList.contains('starred-only')) {
+    markStarredAncestors();
+    btn.textContent = '📖';
+    btn.title = '전체 보기로 돌아가기 (이전 위치 복원)';
+    const mainPane = document.getElementById('mainPane');
+    if (document.body.classList.contains('split-view')) mainPane.scrollTo({ top: 0, behavior: 'smooth' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    btn.textContent = '⭐';
+    btn.title = '별표한 것만 보기';
+    const pos = preStarredOnlyScroll;
+    setTimeout(() => scrollToAnchor(pos && pos.anchorId, pos && pos.scrollY), 50);
+  }
+  saveState();
+}
+
+function markStarredAncestors() {
+  document.querySelectorAll('.has-starred-descendant').forEach(el => el.classList.remove('has-starred-descendant'));
+  document.querySelectorAll('.no-starred-descendant').forEach(el => el.classList.remove('no-starred-descendant'));
+  document.querySelectorAll('.show-as-context').forEach(el => el.classList.remove('show-as-context'));
+
+  const isContainer = el => el.classList.contains('article') ||
+                            el.classList.contains('warn-box') ||
+                            el.classList.contains('danger-box') ||
+                            el.classList.contains('exam-box') ||
+                            el.classList.contains('sub');
+
+  const bringAlongHeading = starred => {
+    let el = starred;
+    while (el) {
+      let sib = el.previousElementSibling;
+      while (sib) {
+        if (sib.tagName === 'H2' || sib.tagName === 'H3' || sib.tagName === 'H4') {
+          sib.classList.add('show-as-context');
+          return;
+        }
+        sib = sib.previousElementSibling;
+      }
+      el = el.parentElement;
+      if (!el || el.tagName === 'SECTION' || el.tagName === 'BODY') break;
+    }
+    const section = starred.closest('section');
+    if (section) {
+      const firstH3 = section.querySelector('h3');
+      if (firstH3) firstH3.classList.add('show-as-context');
+    }
+  };
+
+  document.querySelectorAll('.starrable.starred').forEach(starred => {
+    if (isContainer(starred)) {
+      starred.querySelectorAll('.starrable').forEach(child => child.classList.add('show-as-context'));
+    }
+    bringAlongHeading(starred);
+    let parent = starred.parentElement;
+    while (parent && parent !== document.body) {
+      if (parent.classList.contains('starrable')) parent.classList.add('has-starred-descendant');
+      if (isContainer(parent)) {
+        parent.classList.add('has-starred-descendant');
+        parent.querySelectorAll('.starrable').forEach(sib => sib.classList.add('show-as-context'));
+      }
+      parent = parent.parentElement;
+    }
+  });
+
+  document.querySelectorAll('section').forEach(section => {
+    if (!section.querySelector('.starrable.starred')) {
+      section.classList.add('no-starred-descendant');
+    }
+  });
+}
+
+let prePrintPaneScroll = null;
+
+function ensureId(el) {
+  if (!el.id) el.id = 'star-' + Math.random().toString(36).slice(2, 10);
+  return el.id;
+}
+
+function getItemLabel(el) {
+  const tag = el.tagName.toLowerCase();
+  if (tag === 'h2') return '🏛 장·절 제목';
+  if (tag === 'h3' || tag === 'h4') return '📌 제목';
+  if (tag === 'li') return '📝 목록 항목';
+  if (tag === 'p') return '📄 문장';
+  if (tag === 'tr') return '📊 표 행';
+  if (el.classList.contains('sub')) return '💡 보조설명';
+  if (el.classList.contains('warn-box')) return '⚠️ 경고';
+  if (el.classList.contains('danger-box')) return '🚨 중요구분';
+  if (el.classList.contains('exam-box')) return '📝 기출';
+  if (el.classList.contains('article')) return '📜 내용';
+  return '📄 항목';
+}
+
+function getCleanHTML(el) {
+  const clone = el.cloneNode(true);
+  const isContainer = el.classList.contains('article') ||
+                      el.classList.contains('warn-box') ||
+                      el.classList.contains('danger-box') ||
+                      el.classList.contains('exam-box') ||
+                      el.classList.contains('sub');
+  if (isContainer) {
+    const toRemove = [];
+    const originalAll = el.querySelectorAll('.starrable');
+    const cloneAll = clone.querySelectorAll('.starrable');
+    originalAll.forEach((origChild, idx) => {
+      if (!origChild.classList.contains('starred')) {
+        if (cloneAll[idx]) toRemove.push(cloneAll[idx]);
+      }
+    });
+    toRemove.forEach(node => node.remove());
+    clone.querySelectorAll('ol, ul').forEach(list => {
+      if (list.children.length === 0) list.remove();
+    });
+  }
+  clone.querySelectorAll('.hl.hidden, .hl-duty.hidden').forEach(h => h.classList.remove('hidden'));
+  clone.classList.remove('starred', 'has-starred-descendant', 'show-as-context', 'target-flash');
+  clone.removeAttribute('style');
+  return clone.outerHTML;
+}
+
+function renderPrintPane() {
+  const body = document.getElementById('printPaneBody');
+  const allStarred = document.querySelectorAll('.main-pane .starrable.starred');
+  const starredArr = Array.from(allStarred);
+  const starredSet = new Set(starredArr);
+  const topLevel = starredArr.filter(el => {
+    let p = el.parentElement;
+    while (p) {
+      if (starredSet.has(p)) return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  if (topLevel.length === 0) {
+    body.innerHTML = '<div class="print-pane-empty">아직 별표 표시한 항목이 없습니다.</div>';
+    return;
+  }
+  let html = `<div class="print-pane-title">총 <b>${topLevel.length}개</b> 항목</div>`;
+  topLevel.forEach((el, idx) => {
+    const id = ensureId(el);
+    const label = getItemLabel(el);
+    const content = getCleanHTML(el);
+    html += `
+      <div class="print-item" onclick="jumpToStarred('${id}')" data-target-id="${id}">
+        <div class="print-item-label">
+          <span class="print-item-label-left">
+            <span>#${idx + 1} ${label}</span>
+            <span class="jump-hint">↗ 클릭하면 이동</span>
+          </span>
+          <button class="print-item-unstar" onclick="unstarFromPane(event, '${id}')" aria-label="별표 해제">✕</button>
+        </div>
+        <div class="print-item-content">${content}</div>
+      </div>`;
+  });
+  body.innerHTML = html;
+}
+
+function unstarFromPane(event, id) {
+  event.stopPropagation();
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isContainer = el.classList.contains('article') ||
+                      el.classList.contains('warn-box') ||
+                      el.classList.contains('danger-box') ||
+                      el.classList.contains('exam-box') ||
+                      el.classList.contains('sub');
+  el.classList.remove('starred');
+  if (isContainer) {
+    el.querySelectorAll('.starrable.starred').forEach(child => child.classList.remove('starred'));
+  }
+  if (document.body.classList.contains('starred-only')) {
+    markStarredAncestors();
+  }
+  renderPrintPane();
+  saveState();
+  updateStatus();
+}
+
+function openPrintPane() {
+  const starred = document.querySelectorAll('.starrable.starred');
+  if (starred.length === 0) {
+    alert('아직 별표 표시한 항목이 없습니다.');
+    return;
+  }
+  prePrintPaneScroll = { anchorId: null, scrollY: window.scrollY };
+  const cap = captureScrollPosition();
+  if (cap && cap.anchorId) prePrintPaneScroll.anchorId = cap.anchorId;
+
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  document.body.classList.add('split-view');
+  document.getElementById('printPane').setAttribute('aria-hidden', 'false');
+  renderPrintPane();
+
+  if (isMobile) {
+    document.body.style.top = `-${prePrintPaneScroll.scrollY}px`;
+  } else {
+    const mainPane = document.getElementById('mainPane');
+    mainPane.scrollTop = prePrintPaneScroll.scrollY || 0;
+  }
+
+  if (lastStarredId) {
+    const pane = document.getElementById('printPane');
+    const exists = pane && pane.querySelector(`.print-item[data-target-id="${lastStarredId}"]`);
+    if (exists) {
+      scrollPrintPaneTo(lastStarredId);
+    }
+  }
+}
+
+function closePrintPane() {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const mainPane = document.getElementById('mainPane');
+  let targetAnchor = null;
+  let targetScroll = 0;
+
+  if (isMobile) {
+    targetAnchor = prePrintPaneScroll && prePrintPaneScroll.anchorId;
+    targetScroll = (prePrintPaneScroll && prePrintPaneScroll.scrollY) || 0;
+  } else {
+    targetScroll = mainPane.scrollTop;
+    if (targetScroll === 0 && prePrintPaneScroll && prePrintPaneScroll.scrollY) {
+      targetScroll = prePrintPaneScroll.scrollY;
+      targetAnchor = prePrintPaneScroll.anchorId;
+    }
+  }
+
+  document.body.classList.remove('split-view');
+  document.getElementById('printPane').setAttribute('aria-hidden', 'true');
+  document.body.style.top = '';
+
+  const restore = () => {
+    if (targetAnchor) {
+      const el = document.getElementById(targetAnchor);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const abs = rect.top + window.scrollY - 80;
+        window.scrollTo({ top: abs, behavior: 'auto' });
+        return;
+      }
+    }
+    window.scrollTo({ top: targetScroll, behavior: 'auto' });
+  };
+  restore();
+  requestAnimationFrame(() => {
+    restore();
+    setTimeout(restore, 50);
+  });
+}
+
+function returnToLastScroll() {
+  if (!prePrintPaneScroll) return;
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  if (isMobile) {
+    closePrintPane();
+    setTimeout(() => {
+      if (prePrintPaneScroll.anchorId) {
+        const el = document.getElementById(prePrintPaneScroll.anchorId);
+        if (el) {
+          el.classList.add('target-flash');
+          setTimeout(() => el.classList.remove('target-flash'), 1700);
+        }
+      }
+    }, 100);
+    return;
+  }
+  scrollToAnchor(prePrintPaneScroll.anchorId, prePrintPaneScroll.scrollY, true);
+}
+
+function jumpToStarred(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  if (isMobile) {
+    const savedPre = prePrintPaneScroll;
+    prePrintPaneScroll = { anchorId: id, scrollY: 0 };
+    closePrintPane();
+    prePrintPaneScroll = savedPre;
+    setTimeout(() => {
+      el.classList.add('target-flash');
+      setTimeout(() => el.classList.remove('target-flash'), 1700);
+    }, 100);
+    return;
+  }
+  scrollToAnchor(id, null, true);
+}
+
+function printPaneContent() { window.print(); }
+
+function initScrollToTop() {
+  const scrollBtn = document.getElementById('scrollToTop');
+  if (!scrollBtn) return;
+  let throttled = false;
+  function handle() {
+    if (throttled) return;
+    throttled = true;
+    window.requestAnimationFrame(() => {
+      const sc = window.pageYOffset || document.documentElement.scrollTop;
+      scrollBtn.classList.toggle('visible', sc > 300);
+      throttled = false;
+    });
+  }
+  window.addEventListener('scroll', handle, { passive: true });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+function saveState() {
+  try {
+    const state = {
+      allHidden: document.body.classList.contains('all-hidden'),
+      starredOnly: document.body.classList.contains('starred-only'),
+      hidden: Array.from(document.querySelectorAll('.hl, .hl-duty')).map(el => el.classList.contains('hidden')),
+      starred: Array.from(document.querySelectorAll('.starrable')).map(el => el.classList.contains('starred'))
+    };
+    localStorage.setItem('pharm_midterm_v2_state', JSON.stringify(state));
+  } catch(e) {}
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem('pharm_midterm_v2_state');
+    if (!s) return;
+    const state = JSON.parse(s);
+    if (state.allHidden) document.body.classList.add('all-hidden');
+    const hls = document.querySelectorAll('.hl, .hl-duty');
+    (state.hidden || []).forEach((v, i) => { if (v && hls[i]) hls[i].classList.add('hidden'); });
+    const stars = document.querySelectorAll('.starrable');
+    (state.starred || []).forEach((v, i) => { if (v && stars[i]) stars[i].classList.add('starred'); });
+    if (state.starredOnly) {
+      const cnt = document.querySelectorAll('.starrable.starred').length;
+      if (cnt > 0) {
+        document.body.classList.add('starred-only');
+        markStarredAncestors();
+        const btn = document.getElementById('starOnlyBtn');
+        if (btn) {
+          btn.classList.add('active');
+          btn.textContent = '📖';
+          btn.title = '전체 보기로 돌아가기';
+        }
+      }
+    }
+  } catch(e) {}
+}
+function updateStatus() {
+  const totalHl = document.querySelectorAll('.hl, .hl-duty').length;
+  const hiddenHl = document.body.classList.contains('all-hidden') ? totalHl : document.querySelectorAll('.hl.hidden, .hl-duty.hidden').length;
+  const totalStar = document.querySelectorAll('.starrable.starred').length;
+  const total = document.querySelectorAll('.starrable').length;
+  document.getElementById('statusBar').textContent =
+    `📊 강조: ${totalHl}개 (가려짐 ${hiddenHl}개) | 별표: ${totalStar}/${total}개 | 요소 클릭 = 별표 토글`;
+}
+
+const SPLITTER_KEY = 'pharm_midterm_v2_split_width';
+function initSplitter() {
+  const splitter = document.getElementById('splitter');
+  const pane = document.getElementById('printPane');
+  if (!splitter || !pane) return;
+  try {
+    const saved = parseInt(localStorage.getItem(SPLITTER_KEY), 10);
+    if (saved && saved > 280 && saved < window.innerWidth - 200) { pane.style.width = saved + 'px'; }
+  } catch(e) {}
+  let dragging = false;
+  const onMove = (clientX) => {
+    const newPaneWidth = window.innerWidth - clientX;
+    const clamped = Math.max(280, Math.min(window.innerWidth - 300, newPaneWidth));
+    pane.style.width = clamped + 'px';
+  };
+  const startDrag = (e) => {
+    if (!document.body.classList.contains('split-view')) return;
+    dragging = true;
+    splitter.classList.add('dragging');
+    document.body.classList.add('splitter-dragging');
+    e.preventDefault();
+  };
+  const stopDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    splitter.classList.remove('dragging');
+    document.body.classList.remove('splitter-dragging');
+    try {
+      const w = parseInt(pane.style.width, 10);
+      if (w) localStorage.setItem(SPLITTER_KEY, String(w));
+    } catch(e) {}
+  };
+  splitter.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', (e) => { if (dragging) onMove(e.clientX); });
+  document.addEventListener('mouseup', stopDrag);
+  splitter.addEventListener('touchstart', (e) => { if (e.touches.length === 1) { startDrag(e); } }, { passive: false });
+  document.addEventListener('touchmove', (e) => { if (dragging && e.touches.length === 1) { onMove(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
+  document.addEventListener('touchend', stopDrag);
+  document.addEventListener('touchcancel', stopDrag);
+  splitter.addEventListener('keydown', (e) => {
+    if (!document.body.classList.contains('split-view')) return;
+    if (e.key === 'ArrowLeft') {
+      onMove(window.innerWidth - pane.offsetWidth - 20);
+      try { localStorage.setItem(SPLITTER_KEY, String(pane.offsetWidth)); } catch(e) {}
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      onMove(window.innerWidth - pane.offsetWidth + 20);
+      try { localStorage.setItem(SPLITTER_KEY, String(pane.offsetWidth)); } catch(e) {}
+      e.preventDefault();
+    }
+  });
+  splitter.addEventListener('dblclick', () => {
+    pane.style.width = '500px';
+    try { localStorage.setItem(SPLITTER_KEY, '500'); } catch(e) {}
+  });
+}
+
+window.addEventListener('load', () => {
+  loadState();
+  updateStatus();
+  initScrollToTop();
+  initSplitter();
+});
+</script>
+</body>
+</html>
