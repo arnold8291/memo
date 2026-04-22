@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>약사법규 중간고사 완벽정리</title>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --secondary: #3b82f6;
+    --accent: #f59e0b;
+    --danger: #dc2626;
+    --success: #059669;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --border: #e5e7eb;
+    --hl: #fde68a;
+    --hl-hidden: #d1d5db;
+    --star: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ===== 분할 뷰 레이아웃 ===== */
+  body.split-view {
+    overflow: hidden; /* 전체 스크롤 방지 */
+  }
+  .app-root {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+  .main-pane {
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    height: 100vh;
+  }
+  body:not(.split-view) .main-pane {
+    height: auto;
+    overflow-y: visible;
+  }
+
+  /* 드래그 가능한 분할 막대 */
+  .splitter {
+    display: none;
+    width: 6px;
+    height: 100vh;
+    background: #e5e7eb;
+    cursor: col-resize;
+    flex-shrink: 0;
+    position: relative;
+    transition: background 0.15s;
+    z-index: 50;
+  }
+  body.split-view .splitter { display: block; }
+  .splitter:hover,
+  .splitter.dragging {
+    background: var(--primary);
+  }
+  .splitter::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 42px;
+    background: #94a3b8;
+    border-radius: 2px;
+    box-shadow: 4px 0 0 #94a3b8, -4px 0 0 #94a3b8;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+  .splitter:hover::before,
+  .splitter.dragging::before {
+    background: white;
+    box-shadow: 4px 0 0 white, -4px 0 0 white;
+  }
+  /* 드래그 중일 때 전역 커서·선택 방지 */
+  body.splitter-dragging { cursor: col-resize !important; user-select: none !important; }
+  body.splitter-dragging iframe, body.splitter-dragging .main-pane, body.splitter-dragging .print-pane {
+    pointer-events: none;
+  }
+
+  .print-pane {
+    display: none;
+    width: 500px; /* JS가 기본값으로 조정 */
+    min-width: 280px;
+    height: 100vh;
+    overflow-y: auto;
+    background: white;
+    box-shadow: -4px 0 16px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+  body.split-view .print-pane { display: block; }
+  @media (max-width: 900px) {
+    body.split-view .main-pane { display: none; }
+    body.split-view .splitter { display: none; }
+    .print-pane { width: 100% !important; min-width: 0; max-width: none; }
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+
+  header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 28px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+  }
+  header h1 { margin: 0 0 8px 0; font-size: 28px; }
+  header .subtitle { opacity: 0.95; font-size: 15px; }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border: 2px solid var(--primary);
+  }
+
+  @media (max-width: 768px) {
+    header h1 { font-size: 20px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+  }
+
+  /* 아이콘 버튼 - 흰 바탕 + 컬러 테두리 */
+  .toolbar button.icon-btn {
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: white;
+    border: 2px solid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .toolbar button.icon-btn.btn-primary { border-color: var(--primary); color: var(--primary); }
+  .toolbar button.icon-btn.btn-secondary { border-color: var(--secondary); color: var(--secondary); }
+  .toolbar button.icon-btn.btn-success { border-color: var(--success); color: var(--success); }
+  .toolbar button.icon-btn.btn-danger { border-color: var(--danger); color: var(--danger); }
+  .toolbar button.icon-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .toolbar button.icon-btn.btn-primary:hover { background: #eff6ff; }
+  .toolbar button.icon-btn.btn-secondary:hover { background: #eff6ff; }
+  .toolbar button.icon-btn.btn-success:hover { background: #ecfdf5; }
+  .toolbar button.icon-btn.btn-danger:hover { background: #fef2f2; }
+  .toolbar button.icon-btn.active {
+    background: currentColor !important;
+    color: white !important;
+  }
+  .toolbar button.icon-btn.btn-secondary.active { background: var(--secondary) !important; color: white !important; }
+  @media (max-width: 768px) {
+    .toolbar button.icon-btn { width: 38px; height: 38px; font-size: 17px; }
+  }
+
+  /* 아이콘 범례 */
+  .icon-legend {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .icon-legend b {
+    color: var(--primary);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .icon-legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+  }
+  .icon-legend-items > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #374151;
+  }
+  .icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    font-size: 14px;
+    background: white;
+    border: 2px solid;
+    flex-shrink: 0;
+  }
+  .icon-box.ic-primary { border-color: var(--primary); color: var(--primary); }
+  .icon-box.ic-secondary { border-color: var(--secondary); color: var(--secondary); }
+  .icon-box.ic-success { border-color: var(--success); color: var(--success); }
+  .icon-box.ic-danger { border-color: var(--danger); color: var(--danger); }
+
+  /* 강조 */
+  .hl {
+    background: var(--hl);
+    padding: 1px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #7c2d12;
+    transition: all 0.2s;
+    user-select: text;
+    border-bottom: 2px solid #d97706;
+  }
+  .hl:hover { background: #fcd34d; }
+  .hl.hidden {
+    background: var(--hl-hidden);
+    color: transparent;
+    border-bottom-color: transparent;
+  }
+  .hl.hidden:hover { background: #9ca3af; }
+  body.all-hidden .hl {
+    background: var(--hl-hidden);
+    color: transparent;
+    border-bottom-color: transparent;
+  }
+  .hl-duty {
+    background: #fecaca;
+    padding: 1px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #991b1b;
+    transition: all 0.2s;
+    user-select: text;
+    border-bottom: 2px solid #dc2626;
+  }
+  .hl-duty:hover { background: #fca5a5; }
+  .hl-duty.hidden {
+    background: var(--hl-hidden);
+    color: transparent;
+    border-bottom-color: transparent;
+  }
+  body.all-hidden .hl-duty {
+    background: var(--hl-hidden);
+    color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  /* 별표 - 클릭 토글 */
+  .starrable {
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 4px;
+    position: relative;
+  }
+  .starrable:hover { background: rgba(245, 158, 11, 0.05); }
+  p.starrable { padding: 2px 4px; }
+  p.starrable.starred {
+    background: transparent;
+    box-shadow: inset 4px 0 0 var(--star);
+    padding-left: 12px;
+  }
+  p.starrable.starred::before {
+    content: "⭐ ";
+    font-size: 14px;
+    margin-right: 4px;
+  }
+  li.starrable { padding: 2px 4px; }
+  li.starrable.starred {
+    background: transparent;
+    box-shadow: inset 3px 0 0 var(--star);
+    padding-left: 10px;
+    list-style-position: inside;
+  }
+  li.starrable.starred::marker { color: var(--star); }
+  .sub.starrable.starred,
+  .warn-box.starrable.starred,
+  .danger-box.starrable.starred,
+  .exam-box.starrable.starred {
+    box-shadow: 0 0 0 3px var(--star);
+    position: relative;
+  }
+  .sub.starrable.starred::after,
+  .warn-box.starrable.starred::after,
+  .danger-box.starrable.starred::after,
+  .exam-box.starrable.starred::after {
+    content: "⭐";
+    position: absolute;
+    top: 4px; right: 8px;
+    font-size: 18px;
+    background: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px var(--star);
+  }
+  tr.starrable { cursor: pointer; }
+  tr.starrable:hover td { background: rgba(245, 158, 11, 0.05); }
+  tr.starrable.starred td {
+    background: rgba(254, 243, 199, 0.6) !important;
+    box-shadow: inset 0 3px 0 var(--star), inset 0 -3px 0 var(--star);
+  }
+  tr.starrable.starred td:first-child {
+    box-shadow: inset 4px 0 0 var(--star), inset 0 3px 0 var(--star), inset 0 -3px 0 var(--star);
+  }
+  tr.starrable.starred td:first-child::before { content: "⭐ "; font-size: 12px; }
+  .article.starrable { padding-right: 40px; }
+  .article.starrable.starred {
+    box-shadow: 0 0 0 3px var(--star);
+    position: relative;
+  }
+  .article.starrable.starred::after {
+    content: "⭐";
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 18px;
+    background: white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px var(--star);
+  }
+  h3.starrable.starred, h4.starrable.starred {
+    background: rgba(254, 243, 199, 0.7) !important;
+    box-shadow: inset 4px 0 0 var(--star);
+    padding-left: 14px;
+  }
+  h3.starrable.starred::after, h4.starrable.starred::after { content: " ⭐"; }
+
+  section {
+    background: var(--card);
+    padding: 20px 24px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  h2 {
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 8px;
+    margin-top: 0;
+    font-size: 22px;
+  }
+  h3 {
+    color: var(--secondary);
+    border-left: 5px solid var(--secondary);
+    padding-left: 10px;
+    margin-top: 28px;
+    font-size: 18px;
+  }
+  h4 {
+    color: #374151;
+    margin-top: 20px;
+    font-size: 15px;
+    background: #f3f4f6;
+    padding: 6px 10px;
+    border-radius: 5px;
+  }
+  .article {
+    background: #f9fafb;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 12px 0;
+    border-left: 4px solid var(--secondary);
+  }
+  .article-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  .sub {
+    background: #eff6ff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 8px 0;
+    border-left: 3px solid #60a5fa;
+    font-size: 14px;
+  }
+  .warn-box {
+    background: #fef3c7;
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .danger-box {
+    background: #fee2e2;
+    border-left: 4px solid var(--danger);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .exam-box {
+    background: #dcfce7;
+    border-left: 4px solid var(--success);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .exam-box::before {
+    content: "📝 기출: ";
+    font-weight: 700;
+    color: var(--success);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+    background: white;
+  }
+  th, td {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--primary); color: white; font-weight: 700; }
+  tr:nth-child(even):not(.starred) { background: #f9fafb; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+
+  .toc {
+    background: #f1f5f9;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .toc a { color: var(--primary); text-decoration: none; font-weight: 600; }
+  .toc a:hover { text-decoration: underline; }
+
+  .status-bar {
+    font-size: 12px;
+    color: #6b7280;
+    padding: 8px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .tip {
+    background: #dbeafe;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--secondary);
+  }
+  .legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    padding: 10px; background: #f9fafb; border-radius: 6px;
+    font-size: 12px; margin-bottom: 10px;
+  }
+  .legend span { padding: 2px 8px; border-radius: 3px; font-weight: 700; }
+
+  /* 주체별 색상 배지 */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .badge-mohw { background: #dbeafe; color: #1e40af; }
+  .badge-mfds { background: #fee2e2; color: #991b1b; }
+  .badge-local { background: #dcfce7; color: #166534; }
+  .badge-sido { background: #fef3c7; color: #92400e; }
+  .badge-kida  { background: #ede9fe; color: #5b21b6; }
+  .badge-assoc { background: #fce7f3; color: #9d174d; }
+
+  /* 별표한 것만 보기 */
+  body.starred-only .starrable:not(.starred):not(.has-starred-descendant):not(.show-as-context) {
+    display: none !important;
+  }
+  body.starred-only section.no-starred-descendant { display: none !important; }
+  body.starred-only p.show-as-context,
+  body.starred-only div.show-as-context { display: block !important; }
+  body.starred-only li.show-as-context { display: list-item !important; }
+  body.starred-only tr.show-as-context { display: table-row !important; }
+  body.starred-only h3.show-as-context,
+  body.starred-only h4.show-as-context { display: block !important; }
+  body.starred-only .toc { display: none !important; }
+  body.starred-only .starred-only-notice { display: block !important; }
+  .starred-only-notice {
+    display: none;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    font-weight: 700;
+    color: #92400e;
+    text-align: center;
+  }
+  #starOnlyBtn.active {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+
+  /* 이동 후 플래시 애니메이션 */
+  @keyframes flash {
+    0%, 100% { background: transparent; }
+    30%, 70% { background: rgba(245, 158, 11, 0.35); }
+  }
+  .target-flash { animation: flash 1.6s ease-in-out; }
+
+  /* 맨위로 */
+  .scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    transition: all 0.3s ease;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+  }
+  .scroll-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  .scroll-to-top:hover {
+    background: #172554;
+    transform: translateY(-2px) scale(1.05);
+  }
+  body.split-view .scroll-to-top { display: none; }
+
+  /* ===== 오른쪽 인쇄 패널 ===== */
+  .print-pane-header {
+    position: sticky;
+    top: 0;
+    background: var(--primary);
+    color: white;
+    padding: 14px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .print-pane-header h3 {
+    margin: 0;
+    color: white;
+    border: none;
+    padding: 0;
+    font-size: 16px;
+    flex: 1;
+    min-width: 140px;
+  }
+  .print-pane-header button {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 2px solid white;
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .print-pane-header button.act-return { color: var(--primary); }
+  .print-pane-header button.act-return:hover { background: #e0e7ff; }
+  .print-pane-header button.act-print { color: var(--success); border-color: var(--success); }
+  .print-pane-header button.act-print:hover { background: #ecfdf5; }
+  .print-pane-header button.act-close { color: var(--danger); border-color: var(--danger); }
+  .print-pane-header button.act-close:hover { background: #fef2f2; }
+
+  .print-pane-body { padding: 16px 20px 60px; }
+  .print-pane-title { font-size: 14px; color: #475569; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .print-item {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    background: #fffbeb;
+    border-left: 4px solid var(--star);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .print-item:hover {
+    background: #fef3c7;
+    transform: translateX(-3px);
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+  }
+  .print-item-label {
+    font-size: 11px;
+    color: #92400e;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .print-item-label .jump-hint {
+    font-size: 10px;
+    color: var(--primary);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .print-item:hover .jump-hint { opacity: 1; }
+  .print-item-content { font-size: 13px; }
+  .print-item-content .hl { background: #fde68a !important; color: #7c2d12 !important; border-bottom: none; }
+  .print-item-content .hl-duty { background: #fecaca !important; color: #991b1b !important; border-bottom: none; }
+  .print-pane-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6b7280;
+  }
+
+  /* 별표한 것만 보기 모드에서 main-pane UI 고정 요소 유지 */
+  body.starred-only .main-pane header,
+  body.starred-only .main-pane .toolbar,
+  body.starred-only .main-pane .icon-legend,
+  body.starred-only .main-pane .legend,
+  body.starred-only .main-pane .tip,
+  body.starred-only .main-pane .status-bar { display: block; }
+  body.starred-only .main-pane .toolbar { display: flex; }
+  body.starred-only .main-pane .legend { display: flex; }
+
+  /* 인쇄 시: 오른쪽 패널만 인쇄되도록 */
+  @media print {
+    body.split-view .main-pane { display: none !important; }
+    body.split-view .print-pane {
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      min-width: 0 !important;
+      height: auto !important;
+      border: none !important;
+      box-shadow: none !important;
+      overflow: visible !important;
+    }
+    body.split-view .print-pane-header { display: none !important; }
+    body.split-view .print-pane-body { padding: 0 !important; }
+    body.split-view .print-item {
+      page-break-inside: avoid;
+      cursor: default !important;
+    }
+    body.split-view .print-item:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    body.split-view .print-item .jump-hint { display: none !important; }
+    body { overflow: visible !important; }
+    .scroll-to-top { display: none !important; }
+    .toolbar { display: none !important; }
+    .splitter { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-root">
+<div class="main-pane" id="mainPane">
+<div class="container">
+
+<header>
+  <h1>📚 약사법규 중간고사 완벽정리</h1>
+  <div class="subtitle">2~7주차 강의 내용 · 국시 기출 97문항 패턴 반영 | 담당: 서자영 교수</div>
+</header>
+
+<div class="icon-legend">
+  <b>🎛 버튼 안내</b>
+  <div class="icon-legend-items">
+    <span><span class="icon-box ic-primary">🔘</span> 모든 강조 가리기/보이기</span>
+    <span><span class="icon-box ic-secondary">⭐</span> 별표한 것만 보기</span>
+    <span><span class="icon-box ic-success">📋</span> 별표 내용 분할화면 보기·인쇄</span>
+    <span><span class="icon-box ic-danger">🗑</span> 모든 별표 지우기</span>
+    <span><span class="icon-box ic-primary">🖨</span> 전체 인쇄</span>
+  </div>
+</div>
+
+<div class="toolbar">
+  <button class="icon-btn btn-primary" onclick="toggleAllHighlights()" title="모든 강조 가리기/보이기" aria-label="모든 강조 가리기/보이기">🔘</button>
+  <button class="icon-btn btn-secondary" onclick="toggleStarredOnly()" id="starOnlyBtn" title="별표한 것만 보기" aria-label="별표한 것만 보기">⭐</button>
+  <button class="icon-btn btn-success" onclick="openPrintPane()" title="별표 내용 분할화면 보기·인쇄" aria-label="별표 내용 분할화면">📋</button>
+  <button class="icon-btn btn-danger" onclick="clearAllStars()" title="모든 별표 지우기" aria-label="모든 별표 지우기">🗑</button>
+  <button class="icon-btn btn-primary" onclick="window.print()" title="전체 인쇄" aria-label="전체 인쇄">🖨</button>
+</div>
+
+<div class="legend">
+  <span style="background:#fde68a; color:#7c2d12;">노란색</span> = 주체·기관·자격·숫자 (명사 위주)
+  <span style="background:#fecaca; color:#991b1b;">빨간색</span> = 의무·금지·권고 사항
+  <span style="background:rgba(245,158,11,0.15); box-shadow:inset 3px 0 0 #f59e0b; padding-left:8px;">⭐ 별표</span> = 클릭으로 표시/제거
+</div>
+
+<div class="tip">
+  💡 <b>사용법</b>: 색상 글자 클릭 = 가림/보임 (암기용) | <b>문단·목록·박스·표·제목 클릭</b>으로 ⭐별표 토글 | 📋 버튼으로 오른쪽 별표 목록 띄우고 클릭해서 본문 이동 | <b>분할 막대 드래그</b>로 좌우 창 크기 조절 (더블클릭 = 기본 크기)
+</div>
+
+<div class="status-bar" id="statusBar">준비중...</div>
+
+<div class="starred-only-notice">
+  ⭐ <b>별표한 항목만 표시 중</b> — 별표가 없는 내용은 숨겨졌습니다. 다시 버튼을 눌러 전체 보기로 돌아갈 수 있습니다.
+</div>
+
+<div class="toc">
+  <b>📑 목차</b>
+  <ul>
+    <li><a href="#guide">학습 가이드 — 암기 4대 축</a></li>
+    <li><a href="#ch1">제1장. 약사법의 체계 (법령 위계 · 목적)</a></li>
+    <li><a href="#ch2">제2장. 용어의 정의 [제2조]</a></li>
+    <li><a href="#ch3">제3장. 면허 및 자격 (제3~10조)</a></li>
+    <li><a href="#ch4">제4장. 약업 단체 및 중앙약사심의위원회 (제11~18조)</a></li>
+    <li><a href="#ch5">제5장. 약국과 조제 (1) — 개설 및 관리 (제20~22조)</a></li>
+    <li><a href="#ch6">제6장. 약국과 조제 (2) — 의약품 조제 (제23~28조)</a></li>
+    <li><a href="#ch7">제7장. 의약품 제조 및 품질관리 (제31~42조)</a></li>
+    <li><a href="#ch8">제8장. 의약품 판매 및 유통 질서 (제45~56조)</a></li>
+    <li><a href="#ch9">제9장. 의약품 취급·기준·안전관리 (제51~74조)</a></li>
+    <li><a href="#ch10">제10장. 피해구제 및 특수 기관 (제76~91조)</a></li>
+    <li><a href="#app1">🔑 부록 1. 주체별 권한 총정리</a></li>
+    <li><a href="#app2">🔢 부록 2. 숫자 암기 총정리</a></li>
+    <li><a href="#app3">⚠️ 부록 3. 함정 포인트 TOP 15</a></li>
+    <li><a href="#app4">✅ 부록 4. 시험 전 최종 체크리스트</a></li>
+  </ul>
+</div>
+
+<!-- =================== 학습 가이드 =================== -->
+<section id="guide">
+  <h2>📖 학습 가이드 — 암기 4대 축</h2>
+  <div class="warn-box starrable">
+    <b>이 문서의 구성</b>
+    <ul>
+      <li class="starrable">강의 범위(<span class="hl">2~7주차</span>)의 약사법 조문을 <span class="hl">기출 패턴</span> 기반으로 재구성</li>
+      <li class="starrable">각 조문마다 ① 조문 요지 ② 암기 포인트 ③ 기출 연계 번호를 함께 제시</li>
+      <li class="starrable"><span class="hl">6년치(2020~2026) 기출 97문항</span>에서 빈출된 핵심만 추출</li>
+    </ul>
+  </div>
+
+  <div class="danger-box starrable">
+    <b>암기 4대 축 — 이 4가지로 분류해서 외우면 헷갈리지 않습니다</b>
+    <ol>
+      <li class="starrable"><b>① 주체(WHO)</b> — <span class="hl">보건복지부장관 / 식약처장 / 시장·군수·구청장 / 시·도지사</span> 구분</li>
+      <li class="starrable"><b>② 숫자(HOW MANY)</b> — <span class="hl">7일 / 1개월 / 2개월 / 6개월 / 3년 / 5년 / 6시간 / 100처방 / 300명</span></li>
+      <li class="starrable"><b>③ 자격(WHO CAN)</b> — <span class="hl">약사 / 한약사 / 한약업사 / 한의사 / 의사</span> 업무 경계</li>
+      <li class="starrable"><b>④ 예외·단서(EXCEPTION)</b> — "<span class="hl-duty">원칙은 금지이나 ~은 허용</span>" 형태 빈출 (함정 포인트)</li>
+    </ol>
+  </div>
+</section>
+
+<!-- =================== 제1장. 약사법의 체계 =================== -->
+<section id="ch1">
+  <h2>🏛 제1장. 약사법의 체계</h2>
+
+  <h3 class="starrable">1-1. 법령의 위계</h3>
+  <table>
+    <thead>
+      <tr><th>위계</th><th>종류</th><th>제정 주체</th></tr>
+    </thead>
+    <tbody>
+      <tr class="starrable"><td><b>헌법</b></td><td>최상위 규범</td><td><span class="hl">국민</span></td></tr>
+      <tr class="starrable"><td><b>법률</b></td><td>약사법</td><td><span class="hl">국회</span></td></tr>
+      <tr class="starrable"><td><b>명령(1)</b></td><td>약사법 시행령</td><td><span class="hl">대통령령</span></td></tr>
+      <tr class="starrable"><td><b>명령(2)</b></td><td>약사법 시행규칙</td><td><span class="hl">총리령 / 부령 (보건복지부령)</span></td></tr>
+      <tr class="starrable"><td><b>고시</b></td><td>약사법규 (위임 고시)</td><td><span class="hl">식약처장 · 복지부장관</span> 등</td></tr>
+    </tbody>
+  </table>
+  <div class="sub starrable">
+    ※ 법률은 부칙에 정한 시행일에 효력 발생 — 특별한 규정이 없는 한 <span class="hl">공포일부터 20일 경과 후</span> 효력 발생.
+  </div>
+
+  <h3 class="starrable">1-2. 약사법의 목적 [제1조]</h3>
+  <div class="article starrable">
+    <div class="article-title">제1조 (목적)</div>
+    <p class="starrable">💡 <b>조문</b> | <span class="hl">약사(藥事)</span>에 관한 일들이 원활하게 이루어질 수 있도록 필요한 사항을 규정하여 <span class="hl">국민보건 향상</span>에 기여함을 목적으로 한다.</p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2024-112</b> — "<span class="hl">국민보건 향상</span>" 정답 / <span class="hl-duty">국민복지 증진·국가 보건의료 발전은 오답</span>
+  </div>
+</section>
+
+<!-- =================== 제2장. 용어의 정의 =================== -->
+<section id="ch2">
+  <h2>📘 제2장. 용어의 정의 [제2조]</h2>
+
+  <h3 class="starrable">2-1. 핵심 용어 총정리</h3>
+  <table>
+    <thead>
+      <tr><th style="width:14%">용어</th><th>정의</th><th style="width:22%">포인트</th></tr>
+    </thead>
+    <tbody>
+      <tr class="starrable"><td><b>약사(藥事)</b></td>
+        <td>의약품·의약외품의 <span class="hl">제조·조제·감정·보관·수입·판매(수여 포함)</span> + 그 밖의 약학 기술 관련 사항</td>
+        <td>"<span class="hl">일(업무)</span>"을 의미 — <span class="hl-duty">의료기기·화장품·수출 제외</span></td></tr>
+      <tr class="starrable"><td><b>약사(藥師)</b></td>
+        <td><span class="hl">한약에 관한 사항 외</span>의 약사(藥事) 업무 담당 (<span class="hl">한약제제는 포함</span>) → <span class="hl">보건복지부장관</span> 면허</td>
+        <td><span class="hl-duty">2026-111 함정: "한약제제 외"는 오답</span></td></tr>
+      <tr class="starrable"><td><b>한약사</b></td>
+        <td><span class="hl">한약 및 한약제제</span>에 관한 약사(藥事) 업무 담당 → <span class="hl">보건복지부장관</span> 면허</td>
+        <td>약사와 동등</td></tr>
+      <tr class="starrable"><td><b>약국</b></td>
+        <td><span class="hl">약사 또는 한약사</span>가 수여할 목적으로 <span class="hl">의약품 조제 업무</span>(약국제제 포함)를 하는 장소. 단, <span class="hl-duty">의료기관 조제실 제외</span></td>
+        <td>2023-111 정답</td></tr>
+      <tr class="starrable"><td><b>의약품</b></td>
+        <td>가. <span class="hl">대한민국약전</span>에 실린 물품(의약외품 제외)<br>나. 질병의 <span class="hl">진단·치료·경감·처치·예방</span> 목적<br>다. 사람·동물의 <span class="hl">구조·기능에 영향</span>을 주는 목적</td>
+        <td><span class="hl">3요건 중 하나</span></td></tr>
+      <tr class="starrable"><td><b>의약외품</b></td>
+        <td>인체 작용이 경미하며 안전성 우수한 물품 (<span class="hl">치약·생리대·구강청결제·반창고·염모제</span> 등)</td>
+        <td>판매 = 약사(藥事)</td></tr>
+      <tr class="starrable"><td><b>일반의약품</b></td>
+        <td><span class="hl">오용·남용 우려 적고</span> 의사 처방 없이 안전 사용 가능. 라벨 표시만으로 사용 가능</td>
+        <td><span class="hl">일반인 광고 가능</span></td></tr>
+      <tr class="starrable"><td><b>전문의약품</b></td>
+        <td><span class="hl">일반의약품이 아닌</span> 의약품</td>
+        <td><span class="hl-duty">일반인 광고 금지</span></td></tr>
+      <tr class="starrable"><td><b>한약</b></td>
+        <td><span class="hl">동·식·광물</span>에서 채취된, 주로 가공되지 아니한 약재</td>
+        <td>생약재</td></tr>
+      <tr class="starrable"><td><b>한약제제</b></td>
+        <td>한약을 <span class="hl">한방원리에 따라 배합하여 제조</span>한 의약품</td>
+        <td>2019 기출</td></tr>
+      <tr class="starrable"><td><b>신약</b></td>
+        <td><span class="hl">화학구조·본질 조성이 전혀 새로운 신물질의약품</span> 또는 이를 유효성분으로 함유한 복합제제 → 지정: <span class="hl">식품의약품안전처장</span></td>
+        <td>2021-111, 2026-111</td></tr>
+      <tr class="starrable"><td><b>조제</b></td>
+        <td><span class="hl">일정한 처방에 따라 2가지 이상</span> 의약품 배합 또는 <span class="hl">1가지를 일정 분량으로 나눔</span></td>
+        <td>특정 용법·용량 목적</td></tr>
+      <tr class="starrable"><td><b>희귀의약품</b></td>
+        <td><span class="hl">희귀질환 진단·치료 목적</span> 의약품</td>
+        <td>공급 우선</td></tr>
+      <tr class="starrable"><td><b>국가필수의약품</b></td>
+        <td><span class="hl">안정적 공급이 필요한</span> 의약품</td>
+        <td>국가 관리</td></tr>
+    </tbody>
+  </table>
+
+  <div class="danger-box starrable">
+    ⚠ <b>최다 함정</b> | <span class="hl">약사(藥事)</span> vs <span class="hl">약사(藥師)</span> — "약사(藥事)"는 <b>일(업무)</b>, "약사(藥師)"는 <b>사람(면허자)</b>.
+  </div>
+
+  <h3 class="starrable">2-2. 약사(藥事)의 범위 심화 — 매년 출제</h3>
+  <table>
+    <thead>
+      <tr><th style="width:28%">구분</th><th style="width:12%">포함</th><th>해설</th></tr>
+    </thead>
+    <tbody>
+      <tr class="starrable"><td>의약품의 <span class="hl">보관</span></td><td><b style="color:#059669;">○</b></td><td>2020-111 정답</td></tr>
+      <tr class="starrable"><td>의약외품의 <span class="hl">판매</span></td><td><b style="color:#059669;">○</b></td><td>2025-111 정답</td></tr>
+      <tr class="starrable"><td>의약품의 <span class="hl-duty">수출</span></td><td><b style="color:#dc2626;">✗</b></td><td>"<span class="hl">수입·판매</span>"만 해당</td></tr>
+      <tr class="starrable"><td>의약외품의 <span class="hl-duty">수출</span></td><td><b style="color:#dc2626;">✗</b></td><td>수출은 약사(藥事) 아님</td></tr>
+      <tr class="starrable"><td>염모제의 <span class="hl-duty">수출</span></td><td><b style="color:#dc2626;">✗</b></td><td>염모제=의약외품이지만 수출 ✗</td></tr>
+      <tr class="starrable"><td>의료기기의 보관/제조</td><td><b style="color:#dc2626;">✗</b></td><td>의료기기는 <span class="hl">의료기기법</span></td></tr>
+      <tr class="starrable"><td>화장품의 제조/수출</td><td><b style="color:#dc2626;">✗</b></td><td>화장품은 <span class="hl">화장품법</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub starrable">
+    💡 <b>핵심 공식</b> | 약사(藥事) = [<span class="hl">의약품 또는 의약외품</span>] × [<span class="hl">제조·조제·감정·보관·수입·판매</span>]. <span class="hl-duty">"수출"과 "의료기기·화장품"은 제외!</span>
+  </div>
+</section>
+
+<!-- =================== 제3장. 면허 및 자격 =================== -->
+<section id="ch3">
+  <h2>🎓 제3장. 면허 및 자격</h2>
+
+  <h3 class="starrable">3-1. 면허의 부여 [제3조, 제4조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 약사·한약사 <span class="hl">면허권자</span>: <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span></p>
+    <p class="starrable">▸ 한약사 자격: <span class="hl">인정기관 인증을 받은 한약학 전공 대학 졸업</span> + <span class="hl">한약학사 학위</span> + <span class="hl">한약사 국가시험 합격</span></p>
+  </div>
+
+  <h3 class="starrable">3-2. 결격사유 [제5조] ★ 최빈출</h3>
+  <div class="article starrable">
+    <div class="article-title">💡 결격사유 5가지</div>
+    <ol>
+      <li class="starrable"><span class="hl">정신질환자</span> (단, <span class="hl">전문의가 적합하다고 인정 시 예외</span>)</li>
+      <li class="starrable"><span class="hl">마약·대마·향정신성의약품 중독자</span></li>
+      <li class="starrable"><span class="hl">피성년후견인, 피한정후견인</span></li>
+      <li class="starrable"><span class="hl">파산선고를 받고 복권되지 아니한 자</span></li>
+      <li class="starrable">약사법·마약관리법·의료법·형법 등 위반으로 <span class="hl">금고 이상의 형</span>을 받고 집행 종료·면제 후 일정 기간(<span class="hl">면허취소 2년</span>, <span class="hl">형법 제347조 3년</span>) 미경과자</li>
+    </ol>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2026-113 함정</b> | "<span class="hl-duty">파산선고를 받은 자</span>"는 결격사유 아님. "<span class="hl">파산선고를 받고 복권되지 않은 자</span>"만 결격. → <span class="hl">복권되면 면허 취득 가능!</span>
+  </div>
+
+  <h3 class="starrable">3-3. 면허증 발급·재발급 [제6조, 시행규칙 제2조의2]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 재발급 신청 주체: <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span> (2020-112 기출)</p>
+    <p class="starrable">▸ 분실·훼손·기재사항 변경 시</p>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>함정 선지</b> | "<span class="hl-duty">시장·군수·구청장</span>", "<span class="hl-duty">국시원장</span>", "<span class="hl-duty">식약처장</span>"은 모두 오답. <span class="hl">면허 관련 업무는 전부 보건복지부장관</span>.
+  </div>
+
+  <h3 class="starrable">3-4. 면허의 대여 금지 [제5조의2]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 면허를 다른 사람에게 <span class="hl-duty">대여 금지</span></p>
+    <p class="starrable">▸ 대여받는 행위 및 <span class="hl-duty">대여 알선 행위도 금지</span></p>
+  </div>
+
+  <h3 class="starrable">3-5. 실태 신고 [제7조]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>핵심</b> | 최초 면허 취득 후 <span class="hl">3년마다</span> <span class="hl">취업상황 등 실태</span>를 <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span>에게 신고</p>
+    <p class="starrable">▸ 거주지 이전과 무관 → <span class="hl-duty">신고 주체는 항상 보건복지부장관</span> (2025-113 기출)</p>
+    <p class="starrable">▸ 실태 신고 수리 업무는 <span class="badge badge-assoc">위탁</span><span class="hl">대한한약사회</span>에 위탁 [제16조] (2023-112 기출)</p>
+  </div>
+
+  <h3 class="starrable">3-6. 국가시험 및 부정행위 [제8~10조]</h3>
+  <table>
+    <thead><tr><th style="width:20%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>시행 횟수</b></td><td><span class="hl">매년 1회 이상</span></td></tr>
+      <tr class="starrable"><td><b>시행권자</b></td><td><span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span> (시험 관리는 <span class="hl">한국보건의료인국가시험원</span> 위탁)</td></tr>
+      <tr class="starrable"><td><b>응시 불가자</b></td><td>결격사유 ①~③ (<span class="hl">정신질환자, 마약중독자, 피후견인</span>)</td></tr>
+      <tr class="starrable"><td><b>부정행위 처분</b></td><td><span class="hl-duty">시험정지·합격 무효</span> + <span class="hl">2년간 응시자격 제한</span> (주체: <span class="hl">보건복지부장관</span>)</td></tr>
+    </tbody>
+  </table>
+  <div class="exam-box starrable">
+    <b>2024-113</b> ("<span class="hl">1회 이상</span>") / <b>2026-112</b> ("<span class="hl">복지부장관 2년간</span>")
+  </div>
+</section>
+
+<!-- =================== 제4장. 약업 단체 및 중앙약사심의위원회 =================== -->
+<section id="ch4">
+  <h2>👥 제4장. 약업 단체 및 중앙약사심의위원회</h2>
+
+  <h3 class="starrable">4-1. 약사회 및 한약사회 [제11~12조]</h3>
+  <table>
+    <thead><tr><th style="width:15%">구분</th><th>대한약사회</th><th>대한한약사회</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>근거</b></td><td><span class="hl">제11조</span></td><td><span class="hl">제12조</span></td></tr>
+      <tr class="starrable"><td><b>대상</b></td><td>약사</td><td><span class="hl">한약사</span> (한약·한약제제 연구)</td></tr>
+      <tr class="starrable"><td><b>목적</b></td><td>약사 권익·윤리·자질 향상</td><td>한약사 <span class="hl">권익·윤리·자질 향상</span></td></tr>
+      <tr class="starrable"><td><b>설립 근거</b></td><td><span class="hl">대통령령</span></td><td><span class="hl">대통령령</span></td></tr>
+      <tr class="starrable"><td><b>윤리위원회</b></td><td><span class="hl">면허취소·자격정지 심의</span></td><td><span class="hl">면허취소·자격정지 심의</span></td></tr>
+    </tbody>
+  </table>
+  <div class="exam-box starrable">
+    <b>2021-113</b> (윤리위원회) / <b>2022-112</b> (대한한약사회) / <b>2022-113</b> (<span class="hl">대한한약사회장 자격정지 요구</span>)
+  </div>
+
+  <h3 class="starrable">4-2. 업무 위탁 [제16조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 위탁 주체: <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span></p>
+    <p class="starrable">▸ 위탁 가능: <span class="hl">약사·한약사 윤리</span>에 관한 업무의 일부</p>
+    <p class="starrable">▸ 위탁 대상: <span class="badge badge-assoc">위탁</span><span class="hl">대한한약사회</span> 등</p>
+    <p class="starrable">▸ 예시: <span class="hl">한약사 취업실태 신고 수리</span></p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2020-113</b> (대한한약사회) / <b>2023-112</b> (<span class="hl">취업실태 신고 수리</span>)
+  </div>
+
+  <h3 class="starrable">4-3. 연수교육 [제15조]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>핵심</b> | <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span>은 약사·한약사에게 <span class="hl">매년 6시간 이상</span> 연수교육 명령 가능</p>
+    <div class="sub starrable">
+      <b>▶ 연수교육 면제 대상 [시행규칙 제5조의2]</b>
+      <ul>
+        <li class="starrable"><span class="hl">행정기관·보건소 근무자</span> (조제 직접 종사 ✗)</li>
+        <li class="starrable"><span class="hl">해외체류·휴업·폐업</span>으로 <span class="hl">6개월 이상</span> 조제 미종사자</li>
+        <li class="starrable"><span class="hl">신규 면허자</span> (당해 연도 + 다음 연도)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="exam-box starrable">
+    <b>2021-112</b> ("<span class="hl">보건복지부장관</span>" - <span class="hl-duty">국무총리/식약처장/시장/구청장 모두 오답</span>)
+  </div>
+
+  <h3 class="starrable">4-4. 중앙약사심의위원회 [제18조] ★★★ 매년 출제</h3>
+  <table>
+    <thead><tr><th style="width:22%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>설치 기관</b></td><td><span class="hl">식품의약품안전처</span></td></tr>
+      <tr class="starrable"><td><b>성격</b></td><td><span class="hl">보건복지부장관 + 식약처장</span>의 자문기관</td></tr>
+      <tr class="starrable"><td><b>위원장</b></td><td><span class="hl">2명</span> (<span class="hl">식약처 차장</span> + <span class="hl">민간위원 호선</span>)</td></tr>
+      <tr class="starrable"><td><b>위원 수</b></td><td>위원장 포함 <span class="hl">300명 이내</span></td></tr>
+      <tr class="starrable"><td><b>분과위원회</b></td><td>분야별 심의를 위해 구성</td></tr>
+    </tbody>
+  </table>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 심의 사항 [시행령 제13조]</div>
+    <ol>
+      <li class="starrable"><span class="hl">대한민국약전의 제·개정</span></li>
+      <li class="starrable"><span class="hl">의약품 및 의약외품의 기준</span></li>
+      <li class="starrable"><span class="hl">의약품 부작용 피해 구제</span>에 관한 사항</li>
+      <li class="starrable"><span class="hl">일반의약품·전문의약품의 분류</span></li>
+      <li class="starrable">의약품등의 <span class="hl">안전성·유효성</span>에 대한 조사 (백신 안전성 등)</li>
+    </ol>
+  </div>
+
+  <div class="danger-box starrable">
+    ⚠ <b>오답 함정</b> | <span class="hl-duty">요양기관 분류 / 의료기기 등재 / 건강기능식품 / 화장품 기능성 / 약사법 제·개정 / 의약품 광고심의 → 모두 심의 대상 아님</span>
+  </div>
+
+  <div class="exam-box starrable">
+    <b>2020-114 / 2021-114 / 2022-114 / 2023-113 / 2026-117</b> — <span class="hl">매년 1문제 이상 출제!</span>
+  </div>
+</section>
+
+<!-- =================== 제5장. 약국 개설 및 관리 =================== -->
+<section id="ch5">
+  <h2>🏥 제5장. 약국과 조제 (1) — 개설 및 관리</h2>
+
+  <h3 class="starrable">5-1. 약국 개설등록 [제20조] ★</h3>
+  <table>
+    <thead><tr><th style="width:25%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>개설 자격</b></td><td><span class="hl">약사 또는 한약사</span>만 가능 (<span class="hl-duty">법인 ✗, 일반인 ✗</span>)</td></tr>
+      <tr class="starrable"><td><b>등록 기관</b></td><td><span class="badge badge-local">주체</span><span class="hl">시장·군수·구청장</span> (<span class="hl">자치구의 구청장 포함</span>)</td></tr>
+      <tr class="starrable"><td><b>시설 기준 규정 형식</b></td><td><span class="hl">보건복지부령</span> (시행규칙 제22조의2)</td></tr>
+      <tr class="starrable"><td><b>수수료</b></td><td>개설등록 <span class="hl">10,000원</span> / 변경등록 <span class="hl">5,000원</span> / 면허 재발급 <span class="hl">2,000원</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 개설 불가 사유 [제20조 제5항]</div>
+    <ol>
+      <li class="starrable"><span class="hl-duty">의료기관의 구내·시설 안</span></li>
+      <li class="starrable"><span class="hl-duty">의료기관 시설 일부를 분할한 장소</span></li>
+      <li class="starrable"><span class="hl-duty">의료기관과 약국 사이 전용 복도 설치</span></li>
+      <li class="starrable"><span class="hl">개설등록 취소 후 6개월 미경과자</span></li>
+    </ol>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2020-116 함정</b> | "<span class="hl">취소된 날로부터 6개월이 지난 자</span>"는 <span class="hl">등록 가능</span> (미경과자만 불가).
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 시설 기준 [시행규칙 제22조의2] — 4가지</div>
+    <ol>
+      <li class="starrable"><span class="hl">조제실</span></li>
+      <li class="starrable"><span class="hl">감염병 예방을 위한 소독 시설</span></li>
+      <li class="starrable"><span class="hl">수돗물 또는 적합 지하수 공급 시설</span></li>
+      <li class="starrable"><span class="hl">조제에 필요한 기구</span></li>
+    </ol>
+  </div>
+  <div class="exam-box starrable">
+    <b>2020-116 / 2023-114 / 2024-114</b> — <span class="hl">모두 "시장·군수·구청장" 정답</span>
+  </div>
+
+  <h3 class="starrable">5-2. 등록사항 변경 [시행규칙 제9조]</h3>
+  <table>
+    <thead><tr><th>변경신청 대상 ○</th><th>변경신청 대상 ✗</th></tr></thead>
+    <tbody>
+      <tr class="starrable">
+        <td>• <span class="hl">약국의 명칭 변경</span><br>• <span class="hl">소재지 변경</span><br>• <span class="hl">대표자 변경</span><br>• <span class="hl">면적 10% 이상 변경</span></td>
+        <td>• <span class="hl-duty">출입구 변경</span><br>• <span class="hl-duty">종업원 변경</span><br>• <span class="hl-duty">한약사 채용</span><br>• <span class="hl-duty">약국관리자 변경</span> (지정만 하면 됨)</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="exam-box starrable">
+    <b>2025-115</b> ("<span class="hl">약국의 명칭 변경</span>" 정답)
+  </div>
+
+  <h3 class="starrable">5-3. 약국의 관리의무 [제21조] ★★</h3>
+  <div class="article starrable">
+    <div class="article-title">▶ 관리 주체</div>
+    <p class="starrable">▸ <b>원칙</b>: <span class="hl">약국개설자 본인</span>이 관리</p>
+    <p class="starrable">▸ <b>예외</b>(본인 관리 불가): <span class="hl">대신할 약사 또는 한약사 지정</span> (<span class="hl-duty">별도 신고·허가 불필요</span>)</p>
+  </div>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 관리자의 준수사항 [제21조 각 호]</div>
+    <ul>
+      <li class="starrable"><span class="hl-duty">보건위생 사고 없도록 종업원 철저 감독</span> (2020-115 기출)</li>
+      <li class="starrable"><span class="hl-duty">보건위생상 위해 우려 물건</span>을 약국에 두지 말 것</li>
+      <li class="starrable"><span class="hl-duty">포장이 개봉된 의약품</span>을 섞어서 보관하지 말 것</li>
+      <li class="starrable"><span class="hl-duty">사무직 종업원</span>에게 한약사로 오인될 위생복 금지</li>
+      <li class="starrable">환자가 신분을 알 수 있도록 "<span class="hl">한약사</span>" 명칭 및 <span class="hl">성명을 표시한 명찰</span> 착용</li>
+      <li class="starrable"><span class="hl">위생복</span> 착용</li>
+    </ul>
+  </div>
+
+  <div class="danger-box starrable">
+    ⚠ <b>2026-114 함정</b> | 전문의약품·일반의약품을 <span class="hl">구분 진열해야 하지만</span>, "<span class="hl-duty">별도의 약장</span>"에 진열하라는 규정은 없음!
+  </div>
+  <div class="warn-box starrable">
+    📋 <b>2021-115 정답 포인트</b> | "<span class="hl">위생복을 입고 '한약사'의 명칭 및 성명이 표시된 명찰을 달고 근무</span>"가 유일한 정답. <span class="hl-duty">면허증 사본 게시는 원본 게시가 원칙</span>.
+  </div>
+  <div class="exam-box starrable">
+    <b>2020-115</b> (종업원 감독) / <b>2021-115</b> (명찰) / <b>2024-115</b> (대리 지정-별도 절차 ✗) / <b>2025-114</b> (대리 지정) / <b>2026-114</b> (별도 약장 함정)
+  </div>
+
+  <h3 class="starrable">5-4. 지위 승계 [제21조의2]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 약국 영업 양도 시 → 양수인은 양도일부터 <span class="hl">1개월 이내</span>에 <span class="badge badge-local">주체</span><span class="hl">시장·군수·구청장</span>에게 신고 (2024-116 기출)</p>
+  </div>
+
+  <h3 class="starrable">5-5. 폐업·휴업·재개업 [제22조]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>핵심 공식</b> | 폐업 / <span class="hl">휴업(1개월 이상)</span> / 재개업 → <span class="hl">7일 이내</span> <span class="badge badge-local">주체</span><span class="hl">시장·군수·구청장</span>에게 신고</p>
+    <p class="starrable">▸ <span class="hl-duty">휴업 1개월 미만은 신고 불필요</span></p>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2021-116 함정</b> | <span class="hl-duty">7일/14일/20일/27일 휴업 → 신고 ✗</span>. <span class="hl">34일(1개월 이상) 휴업만 신고 대상</span> (정답).
+  </div>
+  <div class="exam-box starrable">
+    <b>2021-116</b> (34일 기출) / <b>2022-115</b> (<span class="hl">7일 이내</span>)
+  </div>
+</section>
+
+<!-- =================== 제6장. 의약품 조제 =================== -->
+<section id="ch6">
+  <h2>💊 제6장. 약국과 조제 (2) — 의약품 조제</h2>
+
+  <h3 class="starrable">6-1. 조제 원칙 [제23조] ★★</h3>
+  <table>
+    <thead><tr><th style="width:12%">항</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>제1항</b></td><td>약사·한약사는 <span class="hl">면허 범위</span>에서 의약품 조제</td></tr>
+      <tr class="starrable"><td><b>제2항</b></td><td>조제 장소: <span class="hl">약국 또는 의료기관의 조제실</span></td></tr>
+      <tr class="starrable"><td><b>제3항</b></td><td>예외적 조제 허용 (<span class="hl">약학대학생 실습</span> 등)</td></tr>
+      <tr class="starrable"><td><b>제4항</b></td><td>약사는 <span class="hl">의사·치과의사·한의사 처방전</span>에 따라 조제</td></tr>
+      <tr class="starrable"><td><b>제6항</b></td><td><span class="hl">한약사의 한약 조제</span> ★★★</td></tr>
+    </tbody>
+  </table>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 한약사의 한약 조제 [제23조 제6항] 최빈출</div>
+    <p class="starrable">💡 <b>2가지 경우만 가능</b></p>
+    <ol>
+      <li class="starrable"><span class="hl">한의사의 처방전</span>에 따른 조제</li>
+      <li class="starrable"><span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span>이 정한 한약처방의 종류(<span class="hl">100처방</span>) 및 조제 방법 = <span class="hl">한약조제지침서</span></li>
+    </ol>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2021-117, 2023-115 함정</b> | <span class="hl-duty">동의보감·방약합편·경악전서</span> 등은 "한약조제지침서" <span class="hl-duty">아님</span>. "<span class="hl-duty">환자의 요구</span>"도 오답.
+  </div>
+  <div class="exam-box starrable">
+    <b>2021-117 / 2022-117 / 2023-115 / 2026-115</b>
+  </div>
+
+  <h3 class="starrable">6-2. 조제 거부 금지 [제24조]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>의무</b> | <span class="hl">의료기관이 없는 지역</span>에서 약국 개설 한약사는 조제 요구 시 <span class="hl-duty">정당한 이유 없이 거부 불가</span> (2022-116 기출)</p>
+  </div>
+
+  <h3 class="starrable">6-3. 대체조제 [제27조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 약사는 처방전과 <span class="hl">동일한 성분·함량·제형</span>의 의약품으로 <span class="hl">대체조제 가능</span></p>
+    <p class="starrable">▸ 대체조제 시 <span class="hl">의사·치과의사에게 사후 통보</span></p>
+  </div>
+
+  <h3 class="starrable">6-4. 처방전 확인 의무 [제26조] ★</h3>
+  <div class="article starrable">
+    <div class="article-title">▶ 처방전 발행인에게 확인 후 조제해야 하는 경우</div>
+    <ol>
+      <li class="starrable"><span class="hl">식약처장이 품목허가를 취소한 의약품</span> 기재 (2020-117 기출)</li>
+      <li class="starrable"><span class="hl">식약처장이 병용금기 성분으로 고시한 의약품</span> 기재 (2023-116 기출)</li>
+      <li class="starrable"><span class="hl">연령 금기, 임산부 금기 성분</span> 포함 처방</li>
+    </ol>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>오답 함정</b> | <span class="hl-duty">"안전성 의심" / "약국에 비치 없음" / "규격 불명확" / "포제법 기재" / "성분명 기재" / "제품명 기재" / "한약조제지침서에 수록되지 않은 처방"</span> → 모두 확인 의무 대상 아님
+  </div>
+
+  <h3 class="starrable">6-5. 조제된 약제의 표시 [제28조, 시행규칙 제18조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 판매 목적 조제 약제 용기/포장에 <b>필수</b>: <span class="hl">조제한 약국의 명칭과 소재지</span></p>
+    <p class="starrable">▸ <span class="hl-duty">환자 생년월일 / 의약품 성분명 / 처방 의사명</span> 등은 필수 아님</p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2026-116</b>
+  </div>
+
+  <h3 class="starrable">6-6. 복약지도 및 진단 금지</h3>
+  <div class="danger-box starrable">
+    ⚠ <b>2022-111 함정</b> | 한약사가 <span class="hl-duty">혈당/혈압/골밀도 검사 후 의약품 판매</span> = 진단 행위 → <span class="hl-duty">허용 ✗</span>. 통증 부위 만져 확인도 ✗. "<span class="hl">진단적 판단 없이 구매자의 선택을 돕는 것</span>"만 허용.
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2024-111 함정</b> | <span class="hl-duty">감기 환자 방문 예상하여 미리 다수의 한약을 조제해 판매 = 허용 ✗</span> (<span class="hl">처방전은 개별 조제 원칙</span>).
+  </div>
+</section>
+
+<!-- =================== 제7장. 의약품 제조 및 품질관리 =================== -->
+<section id="ch7">
+  <h2>🏭 제7장. 의약품 제조 및 품질관리</h2>
+
+  <h3 class="starrable">7-1. 제조업 허가 [제31조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 허가권자: <span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span></p>
+    <p class="starrable">▸ <span class="hl">시설 기준</span>을 갖추어 허가 신청</p>
+  </div>
+
+  <h3 class="starrable">7-2. 품목허가 [제31조, 제31조의5]</h3>
+  <table>
+    <thead><tr><th style="width:22%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>허가·신고권자</b></td><td><span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span></td></tr>
+      <tr class="starrable"><td><b>유효기간</b></td><td><span class="hl">5년</span> (만료 전 갱신 필요)</td></tr>
+      <tr class="starrable"><td><b>신약 재심사</b></td><td>허가 후 <span class="hl">4~6년 내</span> 재심사 (<span class="hl">안전관리책임자</span> 담당)</td></tr>
+      <tr class="starrable"><td><b>특허권 등재</b></td><td>의약품 특허목록 등재 → <span class="hl">식약처장</span>에게 신청</td></tr>
+    </tbody>
+  </table>
+  <div class="exam-box starrable">
+    <b>2020-118</b> (<span class="hl">5년</span>) / <b>2022-118</b> (식약처장 등재)
+  </div>
+
+  <h3 class="starrable">7-3. 제조관리자 [제36조, 시행규칙 제42조] ★★★ 최다 빈출</h3>
+  <table>
+    <thead>
+      <tr><th>제조 대상</th><th style="width:18%">제조관리자 수</th><th>자격</th></tr>
+    </thead>
+    <tbody>
+      <tr class="starrable">
+        <td><span class="hl">인체에 직접 적용</span>되는 의약품 (예: <span class="hl">은교산 엑스산제</span>)</td>
+        <td><span class="hl">2명 이상</span></td>
+        <td><span class="hl">약사 또는 한약사</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="hl">원료의약품</span>만 제조</td>
+        <td><span class="hl">1명 이상</span></td>
+        <td><span class="hl">약사 또는 한약사</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="hl">한약제제 전문 제조소</span></td>
+        <td>규정에 따름</td>
+        <td><span class="hl">한약사 가능</span> (<span class="hl-duty">의사·한의사·수의사·치과의사 ✗</span>)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 관리자 변경 명령 [제37조]</div>
+    <p class="starrable">▸ 제조관리자가 법령 위반 → 변경명령권자: <span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span> (2021-123 기출)</p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2022-119</b> (2명) / <b>2023-117</b> (한약사) / <b>2024-118</b> (원료의약품 1명) / <b>2025-117</b> (<span class="hl">은교산 엑스산제 2명</span>)
+  </div>
+
+  <h3 class="starrable">7-4. 안전관리책임자 [제37조의3]</h3>
+  <table>
+    <thead><tr><th style="width:18%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>역할</b></td><td><span class="hl">신약 재심사, 시판 후 안전관리, 재평가, 부작용 보고</span></td></tr>
+      <tr class="starrable"><td><b>자격 ○</b></td><td><span class="hl">의사, 약사 또는 한약사</span></td></tr>
+      <tr class="starrable"><td><b>자격 ✗</b></td><td><span class="hl-duty">한의사, 치과의사, 수의사, 한약업사 모두 불가</span></td></tr>
+    </tbody>
+  </table>
+  <div class="exam-box starrable">
+    <b>2020-119 / 2022-120</b> (의사·한약사 조합)
+  </div>
+
+  <h3 class="starrable">7-5. 제조업 휴업 신고 [제40조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ <span class="hl">1개월 이상</span>(예: 35일) 휴업 → <span class="hl">7일 이내</span>에 <span class="badge badge-mfds">주체</span><span class="hl">식약처장</span>에게 신고 (2024-119 기출)</p>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>약국 휴업 주체와 다름!</b> <span class="hl">약국 = 시장·군수·구청장</span>, <span class="hl">제조업 = 식약처장</span>
+  </div>
+
+  <h3 class="starrable">7-6. 조제실제제 [제41조, 시행규칙 제54조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 정의: <span class="badge badge-sido">주체</span><span class="hl">시·도지사</span>의 허가를 받은 의료기관 조제실에서 제조한 제제</p>
+    <p class="starrable">▸ 신고 기관: <span class="hl">시·도지사</span></p>
+    <p class="starrable">▸ 범위: <span class="hl">전문의약품에 해당하는 제제</span> (<span class="hl-duty">일반의약품, 생물학적제제, 마약·향정 등 제외</span>)</p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2024-117</b> (시·도지사) / <b>2026-118</b> (<span class="hl">전문의약품</span>)
+  </div>
+
+  <h3 class="starrable">7-7. 회수 및 폐기 [제39조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 위해 의약품 회수 계획 보고 주체: <span class="hl">의약품의 품목허가를 받은 자</span></p>
+    <p class="starrable">▸ 보고 기관: <span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span>에게 미리 보고</p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2021-118</b> (<span class="hl">품목허가 받은 자</span>)
+  </div>
+
+  <h3 class="starrable">7-8. 긴급 수입 [제42조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 긴급 도입 필요 의약품 수입 인정: <span class="badge badge-mfds">주체</span><span class="hl">식약처장</span></p>
+  </div>
+</section>
+
+<!-- =================== 제8장. 의약품 판매 및 유통 질서 =================== -->
+<section id="ch8">
+  <h2>🏪 제8장. 의약품 판매 및 유통 질서</h2>
+
+  <h3 class="starrable">8-1. 의약품 판매업 허가 [제45조] ★★</h3>
+  <table>
+    <thead>
+      <tr><th style="width:25%">판매업 종류</th><th style="width:25%">허가 주체</th><th>관리자 자격</th></tr>
+    </thead>
+    <tbody>
+      <tr class="starrable">
+        <td><b>의약품 도매상</b></td>
+        <td><span class="badge badge-local">주체</span><span class="hl">시장·군수·구청장</span></td>
+        <td><span class="hl">약사</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><b>한약 도매상</b></td>
+        <td><span class="badge badge-local">주체</span><span class="hl">시장·군수·구청장</span></td>
+        <td><span class="hl">약사·한약사·한약업사·복지부장관 인정 학과 졸업자</span> (<span class="hl-duty">의사 불가</span>)</td>
+      </tr>
+      <tr class="starrable">
+        <td><b>안전상비의약품 판매자</b></td>
+        <td><span class="badge badge-local">주체</span><span class="hl">시장·군수·구청장</span></td>
+        <td>등록</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="danger-box starrable">
+    ⚠ <b>2023-119 함정</b> | "<span class="hl-duty">서울특별시장</span>"(시·도지사)은 오답. <span class="hl">도매상 허가는 시·군·구청장</span>. "<span class="hl-duty">신고</span>"가 아닌 "<span class="hl">허가</span>"!
+  </div>
+  <div class="exam-box starrable">
+    <b>2020-120 / 2023-118</b> (의사 불가) / <b>2023-119</b> (구청장 허가) / <b>2025-119</b>
+  </div>
+
+  <h3 class="starrable">8-2. 한약업사 [제45조 제4항]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>한약업사의 권한</b> | <span class="hl">환자의 요구</span>에 따라 <span class="hl">기존 한약서 처방</span> 또는 <span class="hl">한의사의 처방전</span>에 따라 한약을 <span class="hl">혼합 판매 가능</span> (2025-116 기출)</p>
+  </div>
+
+  <h3 class="starrable">8-3. 판매 질서 유지 [제47조] ★</h3>
+  <div class="article starrable">
+    <div class="article-title">▶ 도매상 판매 제한</div>
+    <p class="starrable">▸ 도매상 → <span class="hl">약국개설자·다른 도매상 외</span>의 자에게 <span class="hl-duty">판매 금지</span></p>
+  </div>
+  <div class="article starrable">
+    <div class="article-title">▶ 긴급 구매 허용 예외 (2026-119)</div>
+    <p class="starrable">💡 <span class="hl">의사가 처방한 의약품이 없어 약국개설자가 다른 약국개설자로부터 긴급 구매</span> → <span class="hl">판매 질서 위반 아님</span></p>
+  </div>
+  <div class="article starrable">
+    <div class="article-title">▶ 위반 행위 예시</div>
+    <ul>
+      <li class="starrable"><span class="hl-duty">도매상이 동네 의원 처방전 소지자에게 전문의약품 판매 ✗</span></li>
+      <li class="starrable"><span class="hl-duty">도매상이 아들이 경영하는 약국에 일반의약품 판매 ✗</span></li>
+      <li class="starrable"><span class="hl-duty">의약품공급자가 도매상에게 판매촉진 업무 위탁 ✗</span></li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">8-4. 경제적 이익 등 제공 금지 (리베이트)</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 한약사는 <span class="hl">의약품 공급자</span>로부터 법상 <span class="hl-duty">허용되지 않는 경제적 이익 수수 ✗</span></p>
+    <p class="starrable">▸ 위반 시 → <span class="hl">자격정지</span> (주체: <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span>, 2025-122 기출)</p>
+  </div>
+
+  <h3 class="starrable">8-5. 대금 지급 기한 [제47조 제5항]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 전년도 총구매액 <span class="hl">40억원 이상</span>인 약국개설자 → 의약품 수령 후 <span class="hl">6개월 이내</span> 대금 지급 (2021-119 기출)</p>
+  </div>
+
+  <h3 class="starrable">8-6. 개봉 판매 [제48조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ <b>원칙</b>: 제조업자가 <span class="hl">봉함한 용기·포장</span> <span class="hl-duty">개봉 판매 금지</span></p>
+    <p class="starrable">▸ <b>예외</b>: <span class="hl">한약제제 판매 시 개봉 판매 가능</span> (2021-120 기출)</p>
+  </div>
+
+  <h3 class="starrable">8-7. 판매 가격 기재 [제56조 제2항]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 실제 구입가격보다 <span class="hl">일정 비율(예: 30%) 높은 가격</span>으로 표시 판매 → <span class="hl">허용</span> (2025-112 기출)</p>
+  </div>
+</section>
+
+<!-- =================== 제9장. 의약품 취급·기준·안전관리 =================== -->
+<section id="ch9">
+  <h2>⚖ 제9장. 의약품 취급 · 기준 · 안전관리</h2>
+
+  <h3 class="starrable">9-1. 대한민국약전 [제51조] ★</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>핵심</b> | <span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span>이 <span class="hl">중앙약사심의위원회 심의</span>를 거쳐 공고 — 의약품의 <span class="hl">성질·상태·품질·저장방법</span> 적정화</p>
+    <div class="sub starrable">
+      <b>▶ 구성</b>
+      <ul>
+        <li class="starrable">제1부: <span class="hl">원료의약품 및 기초적 제제</span></li>
+        <li class="starrable">제2부: <span class="hl">혼합제제</span> 등</li>
+      </ul>
+    </div>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2026-120 함정</b> | "<span class="hl-duty">대한민국약전에는 국내에서 생산되는 모든 의약품이 실려 있다</span>" = 오답! <span class="hl">자주 사용되는 원료·기초제제만 실림</span>.
+  </div>
+  <div class="exam-box starrable">
+    <b>2020-122</b> (식약처장) / <b>2026-120</b> (모든 의약품 ✗)
+  </div>
+
+  <h3 class="starrable">9-2. 의약외품 기준 [제52조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 보건위생상 위해 방지를 위해 기준을 정할 수 있는 자: <span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span> (2020-121 기출)</p>
+  </div>
+
+  <h3 class="starrable">9-3. 국가출하승인 [제53조, 시행규칙 제63조]</h3>
+  <table>
+    <thead><tr><th style="width:18%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>승인 주체</b></td><td><span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span></td></tr>
+      <tr class="starrable"><td><b>대상 의약품</b></td><td>① <span class="hl">백신</span>(B형 간염 등) ② <span class="hl">항독소 제제</span> ③ <span class="hl">혈장분획 제제</span> ④ <span class="hl">변질·부패하기 쉬운 의약품</span> ⑤ 그 밖 제조·품질관리에 관한 자료 검토·검정 필요</td></tr>
+      <tr class="starrable"><td><b>제외 대상</b></td><td><span class="hl-duty">수입자가 요청한 수출 목적의 백신/혈장분획 제제, 항생물질 제제·수액용 주사제</span></td></tr>
+    </tbody>
+  </table>
+  <div class="exam-box starrable">
+    <b>2022-121</b> (B형 간염 백신) / <b>2024-120</b> (변질 의약품) / <b>2025-120</b> (항독소 제제)
+  </div>
+
+  <h3 class="starrable">9-4. 의약품 광고 [제68조] ★★</h3>
+  <table>
+    <thead><tr><th style="width:25%">구분</th><th>일반인 대상 광고</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>일반의약품</b></td><td><span class="hl">가능 ○</span> (예: 아세트아미노펜 500mg 정제)</td></tr>
+      <tr class="starrable"><td><b>전문의약품</b></td><td><span class="hl-duty">금지 ✗</span></td></tr>
+      <tr class="starrable"><td><b>예외 — 감염병 예방용</b></td><td><span class="hl">가능 ○</span> (예: <span class="hl">코로나19 예방 의약품</span>)</td></tr>
+      <tr class="starrable"><td><b>원료의약품</b></td><td><span class="hl-duty">금지 ✗</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="article starrable">
+    <div class="article-title">▶ 약국개설자가 표시·광고 <span style="color:#059669;">가능한 것</span></div>
+    <ul>
+      <li class="starrable">○ <span class="hl">약국개설자 본인의 이력·경력</span></li>
+      <li class="starrable">○ <span class="hl">한약사의 박사 학위 등 객관적 사실</span></li>
+      <li class="starrable">○ <span class="hl">옥외 광고에 제품명 표시</span></li>
+    </ul>
+  </div>
+  <div class="article starrable">
+    <div class="article-title">▶ 약국개설자가 표시·광고 <span style="color:#dc2626;">불가한 것</span></div>
+    <ul>
+      <li class="starrable"><span class="hl-duty">특정 의약품 전문취급 / 특정 의료기관 처방의약품 전문조제</span></li>
+      <li class="starrable"><span class="hl-duty">다른 약국과 판매의약품 가격 비교</span></li>
+      <li class="starrable"><span class="hl-duty">경옥고가 가장 저렴한 약국 / 어린이 아토피 전문 조제약국</span></li>
+      <li class="starrable"><span class="hl-duty">한의사 추천 / 사용자 체험담 / 사은품 제공</span></li>
+    </ul>
+  </div>
+  <div class="exam-box starrable">
+    <b>2021-121</b> (본인 이력) / <b>2022-122</b> (아세트아미노펜) / <b>2023-120</b> (코로나19) / <b>2024-121</b> (경력) / <b>2025-121</b> (박사 학위) / <b>2026-121</b> (옥외 광고 제품명)
+  </div>
+
+  <h3 class="starrable">9-5. 한국의약품안전관리원 [제68조의4]</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">의약품 부작용 인과관계 조사·규명</span></li>
+      <li class="starrable"><span class="hl">의약품안전정보관리시스템 구축</span></li>
+      <li class="starrable"><span class="hl">의약품안전정보의 수집·분석·평가·관리·제공</span></li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">9-6. 이상사례(부작용) 보고 [제68조의8]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 약국개설자 등이 <span class="hl">유해사례·사망 사례</span> 등을 알게 된 경우 → <span class="badge badge-kida">주체</span><span class="hl">한국의약품안전관리원장</span>에게 보고</p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2021-122 / 2025-118</b>
+  </div>
+
+  <h3 class="starrable">9-7. 업무개시명령 [제69조의4]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 약국개설자 등 <span class="hl">집단 휴·폐업</span>으로 의약품 구매에 현저한 지장이 우려되는 경우 → <span class="badge badge-mohw">주체</span><span class="hl">보건복지부장관</span>이 업무개시명령</p>
+  </div>
+  <div class="danger-box starrable">
+    ⚠ <b>2026-122 함정</b> | <span class="hl-duty">식약처장·시·도지사·구청장은 업무개시명령권자가 아님</span>. 특히 "<span class="hl-duty">보건소장</span>"은 결정적 오답 선지.
+  </div>
+  <div class="exam-box starrable">
+    <b>2022-123 / 2026-122</b>
+  </div>
+
+  <h3 class="starrable">9-8. 개수명령 [제74조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ <span class="badge badge-mfds">주체</span><span class="hl">식약처장</span>이 제조업자·수입자 시설이 기준에 맞지 않을 때 → <span class="hl">개수(改修) 명령</span></p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2020-123</b> (<span class="hl">개수명령</span> 정답)
+  </div>
+</section>
+
+<!-- =================== 제10장. 피해구제 및 특수 기관 =================== -->
+<section id="ch10">
+  <h2>🛡 제10장. 피해구제 및 특수 기관</h2>
+
+  <h3 class="starrable">10-1. 자격정지 요구 [제79조의2]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ "<span class="hl">학문적으로 인정되지 아니하는 약사(藥事) 행위</span>" → 자격정지 요구 주체: <span class="badge badge-assoc">주체</span><span class="hl">대한한약사회장</span> (2022-113 기출)</p>
+  </div>
+
+  <h3 class="starrable">10-2. 약국 업무정지 [제76조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ <span class="hl-duty">부정한 방법의 약국 개설등록</span> → 업무정지 명령자: <span class="badge badge-local">주체</span><span class="hl">관할 시장·군수·구청장</span> (2024-122 기출)</p>
+  </div>
+
+  <h3 class="starrable">10-3. 청문 [제77조]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ <span class="hl">시장·군수·구청장이 약국개설 등록 취소 처분</span> 시 → <span class="hl">청문 실시</span> (2023-122 기출)</p>
+    <p class="starrable">▸ ※ <span class="hl-duty">개수명령·관리자 변경·업무정지 자체는 청문 대상 아님</span></p>
+  </div>
+
+  <h3 class="starrable">10-4. 피해구제 신청 [제86조의4]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 의약품 부작용 장애 시 <span class="hl">피해구제급여 신청처</span>: <span class="badge badge-kida">주체</span><span class="hl">한국의약품안전관리원장</span> (2024-123 기출)</p>
+  </div>
+
+  <h3 class="starrable">10-5. 피해구제 행정 주체 [제86조의3]</h3>
+  <div class="article starrable">
+    <p class="starrable">▸ 의약품 부작용 피해 구제의 <span class="hl">실질적 행정 주체</span>: <span class="badge badge-mfds">주체</span><span class="hl">식품의약품안전처장</span> (2026-123 기출)</p>
+  </div>
+
+  <h3 class="starrable">10-6. 한국희귀·필수의약품센터 [제91조]</h3>
+  <div class="article starrable">
+    <p class="starrable">💡 <b>담당 업무</b> | <span class="hl">긴급 도입 필요 또는 안정적 공급 지원 필요 의약품</span>에 대한 <span class="hl">정보 제공 및 공급</span></p>
+  </div>
+  <div class="exam-box starrable">
+    <b>2023-123</b> (긴급 도입) / <b>2025-123</b> (<span class="hl">코로나19 긴급 도입</span>)
+  </div>
+</section>
+
+<!-- =================== 부록 1. 주체별 권한 총정리 =================== -->
+<section id="app1">
+  <h2>🔑 부록 1. 주체별 권한 총정리</h2>
+  <div class="warn-box starrable">
+    <b>시험에서 가장 많이 틀리는 부분</b>이 "<span class="hl">누가 하는가</span>"입니다. 반드시 <span class="hl-duty">주체를 외우세요</span>.
+  </div>
+
+  <h3 class="starrable">① <span class="badge badge-mohw">주체</span>보건복지부장관 (면허·신고·교육·집단 업무)</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable">약사·한약사 <span class="hl">면허 발급</span> [제3조, 제4조]</li>
+      <li class="starrable"><span class="hl">면허증 재발급</span> [제6조]</li>
+      <li class="starrable"><span class="hl">취업상황 등 실태 신고 수리</span> [제7조]</li>
+      <li class="starrable"><span class="hl">국가시험 시행</span> [제8조]</li>
+      <li class="starrable"><span class="hl">부정행위자 2년간 응시자격 제한</span> [제10조]</li>
+      <li class="starrable"><span class="hl">연수교육 명령</span> (매년 6시간 이상) [제15조]</li>
+      <li class="starrable"><span class="hl">업무 위탁</span> (한약사회 등) [제16조]</li>
+      <li class="starrable"><span class="hl">한약처방(100처방) 및 조제방법 지정</span> [제23조 제6항]</li>
+      <li class="starrable"><span class="hl">집단 휴·폐업 시 업무개시명령</span> [제69조의4]</li>
+      <li class="starrable"><span class="hl">리베이트 등 자격정지 처분</span> [제79조의2]</li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">② <span class="badge badge-mfds">주체</span>식품의약품안전처장 (제조·품질·광고·회수)</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">신약 지정</span> [제2조]</li>
+      <li class="starrable"><span class="hl">중앙약사심의위원회 설치·자문</span> [제18조]</li>
+      <li class="starrable"><span class="hl">품목허가</span> (유효기간 5년) [제31조]</li>
+      <li class="starrable"><span class="hl">제조관리자 변경명령</span> [제37조]</li>
+      <li class="starrable"><span class="hl">제조업 1개월 이상 휴업 신고 수리</span> [제40조]</li>
+      <li class="starrable"><span class="hl">긴급 수입 인정</span> [제42조]</li>
+      <li class="starrable"><span class="hl">회수 계획 보고 접수</span> [제39조]</li>
+      <li class="starrable"><span class="hl">특허권 등재 신청 접수</span> [제50조의2]</li>
+      <li class="starrable"><span class="hl">대한민국약전 공고</span> [제51조]</li>
+      <li class="starrable"><span class="hl">국가출하승인</span> [제53조]</li>
+      <li class="starrable"><span class="hl">의약외품 기준 설정</span> [제52조]</li>
+      <li class="starrable"><span class="hl">개수명령</span> [제74조]</li>
+      <li class="starrable"><span class="hl">피해구제 행정 주체</span> [제86조의3]</li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">③ <span class="badge badge-local">주체</span>시장·군수·구청장 (약국·도매상·지역 업무)</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">약국 개설등록</span> [제20조]</li>
+      <li class="starrable"><span class="hl">등록사항 변경등록</span> [시행규칙 제9조]</li>
+      <li class="starrable"><span class="hl">지위 승계 신고</span>(<span class="hl">1개월 이내</span>) [제21조의2]</li>
+      <li class="starrable"><span class="hl">폐업·휴업·재개업 신고</span>(<span class="hl">7일 이내</span>) [제22조]</li>
+      <li class="starrable"><span class="hl">의약품 도매상 허가</span> [제45조]</li>
+      <li class="starrable"><span class="hl">약국 업무정지 명령</span> [제76조]</li>
+      <li class="starrable"><span class="hl">등록 취소 시 청문</span> [제77조]</li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">④ <span class="badge badge-sido">주체</span>시·도지사</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">조제실제제 제조 신고 수리</span> [제41조]</li>
+      <li class="starrable"><span class="hl">의료기관 허가</span> (시설 기준 정함)</li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">⑤ <span class="badge badge-kida">주체</span>한국의약품안전관리원장</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">이상사례(부작용) 보고 접수</span> [제68조의8]</li>
+      <li class="starrable"><span class="hl">피해구제급여 지급 신청 접수</span> [제86조의4]</li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">⑥ <span class="badge badge-assoc">주체</span>대한한약사회 / 한약사회장</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">한약사 자격정지 처분 요구</span> [제79조의2]</li>
+      <li class="starrable"><span class="hl">윤리위원회 운영</span> [제12조의2]</li>
+    </ul>
+  </div>
+
+  <h3 class="starrable">⑦ 한국희귀·필수의약품센터</h3>
+  <div class="article starrable">
+    <ul>
+      <li class="starrable"><span class="hl">긴급 도입·안정 공급 필요 의약품</span> 정보·공급 [제91조]</li>
+    </ul>
+  </div>
+</section>
+
+<!-- =================== 부록 2. 숫자 암기 총정리 =================== -->
+<section id="app2">
+  <h2>🔢 부록 2. 숫자 암기 총정리</h2>
+  <div class="warn-box starrable">
+    숫자는 <span class="hl-duty">함정 선지로 매우 빈출</span>되는 부분입니다. 반드시 정확하게 외우세요.
+  </div>
+
+  <h3 class="starrable">📅 기간·일수 (7일 / 1개월 / 6개월 / 2년 / 3년 / 5년)</h3>
+  <table>
+    <thead><tr><th style="width:14%">숫자</th><th>내용</th><th style="width:20%">조문</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b><span class="hl">7일</span></b></td><td>약국 <span class="hl">폐업·휴업(1개월 이상)·재개업 신고</span></td><td>제22조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">7일</span></b></td><td>제조업 <span class="hl">1개월 이상 휴업 신고</span></td><td>제40조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">1개월</span></b></td><td>약국 <span class="hl">지위 승계(양수) 신고</span></td><td>제21조의2</td></tr>
+      <tr class="starrable"><td><b><span class="hl">2개월</span></b></td><td><span class="hl">해외여행 등 대리 관리인 지정</span></td><td>제21조 제2항</td></tr>
+      <tr class="starrable"><td><b><span class="hl">6개월</span></b></td><td>약국 <span class="hl">등록취소 후 재등록 불가 기간</span></td><td>제20조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">6개월</span></b></td><td>의약품 <span class="hl">대금 지급 기한(40억 이상)</span></td><td>제47조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">6시간</span></b></td><td>한약사 <span class="hl">연수교육 (매년)</span></td><td>제15조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">2년</span></b></td><td>국가시험 <span class="hl">부정행위 응시제한</span></td><td>제10조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">2년</span></b></td><td><span class="hl">면허취소 후 재발급 제한</span>(법령 위반)</td><td>제5조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">3년</span></b></td><td><span class="hl">취업상황 등 실태 신고 주기</span></td><td>제7조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">3년</span></b></td><td><span class="hl">형법 제347조 위반 면허취소 재발급 제한</span></td><td>제5조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">5년</span></b></td><td><span class="hl">품목허가·신고 유효기간</span></td><td>제31조의5</td></tr>
+      <tr class="starrable"><td><b><span class="hl">20일</span></b></td><td><span class="hl">법률 공포 후 효력 발생</span>(특별 규정 없는 경우)</td><td>헌법</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="starrable">👥 인원·수량 (1명 / 2명 / 100처방 / 300명)</h3>
+  <table>
+    <thead><tr><th style="width:14%">숫자</th><th>내용</th><th style="width:20%">조문</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b><span class="hl">1명 이상</span></b></td><td><span class="hl">원료의약품만 제조</span> 시 제조관리자 수</td><td>시행규칙 제42조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">2명 이상</span></b></td><td><span class="hl">인체 직접 적용 의약품</span> 제조관리자 수</td><td>시행규칙 제42조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">100처방</span></b></td><td><span class="hl">한약조제지침서 처방 수</span></td><td>제23조 제6항</td></tr>
+      <tr class="starrable"><td><b><span class="hl">300명 이내</span></b></td><td><span class="hl">중앙약사심의위원회 위원</span></td><td>제18조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">2명</span></b></td><td><span class="hl">중앙약사심의위원회 위원장 수</span></td><td>제18조</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="starrable">💰 금액 (수수료)</h3>
+  <table>
+    <thead><tr><th style="width:14%">숫자</th><th>내용</th><th style="width:20%">조문</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b><span class="hl">10,000원</span></b></td><td>약국 <span class="hl">개설등록 수수료</span></td><td>시행규칙 제7조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">5,000원</span></b></td><td>약국 <span class="hl">변경등록 수수료</span></td><td>시행규칙 제7조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">2,000원</span></b></td><td><span class="hl">면허 재발급 수수료</span></td><td>시행규칙 제7조</td></tr>
+      <tr class="starrable"><td><b><span class="hl">40억원 이상</span></b></td><td>전년도 총구매액 → <span class="hl">6개월 이내 대금 지급</span></td><td>제47조</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =================== 부록 3. 함정 포인트 TOP 15 =================== -->
+<section id="app3">
+  <h2>⚠️ 부록 3. 함정 포인트 TOP 15</h2>
+  <div class="warn-box starrable">
+    기출에서 <span class="hl-duty">반복해서 오답 유도용</span>으로 나온 함정들입니다. 반드시 체크!
+  </div>
+
+  <h3 class="starrable">【주체 혼동】</h3>
+  <div class="danger-box starrable">
+    <ol>
+      <li class="starrable"><b>약국 개설등록</b> = <span class="hl">시장·군수·구청장</span> (<span class="hl-duty">식약처장 ✗, 시·도지사 ✗</span>)</li>
+      <li class="starrable"><b>업무개시명령</b> = <span class="hl">보건복지부장관</span> (<span class="hl-duty">식약처장 ✗, 보건소장 ✗</span>)</li>
+      <li class="starrable"><b>대한민국약전 공고</b> = <span class="hl">식약처장</span> (<span class="hl-duty">복지부장관 ✗</span>)</li>
+      <li class="starrable"><b>이상사례 보고</b> = <span class="hl">한국의약품안전관리원장</span> (<span class="hl-duty">식약처장 ✗</span>)</li>
+      <li class="starrable"><b>피해구제급여 신청</b> = <span class="hl">한국의약품안전관리원장</span>, <b>행정 주체</b> = <span class="hl">식약처장</span></li>
+    </ol>
+  </div>
+
+  <h3 class="starrable">【숫자 함정】</h3>
+  <div class="danger-box starrable">
+    <ol start="6">
+      <li class="starrable"><b>휴업 신고</b>는 <span class="hl">1개월 이상만 대상</span> — <span class="hl-duty">7일, 14일, 20일, 27일 휴업은 신고 ✗</span></li>
+      <li class="starrable"><b>약국 등록취소 후</b> <span class="hl">6개월 미경과자만 재등록 불가</span> (<span class="hl">경과하면 가능!</span>)</li>
+      <li class="starrable"><b>품목허가 유효기간</b>은 <span class="hl">5년</span> (<span class="hl-duty">3년·7년 ✗</span>)</li>
+    </ol>
+  </div>
+
+  <h3 class="starrable">【자격·예외 함정】</h3>
+  <div class="danger-box starrable">
+    <ol start="9">
+      <li class="starrable"><b>파산선고 받은 자</b> = <span class="hl-duty">결격사유 아님</span> ("<span class="hl">복권되지 않은 자</span>"만 결격)</li>
+      <li class="starrable"><b>한약제제는 개봉 판매 가능</b> (<span class="hl-duty">원칙은 금지</span>)</li>
+      <li class="starrable"><b>약국개설자 간 긴급 구매</b> = <span class="hl-duty">판매질서 위반 아님</span></li>
+      <li class="starrable"><b>한약도매상 관리자</b> → <span class="hl-duty">의사 ✗</span>, <span class="hl">한약사·한약업사는 ○</span></li>
+    </ol>
+  </div>
+
+  <h3 class="starrable">【오답 유도 키워드】</h3>
+  <div class="danger-box starrable">
+    <ol start="13">
+      <li class="starrable"><b>동의보감·방약합편·경악전서</b> = "<span class="hl-duty">한약조제지침서 아님</span>" → <span class="hl-duty">한약 조제 근거 ✗</span></li>
+      <li class="starrable"><b>전문의약품·일반의약품 구분 진열은 의무</b>이지만 "<span class="hl-duty">별도의 약장</span>" 강제 규정 ✗</li>
+      <li class="starrable"><b>건강기능식품·화장품·의료기기·광고심의</b> → <span class="hl-duty">중앙약사심의위원회 심의 대상 ✗</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- =================== 부록 4. 시험 전 최종 체크리스트 =================== -->
+<section id="app4">
+  <h2>✅ 부록 4. 시험 전 최종 체크리스트</h2>
+
+  <h3 class="starrable">📋 조문별 한 줄 정리 (빈출 20개)</h3>
+  <table>
+    <thead><tr><th style="width:18%">조문</th><th>한 줄 요약</th></tr></thead>
+    <tbody>
+      <tr class="starrable"><td><b>제1조</b></td><td>목적 → <span class="hl">국민보건 향상</span></td></tr>
+      <tr class="starrable"><td><b>제2조</b></td><td>약사(藥事) = <span class="hl">의약품·의약외품의 제조·조제·감정·보관·수입·판매</span>(<span class="hl-duty">수출 ✗</span>)</td></tr>
+      <tr class="starrable"><td><b>제2조</b></td><td><span class="hl">신약 지정 = 식약처장</span></td></tr>
+      <tr class="starrable"><td><b>제5조</b></td><td><span class="hl-duty">파산선고만 받은 자는 결격 ✗</span></td></tr>
+      <tr class="starrable"><td><b>제6조</b></td><td><span class="hl">면허증 재발급 = 보건복지부장관</span></td></tr>
+      <tr class="starrable"><td><b>제7조</b></td><td>실태 신고 = <span class="hl">3년마다 / 보건복지부장관</span></td></tr>
+      <tr class="starrable"><td><b>제10조</b></td><td>부정행위 = <span class="hl">2년 응시제한</span> (복지부장관)</td></tr>
+      <tr class="starrable"><td><b>제15조</b></td><td>연수교육 = <span class="hl">매년 6시간 이상</span> / 복지부장관</td></tr>
+      <tr class="starrable"><td><b>제16조</b></td><td>위탁 = <span class="hl">대한한약사회</span>(취업실태 신고 수리 등)</td></tr>
+      <tr class="starrable"><td><b>제18조</b></td><td>중앙약사심의위원회 = <span class="hl">식약처에 설치 / 300명 이내 / 위원장 2명</span></td></tr>
+      <tr class="starrable"><td><b>제20조</b></td><td>약국 개설등록 = <span class="hl">시장·군수·구청장</span> / <span class="hl-duty">6개월 미경과자 ✗</span></td></tr>
+      <tr class="starrable"><td><b>제21조</b></td><td>관리인 대리 지정 = <span class="hl">별도 절차 불필요</span></td></tr>
+      <tr class="starrable"><td><b>제22조</b></td><td>폐·휴·재개업 = <span class="hl">7일 이내 시·군·구청장</span></td></tr>
+      <tr class="starrable"><td><b>제23조</b></td><td>한약사 조제 = <span class="hl">한의사 처방전 또는 100처방(한약조제지침서)</span></td></tr>
+      <tr class="starrable"><td><b>제26조</b></td><td>처방전 확인 = <span class="hl">품목허가 취소 / 병용금기 고시</span></td></tr>
+      <tr class="starrable"><td><b>제36조</b></td><td>제조관리자 = <span class="hl">인체 직접 2명, 원료 1명, 한약제제는 한약사 가능</span></td></tr>
+      <tr class="starrable"><td><b>제37조의3</b></td><td>안전관리책임자 = <span class="hl">의사, 약사, 한약사</span> (<span class="hl-duty">한의사 ✗</span>)</td></tr>
+      <tr class="starrable"><td><b>제45조</b></td><td>의약품 도매상 허가 = <span class="hl">시장·군수·구청장</span></td></tr>
+      <tr class="starrable"><td><b>제51조</b></td><td>대한민국약전 공고 = <span class="hl">식약처장</span> (심의위 심의 거침)</td></tr>
+      <tr class="starrable"><td><b>제68조</b></td><td><span class="hl">일반의약품은 광고 ○ / 전문의약품은 ✗</span> (감염병 예방용 예외)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="starrable">🎯 시험 당일 최종 확인 3가지</h3>
+  <div class="danger-box starrable">
+    <ol>
+      <li class="starrable"><b>① 누가 (주체)</b> — <span class="hl">보건복지부장관 / 식약처장 / 시장·군수·구청장 / 시·도지사</span> 구분</li>
+      <li class="starrable"><b>② 언제·몇 명/몇 일/몇 년 (숫자)</b> — <span class="hl">7일·1개월·2개월·6개월·3년·5년·6시간·100처방</span></li>
+      <li class="starrable"><b>③ 원칙 + 예외</b> — 개봉판매(<span class="hl-duty">원칙 ✗</span> / <span class="hl">한약제제는 ○</span>), 광고(<span class="hl-duty">원칙 ✗</span> / <span class="hl">감염병 예방용 ○</span>) 등</li>
+    </ol>
+  </div>
+
+  <h3 class="starrable">🔥 주체별 빈도 높은 행위 TOP 요약</h3>
+  <table>
+    <thead><tr><th style="width:22%">주체</th><th>핵심 행위</th></tr></thead>
+    <tbody>
+      <tr class="starrable">
+        <td><span class="badge badge-mohw">주체</span><b>보건복지부장관</b></td>
+        <td><span class="hl">면허·시험·실태신고·연수교육·한약처방100종·업무개시명령·자격정지</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="badge badge-mfds">주체</span><b>식품의약품안전처장</b></td>
+        <td><span class="hl">신약지정·품목허가·약전공고·국가출하승인·회수·개수명령·긴급수입·피해구제 행정</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="badge badge-local">주체</span><b>시장·군수·구청장</b></td>
+        <td><span class="hl">약국 개설·변경·승계·폐휴재개업·도매상 허가·업무정지·청문</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="badge badge-sido">주체</span><b>시·도지사</b></td>
+        <td><span class="hl">조제실제제 신고 수리 (딱 하나만 기억!)</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="badge badge-kida">주체</span><b>한국의약품안전관리원장</b></td>
+        <td><span class="hl">이상사례 보고 접수·피해구제급여 신청 접수</span></td>
+      </tr>
+      <tr class="starrable">
+        <td><span class="badge badge-assoc">주체</span><b>대한한약사회장</b></td>
+        <td><span class="hl">자격정지 요구(학문적 미인정 행위)·윤리위원회 운영</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div style="text-align:center; margin: 30px 0; color: #6b7280; font-size: 13px;">
+  📚 <b>중간고사 화이팅! 🔥</b><br>
+  2~7주차 약사법규 학습 자료 | 서자영 교수 강의 + 국시 기출(2020~2026) 97문항 기반<br>
+  💡 노란색 = 주체·명사 강조 | 빨간색 = 의무·금지 강조 | 모든 요소 클릭 가능 ⭐
+</div>
+
+
+</div>
+</div>
+
+<!-- 드래그 가능한 분할 막대 -->
+<div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="왼쪽/오른쪽 창 크기 조절" tabindex="0"></div>
+
+<!-- 오른쪽 인쇄 패널 -->
+<aside class="print-pane" id="printPane" aria-hidden="true">
+  <div class="print-pane-header">
+    <h3>⭐ 별표 내용 보기</h3>
+    <button class="act-return" onclick="returnToLastScroll()" title="인쇄 창 열기 전 위치로 이동">↩ 이전 위치</button>
+    <button class="act-print" onclick="printPaneContent()" title="이 패널 내용 인쇄">🖨 인쇄</button>
+    <button class="act-close" onclick="closePrintPane()" title="닫기">✕ 닫기</button>
+  </div>
+  <div class="print-pane-body" id="printPaneBody"></div>
+</aside>
+</div><!-- /.app-root -->
+
+<button class="scroll-to-top" id="scrollToTop" title="맨위로 가기">↑</button>
+
+<script>
+/* ===== 강조 토글 ===== */
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('hl') || e.target.classList.contains('hl-duty')) {
+    e.stopPropagation();
+    e.target.classList.toggle('hidden');
+    saveState();
+  }
+});
+
+function toggleAllHighlights() {
+  document.body.classList.toggle('all-hidden');
+  if (!document.body.classList.contains('all-hidden')) {
+    document.querySelectorAll('.hl.hidden, .hl-duty.hidden').forEach(el => el.classList.remove('hidden'));
+  }
+  saveState();
+  updateStatus();
+}
+
+/* ===== 별표 토글 (클릭하면 바로 토글) ===== */
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('hl') || e.target.classList.contains('hl-duty')) return;
+  if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+  if (e.target.closest('.toolbar') || e.target.closest('.print-pane')) return;
+  let el = e.target.closest('.starrable');
+  if (el) {
+    el.classList.toggle('starred');
+    if (document.body.classList.contains('starred-only')) {
+      markStarredAncestors();
+    }
+    // 분할 화면이 열려 있으면 리스트 실시간 갱신
+    if (document.body.classList.contains('split-view')) {
+      renderPrintPane();
+    }
+    saveState();
+    updateStatus();
+  }
+});
+
+function clearAllStars() {
+  if (!confirm('정말 모든 별표를 지우시겠습니까?')) return;
+  document.querySelectorAll('.starrable.starred').forEach(el => el.classList.remove('starred'));
+  if (document.body.classList.contains('starred-only')) {
+    document.body.classList.remove('starred-only');
+    const btn = document.getElementById('starOnlyBtn');
+    btn.classList.remove('active');
+    btn.textContent = '⭐';
+    btn.title = '별표한 것만 보기';
+  }
+  if (document.body.classList.contains('split-view')) {
+    renderPrintPane();
+  }
+  saveState();
+  updateStatus();
+}
+
+/* ===== 별표한 것만 보기 ===== */
+let preStarredOnlyScroll = null;
+
+function captureScrollPosition(pane) {
+  const scrollEl = pane || (document.body.classList.contains('split-view') ? document.getElementById('mainPane') : window);
+  const curScroll = scrollEl === window ? window.scrollY : scrollEl.scrollTop;
+  const viewportTop = curScroll + 80;
+  const candidates = document.querySelectorAll('#mainPane section[id], #mainPane h2[id], #mainPane h3[id], #mainPane h4[id], #mainPane div[id]');
+  let nearest = null;
+  let minDist = Infinity;
+  candidates.forEach(el => {
+    if (el.offsetParent === null && el.tagName !== 'SECTION') return;
+    const rect = el.getBoundingClientRect();
+    // scroll context가 mainPane이면 relative offset을 직접 계산
+    const mainPane = document.getElementById('mainPane');
+    const paneRect = mainPane.getBoundingClientRect();
+    const absTop = (rect.top - paneRect.top) + mainPane.scrollTop;
+    const dist = Math.abs(absTop - viewportTop);
+    if (dist < minDist) { minDist = dist; nearest = el; }
+  });
+  return { anchorId: nearest ? nearest.id : null, scrollY: curScroll };
+}
+
+function scrollToAnchor(anchorId, scrollY, withFlash) {
+  const mainPane = document.getElementById('mainPane');
+  const useScrollContainer = document.body.classList.contains('split-view');
+  if (anchorId) {
+    const el = document.getElementById(anchorId);
+    if (el) {
+      if (useScrollContainer) {
+        const paneRect = mainPane.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
+        const target = (rect.top - paneRect.top) + mainPane.scrollTop - 80;
+        mainPane.scrollTo({ top: target, behavior: 'smooth' });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      if (withFlash) {
+        setTimeout(() => {
+          el.classList.add('target-flash');
+          setTimeout(() => el.classList.remove('target-flash'), 1700);
+        }, 400);
+      }
+      return;
+    }
+  }
+  if (typeof scrollY === 'number') {
+    if (useScrollContainer) {
+      mainPane.scrollTo({ top: scrollY, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: scrollY, behavior: 'smooth' });
+    }
+  }
+}
+
+function toggleStarredOnly() {
+  const btn = document.getElementById('starOnlyBtn');
+  const starredCount = document.querySelectorAll('.starrable.starred').length;
+  if (!document.body.classList.contains('starred-only') && starredCount === 0) {
+    alert('아직 별표 표시한 항목이 없습니다.\n본문 요소를 클릭해 별표를 먼저 표시해주세요.');
+    return;
+  }
+  const entering = !document.body.classList.contains('starred-only');
+
+  if (entering) preStarredOnlyScroll = captureScrollPosition();
+  document.body.classList.toggle('starred-only');
+  btn.classList.toggle('active');
+
+  if (document.body.classList.contains('starred-only')) {
+    markStarredAncestors();
+    btn.textContent = '📖';
+    btn.title = '전체 보기로 돌아가기 (이전 위치 복원)';
+    const mainPane = document.getElementById('mainPane');
+    if (document.body.classList.contains('split-view')) mainPane.scrollTo({ top: 0, behavior: 'smooth' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    btn.textContent = '⭐';
+    btn.title = '별표한 것만 보기';
+    const pos = preStarredOnlyScroll;
+    setTimeout(() => scrollToAnchor(pos && pos.anchorId, pos && pos.scrollY), 50);
+  }
+  saveState();
+}
+
+function markStarredAncestors() {
+  document.querySelectorAll('.has-starred-descendant').forEach(el => el.classList.remove('has-starred-descendant'));
+  document.querySelectorAll('.no-starred-descendant').forEach(el => el.classList.remove('no-starred-descendant'));
+  document.querySelectorAll('.show-as-context').forEach(el => el.classList.remove('show-as-context'));
+
+  const isContainer = el => el.classList.contains('article') ||
+                            el.classList.contains('warn-box') ||
+                            el.classList.contains('danger-box') ||
+                            el.classList.contains('exam-box') ||
+                            el.classList.contains('sub');
+
+  const bringAlongHeading = starred => {
+    let el = starred;
+    while (el) {
+      let sib = el.previousElementSibling;
+      while (sib) {
+        if (sib.tagName === 'H3' || sib.tagName === 'H4') {
+          sib.classList.add('show-as-context');
+          return;
+        }
+        sib = sib.previousElementSibling;
+      }
+      el = el.parentElement;
+      if (!el || el.tagName === 'SECTION' || el.tagName === 'BODY') break;
+    }
+    const section = starred.closest('section');
+    if (section) {
+      const firstH3 = section.querySelector('h3');
+      if (firstH3) firstH3.classList.add('show-as-context');
+    }
+  };
+
+  document.querySelectorAll('.starrable.starred').forEach(starred => {
+    if (isContainer(starred)) {
+      starred.querySelectorAll('.starrable').forEach(child => child.classList.add('show-as-context'));
+    }
+    bringAlongHeading(starred);
+    let parent = starred.parentElement;
+    while (parent && parent !== document.body) {
+      if (parent.classList.contains('starrable')) parent.classList.add('has-starred-descendant');
+      if (isContainer(parent)) {
+        parent.classList.add('has-starred-descendant');
+        parent.querySelectorAll('.starrable').forEach(sib => sib.classList.add('show-as-context'));
+      }
+      parent = parent.parentElement;
+    }
+  });
+
+  document.querySelectorAll('section').forEach(section => {
+    if (!section.querySelector('.starrable.starred')) {
+      section.classList.add('no-starred-descendant');
+    }
+  });
+}
+
+/* ===== 오른쪽 분할 인쇄 패널 ===== */
+let prePrintPaneScroll = null;
+
+function ensureId(el) {
+  if (!el.id) el.id = 'star-' + Math.random().toString(36).slice(2, 10);
+  return el.id;
+}
+
+function getItemLabel(el) {
+  const tag = el.tagName.toLowerCase();
+  if (tag === 'h3' || tag === 'h4') return '📌 제목';
+  if (tag === 'li') return '📝 목록 항목';
+  if (tag === 'p') return '📄 문장';
+  if (tag === 'tr') return '📊 표 행';
+  if (el.classList.contains('sub')) return '💡 보조설명';
+  if (el.classList.contains('warn-box')) return '⚠️ 경고';
+  if (el.classList.contains('danger-box')) return '🚨 중요구분';
+  if (el.classList.contains('exam-box')) return '📝 기출';
+  if (el.classList.contains('article')) return '📜 조문';
+  return '📄 항목';
+}
+
+function getCleanHTML(el) {
+  const clone = el.cloneNode(true);
+  // 가려진 강조는 보이게 복원
+  clone.querySelectorAll('.hl.hidden, .hl-duty.hidden').forEach(h => h.classList.remove('hidden'));
+  // 상호작용 관련 클래스 제거
+  clone.classList.remove('starred', 'has-starred-descendant', 'show-as-context', 'target-flash');
+  clone.removeAttribute('style');
+  return clone.innerHTML || clone.outerHTML;
+}
+
+function renderPrintPane() {
+  const body = document.getElementById('printPaneBody');
+  const starred = document.querySelectorAll('.main-pane .starrable.starred');
+  if (starred.length === 0) {
+    body.innerHTML = '<div class="print-pane-empty">아직 별표 표시한 항목이 없습니다.<br>본문의 문장·목록·박스·표·제목을 클릭해서 별표를 표시해주세요.</div>';
+    return;
+  }
+  let html = `<div class="print-pane-title">총 <b>${starred.length}개</b> 항목 · 각 항목을 클릭하면 왼쪽 본문의 해당 위치로 이동합니다</div>`;
+  starred.forEach((el, idx) => {
+    const id = ensureId(el);
+    const label = getItemLabel(el);
+    const content = getCleanHTML(el);
+    html += `
+      <div class="print-item" onclick="jumpToStarred('${id}')" data-target-id="${id}">
+        <div class="print-item-label">
+          <span>#${idx + 1} ${label}</span>
+          <span class="jump-hint">↗ 클릭하면 이동</span>
+        </div>
+        <div class="print-item-content">${content}</div>
+      </div>`;
+  });
+  body.innerHTML = html;
+}
+
+function openPrintPane() {
+  const starred = document.querySelectorAll('.starrable.starred');
+  if (starred.length === 0) {
+    alert('아직 별표 표시한 항목이 없습니다.\n본문 요소를 클릭해 별표를 먼저 표시해주세요.');
+    return;
+  }
+  // 현재 window 스크롤 위치 저장
+  prePrintPaneScroll = { anchorId: null, scrollY: window.scrollY };
+  const cap = captureScrollPosition();
+  if (cap && cap.anchorId) prePrintPaneScroll.anchorId = cap.anchorId;
+
+  document.body.classList.add('split-view');
+  document.getElementById('printPane').setAttribute('aria-hidden', 'false');
+  renderPrintPane();
+
+  // 분할뷰 진입 시 main-pane의 scrollTop을 window 스크롤 위치로 옮김
+  const mainPane = document.getElementById('mainPane');
+  mainPane.scrollTop = prePrintPaneScroll.scrollY || 0;
+}
+
+function closePrintPane() {
+  const mainPane = document.getElementById('mainPane');
+  const mainScroll = mainPane.scrollTop;
+  document.body.classList.remove('split-view');
+  document.getElementById('printPane').setAttribute('aria-hidden', 'true');
+  // split-view 나오면 window 스크롤로 위치 복귀
+  setTimeout(() => window.scrollTo({ top: mainScroll, behavior: 'auto' }), 0);
+}
+
+function returnToLastScroll() {
+  if (!prePrintPaneScroll) return;
+  scrollToAnchor(prePrintPaneScroll.anchorId, prePrintPaneScroll.scrollY, true);
+}
+
+function jumpToStarred(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  scrollToAnchor(id, null, true);
+}
+
+function printPaneContent() {
+  // 분할뷰 유지 상태에서 print — CSS @media print가 오른쪽 패널만 보이도록 처리
+  window.print();
+}
+
+/* ===== 맨위로 가기 ===== */
+function initScrollToTop() {
+  const scrollBtn = document.getElementById('scrollToTop');
+  if (!scrollBtn) return;
+  let throttled = false;
+  function handle() {
+    if (throttled) return;
+    throttled = true;
+    window.requestAnimationFrame(() => {
+      const sc = window.pageYOffset || document.documentElement.scrollTop;
+      scrollBtn.classList.toggle('visible', sc > 300);
+      throttled = false;
+    });
+  }
+  window.addEventListener('scroll', handle, { passive: true });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+/* ===== 상태 저장/복구 ===== */
+function saveState() {
+  try {
+    const state = {
+      allHidden: document.body.classList.contains('all-hidden'),
+      starredOnly: document.body.classList.contains('starred-only'),
+      hidden: Array.from(document.querySelectorAll('.hl, .hl-duty')).map(el => el.classList.contains('hidden')),
+      starred: Array.from(document.querySelectorAll('.starrable')).map(el => el.classList.contains('starred'))
+    };
+    localStorage.setItem('pharm_law_midterm_v2_state', JSON.stringify(state));
+  } catch(e) {}
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem('pharm_law_midterm_v2_state');
+    if (!s) return;
+    const state = JSON.parse(s);
+    if (state.allHidden) document.body.classList.add('all-hidden');
+    const hls = document.querySelectorAll('.hl, .hl-duty');
+    (state.hidden || []).forEach((v, i) => { if (v && hls[i]) hls[i].classList.add('hidden'); });
+    const stars = document.querySelectorAll('.starrable');
+    (state.starred || []).forEach((v, i) => { if (v && stars[i]) stars[i].classList.add('starred'); });
+    if (state.starredOnly) {
+      const cnt = document.querySelectorAll('.starrable.starred').length;
+      if (cnt > 0) {
+        document.body.classList.add('starred-only');
+        markStarredAncestors();
+        const btn = document.getElementById('starOnlyBtn');
+        if (btn) {
+          btn.classList.add('active');
+          btn.textContent = '📖';
+          btn.title = '전체 보기로 돌아가기';
+        }
+      }
+    }
+  } catch(e) {}
+}
+function updateStatus() {
+  const totalHl = document.querySelectorAll('.hl, .hl-duty').length;
+  const hiddenHl = document.body.classList.contains('all-hidden') ? totalHl : document.querySelectorAll('.hl.hidden, .hl-duty.hidden').length;
+  const totalStar = document.querySelectorAll('.starrable.starred').length;
+  const total = document.querySelectorAll('.starrable').length;
+  document.getElementById('statusBar').textContent =
+    `📊 강조: ${totalHl}개 (가려짐 ${hiddenHl}개) | 별표: ${totalStar}/${total}개 | 요소 클릭 = 별표 토글`;
+}
+
+/* ===== 분할 막대 드래그 리사이저 ===== */
+const SPLITTER_KEY = 'pharm_law_midterm_v2_split_width';
+
+function initSplitter() {
+  const splitter = document.getElementById('splitter');
+  const pane = document.getElementById('printPane');
+  if (!splitter || !pane) return;
+
+  // 저장된 너비 복원
+  try {
+    const saved = parseInt(localStorage.getItem(SPLITTER_KEY), 10);
+    if (saved && saved > 280 && saved < window.innerWidth - 200) {
+      pane.style.width = saved + 'px';
+    }
+  } catch(e) {}
+
+  let dragging = false;
+
+  const onMove = (clientX) => {
+    // 오른쪽 패널 너비 = 뷰포트 너비 - 마우스 위치
+    const newPaneWidth = window.innerWidth - clientX;
+    const minPane = 280;
+    const minMain = 300;
+    const maxPane = window.innerWidth - minMain;
+    const clamped = Math.max(minPane, Math.min(maxPane, newPaneWidth));
+    pane.style.width = clamped + 'px';
+  };
+
+  const startDrag = (e) => {
+    if (!document.body.classList.contains('split-view')) return;
+    dragging = true;
+    splitter.classList.add('dragging');
+    document.body.classList.add('splitter-dragging');
+    e.preventDefault();
+  };
+
+  const stopDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    splitter.classList.remove('dragging');
+    document.body.classList.remove('splitter-dragging');
+    // 저장
+    try {
+      const w = parseInt(pane.style.width, 10);
+      if (w) localStorage.setItem(SPLITTER_KEY, String(w));
+    } catch(e) {}
+  };
+
+  // 마우스
+  splitter.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', (e) => { if (dragging) onMove(e.clientX); });
+  document.addEventListener('mouseup', stopDrag);
+
+  // 터치
+  splitter.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) { startDrag(e); }
+  }, { passive: false });
+  document.addEventListener('touchmove', (e) => {
+    if (dragging && e.touches.length === 1) { onMove(e.touches[0].clientX); e.preventDefault(); }
+  }, { passive: false });
+  document.addEventListener('touchend', stopDrag);
+  document.addEventListener('touchcancel', stopDrag);
+
+  // 키보드 (화살표 좌우로 20px씩)
+  splitter.addEventListener('keydown', (e) => {
+    if (!document.body.classList.contains('split-view')) return;
+    if (e.key === 'ArrowLeft') {
+      const curW = pane.offsetWidth;
+      onMove(window.innerWidth - curW - 20);
+      try { localStorage.setItem(SPLITTER_KEY, String(pane.offsetWidth)); } catch(e) {}
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      const curW = pane.offsetWidth;
+      onMove(window.innerWidth - curW + 20);
+      try { localStorage.setItem(SPLITTER_KEY, String(pane.offsetWidth)); } catch(e) {}
+      e.preventDefault();
+    }
+  });
+
+  // 더블클릭으로 기본값(500px) 복원
+  splitter.addEventListener('dblclick', () => {
+    pane.style.width = '500px';
+    try { localStorage.setItem(SPLITTER_KEY, '500'); } catch(e) {}
+  });
+  splitter.title = '좌우로 드래그 · 더블클릭 = 기본 크기 · ← → 키 지원';
+}
+
+window.addEventListener('load', () => {
+  loadState();
+  updateStatus();
+  initScrollToTop();
+  initSplitter();
+});
+</script>
+</body>
+</html>
