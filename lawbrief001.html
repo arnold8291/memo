@@ -350,12 +350,12 @@
     justify-content: center;
     box-shadow: 0 0 0 2px var(--star);
   }
-  h3.starrable.starred, h4.starrable.starred {
+  h2.starrable.starred, h3.starrable.starred, h4.starrable.starred {
     background: rgba(254, 243, 199, 0.7) !important;
     box-shadow: inset 4px 0 0 var(--star);
     padding-left: 14px;
   }
-  h3.starrable.starred::after, h4.starrable.starred::after { content: " ⭐"; }
+  h2.starrable.starred::after, h3.starrable.starred::after, h4.starrable.starred::after { content: " ⭐"; }
 
   section {
     background: var(--card);
@@ -511,6 +511,7 @@
   body.starred-only div.show-as-context { display: block !important; }
   body.starred-only li.show-as-context { display: list-item !important; }
   body.starred-only tr.show-as-context { display: table-row !important; }
+  body.starred-only h2.show-as-context,
   body.starred-only h3.show-as-context,
   body.starred-only h4.show-as-context { display: block !important; }
   body.starred-only .toc { display: none !important; }
@@ -788,7 +789,7 @@
 
 <!-- =================== 1장 총칙 =================== -->
 <section id="ch1">
-  <h2>🏛 제1장 총칙 (목적·정의·약의 날)</h2>
+  <h2 class="starrable">🏛 제1장 총칙 (목적·정의·약의 날)</h2>
 
   <div class="exam-box starrable">매년 중요 출제: 약사법 용어 정의(의약품·한약·한약제제·일반의약품·전문의약품·조제·복약지도·안전용기포장·임상시험 등)</div>
 
@@ -917,7 +918,7 @@
 
 <!-- =================== 2장 자격과 면허 =================== -->
 <section id="ch2">
-  <h2>🎓 제1장 자격과 면허</h2>
+  <h2 class="starrable">🎓 제1장 자격과 면허</h2>
 
   <div class="article starrable">
     <div class="article-title">제3조 (약사 자격과 면허)</div>
@@ -990,7 +991,7 @@
 
 <!-- =================== 3장 약사회 한약사회 =================== -->
 <section id="ch3">
-  <h2>👥 제2절 약사회 및 한약사회 / 연수교육</h2>
+  <h2 class="starrable">👥 제2절 약사회 및 한약사회 / 연수교육</h2>
 
   <div class="article starrable">
     <div class="article-title">제11조 (약사회) / 제12조 (한약사회)</div>
@@ -1047,7 +1048,7 @@
 
 <!-- =================== 4장 중앙약사심의위원회 =================== -->
 <section id="ch4">
-  <h2>⚖ 제3절 약사(藥事) 심의위원회</h2>
+  <h2 class="starrable">⚖ 제3절 약사(藥事) 심의위원회</h2>
 
   <div class="article starrable">
     <div class="article-title">제18조 (중앙약사심의위원회) ★★★ 매년 출제</div>
@@ -1085,7 +1086,7 @@
 
 <!-- =================== 5장 약국과 조제 =================== -->
 <section id="ch5">
-  <h2>🏪 제4장 약국과 조제</h2>
+  <h2 class="starrable">🏪 제4장 약국과 조제</h2>
 
   <div class="exam-box starrable">약국 시설, 조제의 예외, 대체조제, 처방전 보존, 조제기록부 보존기간 등 매년 출제</div>
 
@@ -1276,7 +1277,7 @@
 
 <!-- =================== 6장 의약품 등의 제조 =================== -->
 <section id="ch6">
-  <h2>🏭 제5장 의약품 등의 제조 및 수입 등</h2>
+  <h2 class="starrable">🏭 제5장 의약품 등의 제조 및 수입 등</h2>
 
   <div class="exam-box starrable">제조업 허가 주체(식약처장), 허가 요건, 제조관리자 수, 생산·품질기준, 시판 후 안전관리 빈출</div>
 
@@ -1472,7 +1473,7 @@
 
 <!-- =================== 7장 임상시험 =================== -->
 <section id="ch7">
-  <h2>🔬 임상시험 (제34조~제34조의6)</h2>
+  <h2 class="starrable">🔬 임상시험 (제34조~제34조의6)</h2>
 
   <div class="article starrable">
     <div class="article-title">제34조 (임상시험의 계획 승인) ★</div>
@@ -1556,7 +1557,7 @@
 
 <!-- =================== 8장 수입/판매업 =================== -->
 <section id="ch8">
-  <h2>📦 수입허가 & 판매업</h2>
+  <h2 class="starrable">📦 수입허가 & 판매업</h2>
 
   <div class="article starrable">
     <div class="article-title">제42조 (의약품 등의 수입허가 등) ★</div>
@@ -1657,7 +1658,7 @@
 
 <!-- =================== 9장 판매질서 =================== -->
 <section id="ch9">
-  <h2>💼 판매 질서 (제47조~제49조)</h2>
+  <h2 class="starrable">💼 판매 질서 (제47조~제49조)</h2>
 
   <div class="article starrable">
     <div class="article-title">제47조 (의약품 등 판매 질서) ★★★</div>
@@ -1703,7 +1704,7 @@
 
 <!-- =================== 10장 특허권 =================== -->
 <section id="ch10">
-  <h2>⚖ 의약품 특허권 등재 및 판매금지 (제50조의2~제50조의12)</h2>
+  <h2 class="starrable">⚖ 의약품 특허권 등재 및 판매금지 (제50조의2~제50조의12)</h2>
 
   <div class="article starrable">
     <div class="article-title">제50조의2 (의약품 특허권 등재) ★</div>
@@ -1739,7 +1740,7 @@
 
 <!-- =================== 11장 의약품 등의 취급 =================== -->
 <section id="ch11">
-  <h2>💊 제6장 의약품 등의 취급</h2>
+  <h2 class="starrable">💊 제6장 의약품 등의 취급</h2>
 
   <div class="article starrable">
     <div class="article-title">제51조 (대한민국약전) / 제52조 (의약품등 기준)</div>
@@ -1855,7 +1856,7 @@
 
 <!-- =================== 12장 한국의약품안전관리원 =================== -->
 <section id="ch12">
-  <h2>🛡 제6절 한국의약품안전관리원 (제68조의3~제68조의12)</h2>
+  <h2 class="starrable">🛡 제6절 한국의약품안전관리원 (제68조의3~제68조의12)</h2>
 
   <div class="article starrable">
     <div class="article-title">제68조의3 (설립) / 제68조의4 (사업)</div>
@@ -1920,7 +1921,7 @@
 
 <!-- =================== 최종 핵심 포인트 =================== -->
 <section id="final">
-  <h2>🎯 핵심 암기 포인트 & 기출예상 총정리</h2>
+  <h2 class="starrable">🎯 핵심 암기 포인트 & 기출예상 총정리</h2>
 
   <div class="exam-box starrable">시험 직전에 반드시 다시 볼 핵심 숫자와 주체</div>
 
@@ -2271,7 +2272,7 @@ function markStarredAncestors() {
     while (el) {
       let sib = el.previousElementSibling;
       while (sib) {
-        if (sib.tagName === 'H3' || sib.tagName === 'H4') {
+        if (sib.tagName === 'H2' || sib.tagName === 'H3' || sib.tagName === 'H4') {
           sib.classList.add('show-as-context');
           return;
         }
@@ -2320,6 +2321,7 @@ function ensureId(el) {
 
 function getItemLabel(el) {
   const tag = el.tagName.toLowerCase();
+  if (tag === 'h2') return '🏛 장·절 제목';
   if (tag === 'h3' || tag === 'h4') return '📌 제목';
   if (tag === 'li') return '📝 목록 항목';
   if (tag === 'p') return '📄 문장';

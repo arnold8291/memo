@@ -350,12 +350,12 @@
     justify-content: center;
     box-shadow: 0 0 0 2px var(--star);
   }
-  h3.starrable.starred, h4.starrable.starred {
+  h2.starrable.starred, h3.starrable.starred, h4.starrable.starred {
     background: rgba(254, 243, 199, 0.7) !important;
     box-shadow: inset 4px 0 0 var(--star);
     padding-left: 14px;
   }
-  h3.starrable.starred::after, h4.starrable.starred::after { content: " ⭐"; }
+  h2.starrable.starred::after, h3.starrable.starred::after, h4.starrable.starred::after { content: " ⭐"; }
 
   section {
     background: var(--card);
@@ -511,6 +511,7 @@
   body.starred-only div.show-as-context { display: block !important; }
   body.starred-only li.show-as-context { display: list-item !important; }
   body.starred-only tr.show-as-context { display: table-row !important; }
+  body.starred-only h2.show-as-context,
   body.starred-only h3.show-as-context,
   body.starred-only h4.show-as-context { display: block !important; }
   body.starred-only .toc { display: none !important; }
@@ -790,7 +791,7 @@
 
 <!-- =================== 학습 가이드 =================== -->
 <section id="guide">
-  <h2>📖 학습 가이드 — 암기 4대 축</h2>
+  <h2 class="starrable">📖 학습 가이드 — 암기 4대 축</h2>
   <div class="warn-box starrable">
     <b>이 문서의 구성</b>
     <ul>
@@ -813,7 +814,7 @@
 
 <!-- =================== 제1장. 약사법의 체계 =================== -->
 <section id="ch1">
-  <h2>🏛 제1장. 약사법의 체계</h2>
+  <h2 class="starrable">🏛 제1장. 약사법의 체계</h2>
 
   <h3 class="starrable">1-1. 법령의 위계</h3>
   <table>
@@ -844,7 +845,7 @@
 
 <!-- =================== 제2장. 용어의 정의 =================== -->
 <section id="ch2">
-  <h2>📘 제2장. 용어의 정의 [제2조]</h2>
+  <h2 class="starrable">📘 제2장. 용어의 정의 [제2조]</h2>
 
   <h3 class="starrable">2-1. 핵심 용어 총정리</h3>
   <table>
@@ -924,7 +925,7 @@
 
 <!-- =================== 제3장. 면허 및 자격 =================== -->
 <section id="ch3">
-  <h2>🎓 제3장. 면허 및 자격</h2>
+  <h2 class="starrable">🎓 제3장. 면허 및 자격</h2>
 
   <h3 class="starrable">3-1. 면허의 부여 [제3조, 제4조]</h3>
   <div class="article starrable">
@@ -986,7 +987,7 @@
 
 <!-- =================== 제4장. 약업 단체 및 중앙약사심의위원회 =================== -->
 <section id="ch4">
-  <h2>👥 제4장. 약업 단체 및 중앙약사심의위원회</h2>
+  <h2 class="starrable">👥 제4장. 약업 단체 및 중앙약사심의위원회</h2>
 
   <h3 class="starrable">4-1. 약사회 및 한약사회 [제11~12조]</h3>
   <table>
@@ -1064,7 +1065,7 @@
 
 <!-- =================== 제5장. 약국 개설 및 관리 =================== -->
 <section id="ch5">
-  <h2>🏥 제5장. 약국과 조제 (1) — 개설 및 관리</h2>
+  <h2 class="starrable">🏥 제5장. 약국과 조제 (1) — 개설 및 관리</h2>
 
   <h3 class="starrable">5-1. 약국 개설등록 [제20조] ★</h3>
   <table>
@@ -1166,7 +1167,7 @@
 
 <!-- =================== 제6장. 의약품 조제 =================== -->
 <section id="ch6">
-  <h2>💊 제6장. 약국과 조제 (2) — 의약품 조제</h2>
+  <h2 class="starrable">💊 제6장. 약국과 조제 (2) — 의약품 조제</h2>
 
   <h3 class="starrable">6-1. 조제 원칙 [제23조] ★★</h3>
   <table>
@@ -1239,7 +1240,7 @@
 
 <!-- =================== 제7장. 의약품 제조 및 품질관리 =================== -->
 <section id="ch7">
-  <h2>🏭 제7장. 의약품 제조 및 품질관리</h2>
+  <h2 class="starrable">🏭 제7장. 의약품 제조 및 품질관리</h2>
 
   <h3 class="starrable">7-1. 제조업 허가 [제31조]</h3>
   <div class="article starrable">
@@ -1341,7 +1342,7 @@
 
 <!-- =================== 제8장. 의약품 판매 및 유통 질서 =================== -->
 <section id="ch8">
-  <h2>🏪 제8장. 의약품 판매 및 유통 질서</h2>
+  <h2 class="starrable">🏪 제8장. 의약품 판매 및 유통 질서</h2>
 
   <h3 class="starrable">8-1. 의약품 판매업 허가 [제45조] ★★</h3>
   <table>
@@ -1421,7 +1422,7 @@
 
 <!-- =================== 제9장. 의약품 취급·기준·안전관리 =================== -->
 <section id="ch9">
-  <h2>⚖ 제9장. 의약품 취급 · 기준 · 안전관리</h2>
+  <h2 class="starrable">⚖ 제9장. 의약품 취급 · 기준 · 안전관리</h2>
 
   <h3 class="starrable">9-1. 대한민국약전 [제51조] ★</h3>
   <div class="article starrable">
@@ -1530,7 +1531,7 @@
 
 <!-- =================== 제10장. 피해구제 및 특수 기관 =================== -->
 <section id="ch10">
-  <h2>🛡 제10장. 피해구제 및 특수 기관</h2>
+  <h2 class="starrable">🛡 제10장. 피해구제 및 특수 기관</h2>
 
   <h3 class="starrable">10-1. 자격정지 요구 [제79조의2]</h3>
   <div class="article starrable">
@@ -1569,7 +1570,7 @@
 
 <!-- =================== 부록 1. 주체별 권한 총정리 =================== -->
 <section id="app1">
-  <h2>🔑 부록 1. 주체별 권한 총정리</h2>
+  <h2 class="starrable">🔑 부록 1. 주체별 권한 총정리</h2>
   <div class="warn-box starrable">
     <b>시험에서 가장 많이 틀리는 부분</b>이 "<span class="hl">누가 하는가</span>"입니다. 반드시 <span class="hl-duty">주체를 외우세요</span>.
   </div>
@@ -1656,7 +1657,7 @@
 
 <!-- =================== 부록 2. 숫자 암기 총정리 =================== -->
 <section id="app2">
-  <h2>🔢 부록 2. 숫자 암기 총정리</h2>
+  <h2 class="starrable">🔢 부록 2. 숫자 암기 총정리</h2>
   <div class="warn-box starrable">
     숫자는 <span class="hl-duty">함정 선지로 매우 빈출</span>되는 부분입니다. 반드시 정확하게 외우세요.
   </div>
@@ -1707,7 +1708,7 @@
 
 <!-- =================== 부록 3. 함정 포인트 TOP 15 =================== -->
 <section id="app3">
-  <h2>⚠️ 부록 3. 함정 포인트 TOP 15</h2>
+  <h2 class="starrable">⚠️ 부록 3. 함정 포인트 TOP 15</h2>
   <div class="warn-box starrable">
     기출에서 <span class="hl-duty">반복해서 오답 유도용</span>으로 나온 함정들입니다. 반드시 체크!
   </div>
@@ -1754,7 +1755,7 @@
 
 <!-- =================== 부록 4. 시험 전 최종 체크리스트 =================== -->
 <section id="app4">
-  <h2>✅ 부록 4. 시험 전 최종 체크리스트</h2>
+  <h2 class="starrable">✅ 부록 4. 시험 전 최종 체크리스트</h2>
 
   <h3 class="starrable">📋 조문별 한 줄 정리 (빈출 20개)</h3>
   <table>
@@ -2020,7 +2021,7 @@ function markStarredAncestors() {
     while (el) {
       let sib = el.previousElementSibling;
       while (sib) {
-        if (sib.tagName === 'H3' || sib.tagName === 'H4') {
+        if (sib.tagName === 'H2' || sib.tagName === 'H3' || sib.tagName === 'H4') {
           sib.classList.add('show-as-context');
           return;
         }
@@ -2069,6 +2070,7 @@ function ensureId(el) {
 
 function getItemLabel(el) {
   const tag = el.tagName.toLowerCase();
+  if (tag === 'h2') return '🏛 장·절 제목';
   if (tag === 'h3' || tag === 'h4') return '📌 제목';
   if (tag === 'li') return '📝 목록 항목';
   if (tag === 'p') return '📄 문장';
