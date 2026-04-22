@@ -671,6 +671,14 @@
     transform: scale(1.1);
   }
   .print-item-unstar:active { transform: scale(0.95); }
+
+  /* 새로 별표 추가되어 스크롤된 항목 강조 */
+  @keyframes newly-added-flash {
+    0% { background: #fde68a; box-shadow: 0 0 0 3px var(--star), 0 4px 14px rgba(245, 158, 11, 0.45); transform: scale(1); }
+    50% { background: #fef3c7; box-shadow: 0 0 0 3px var(--star), 0 3px 10px rgba(245, 158, 11, 0.3); transform: scale(1.02); }
+    100% { background: #fffbeb; box-shadow: none; transform: scale(1); }
+  }
+  .print-item.newly-added { animation: newly-added-flash 1.7s ease-out; }
   .print-item-content {
     font-size: 13px;
     line-height: 1.6;
@@ -2269,14 +2277,47 @@ document.addEventListener('click', function(e) {
     if (document.body.classList.contains('starred-only')) {
       markStarredAncestors();
     }
-    // 분할 화면이 열려 있으면 리스트 실시간 갱신
+    // 분할 화면이 열려 있으면 리스트 실시간 갱신 + 방금 추가한 항목으로 스크롤
     if (document.body.classList.contains('split-view')) {
       renderPrintPane();
+      if (willBeStarred) {
+        // 실제 패널에 노출되는 "최상위 starred 조상"을 찾아 그걸로 스크롤
+        // (컨테이너에 별표 찍었거나, 자식 클릭한 경우에도 정확하게 매칭)
+        let topEl = el;
+        let p = el.parentElement;
+        while (p) {
+          if (p.classList && p.classList.contains('starrable') && p.classList.contains('starred')) {
+            topEl = p;
+          }
+          p = p.parentElement;
+        }
+        if (!topEl.id) ensureId(topEl);
+        scrollPrintPaneTo(topEl.id);
+      }
     }
     saveState();
     updateStatus();
   }
 });
+
+/* 오른쪽 인쇄 패널에서 특정 id를 가진 항목으로 스크롤 + 플래시 효과 */
+function scrollPrintPaneTo(targetId) {
+  // renderPrintPane 이후 DOM이 갱신되도록 약간 지연
+  setTimeout(() => {
+    const pane = document.getElementById('printPane');
+    const item = pane && pane.querySelector(`.print-item[data-target-id="${targetId}"]`);
+    if (!item) return;
+    // 부드러운 스크롤 (패널 내부 스크롤)
+    const paneRect = pane.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    const offset = (itemRect.top - paneRect.top) + pane.scrollTop
+                 - (pane.clientHeight / 2) + (item.offsetHeight / 2);
+    pane.scrollTo({ top: offset, behavior: 'smooth' });
+    // 시각적 강조
+    item.classList.add('newly-added');
+    setTimeout(() => item.classList.remove('newly-added'), 1800);
+  }, 30);
+}
 
 function clearAllStars() {
   if (!confirm('정말 모든 별표를 지우시겠습니까?')) return;
