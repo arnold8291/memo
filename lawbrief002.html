@@ -1843,7 +1843,20 @@ document.addEventListener('click', function(e) {
   if (e.target.closest('.toolbar') || e.target.closest('.print-pane')) return;
   let el = e.target.closest('.starrable');
   if (el) {
+    // 컨테이너(article/box 등)인 경우 내부 starrable 후손도 같은 상태로 동기화
+    const isContainer = el.classList.contains('article') ||
+                        el.classList.contains('warn-box') ||
+                        el.classList.contains('danger-box') ||
+                        el.classList.contains('exam-box') ||
+                        el.classList.contains('sub');
+    const willBeStarred = !el.classList.contains('starred');
     el.classList.toggle('starred');
+    if (isContainer) {
+      el.querySelectorAll('.starrable').forEach(child => {
+        if (willBeStarred) child.classList.add('starred');
+        else child.classList.remove('starred');
+      });
+    }
     if (document.body.classList.contains('starred-only')) {
       markStarredAncestors();
     }
@@ -2046,13 +2059,25 @@ function getCleanHTML(el) {
 
 function renderPrintPane() {
   const body = document.getElementById('printPaneBody');
-  const starred = document.querySelectorAll('.main-pane .starrable.starred');
-  if (starred.length === 0) {
+  const allStarred = document.querySelectorAll('.main-pane .starrable.starred');
+  // 중복 제거: 이미 별표된 조상이 있는 자식은 리스트에서 제외
+  const starredArr = Array.from(allStarred);
+  const starredSet = new Set(starredArr);
+  const topLevel = starredArr.filter(el => {
+    let p = el.parentElement;
+    while (p) {
+      if (starredSet.has(p)) return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  if (topLevel.length === 0) {
     body.innerHTML = '<div class="print-pane-empty">아직 별표 표시한 항목이 없습니다.<br>본문의 문장·목록·박스·표·제목을 클릭해서 별표를 표시해주세요.</div>';
     return;
   }
-  let html = `<div class="print-pane-title">총 <b>${starred.length}개</b> 항목 · 각 항목을 클릭하면 왼쪽 본문의 해당 위치로 이동합니다</div>`;
-  starred.forEach((el, idx) => {
+  let html = `<div class="print-pane-title">총 <b>${topLevel.length}개</b> 항목 · 각 항목을 클릭하면 왼쪽 본문의 해당 위치로 이동합니다</div>`;
+  topLevel.forEach((el, idx) => {
     const id = ensureId(el);
     const label = getItemLabel(el);
     const content = getCleanHTML(el);
