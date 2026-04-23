@@ -1,50 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- Firebase 인증 체크 (자동 삽입됨) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAtodnuV2rXtJXHJb2kc0AjeLQIWbv1yzA",
-    authDomain: "since2027-3fb3c.firebaseapp.com",
-    projectId: "since2027-3fb3c",
-    storageBucket: "since2027-3fb3c.firebasestorage.app",
-    messagingSenderId: "931680118450",
-    appId: "1:931680118450:web:e6c4b67cb77597f5164bab"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  document.documentElement.style.visibility = 'hidden';
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.replace('https://since2027.com/');
-      return;
-    }
-    try {
-      const snap = await getDoc(doc(db, 'allowedUsers', user.email));
-      if (snap.exists()) {
-        document.documentElement.style.visibility = 'visible';
-      } else {
-        await signOut(auth);
-        window.location.replace('https://since2027.com/');
-      }
-    } catch (e) {
-      window.location.replace('https://since2027.com/');
-    }
-  });
-</script>
-<!-- /Firebase 인증 체크 -->
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>약물학 1학기 중간고사 모의고사 — SET 2 · 50문제</title>
+<title>약물학 1학기 중간고사 모의고사 — 50문제</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -918,10 +877,10 @@
 <div class="container">
 
 <header>
-  <h1>약물학 중간고사 모의고사 — SET 2</h1>
-  <div class="subtitle">변형 응용문제 — 같은 개념, 새로운 약물·시나리오 | 총 50문항</div>
+  <h1>약물학 1학기 중간고사 모의고사</h1>
+  <div class="subtitle">Ch1~Ch12 | 약력학·약동학·자율신경·심혈관 | 총 50문항</div>
   <span class="badge">2026 우석대학교 약학대학 · 이병수 교수</span>
-  <span class="set-badge">SET 2</span>
+  <span class="set-badge">MOCK 50</span>
 </header>
 
 <div class="control-bar">
@@ -983,8 +942,8 @@
 </main>
 
 <div class="footer-note">
-  약물학 중간고사 대비 인터랙티브 모의고사 SET 2 | 같은 개념을 다른 각도·다른 약물로 변형한 응용 50문항<br>
-SET 1과 함께 풀면 개념 이해의 폭이 크게 넓어집니다.<br>
+  약물학 중간고사 대비 인터랙티브 모의고사 | Ch1~Ch12 핵심개념 50문항<br>
+  채점 후 해설을 꼼꼼히 확인하고, 별표 문제와 틀린 문제를 반복 학습하세요.<br>
   <span style="color:#1a3a6c; font-weight:600;">⌨️ 키보드 단축키 지원 — 우하단 버튼 또는 <kbd style="padding:1px 6px; background:#eee; border:1px solid #bbb; border-radius:3px;">?</kbd> 키를 눌러 확인</span>
 </div>
 
@@ -1050,660 +1009,631 @@ SET 1과 함께 풀면 개념 이해의 폭이 크게 넓어집니다.<br>
 <script>
 // ============ 문제 데이터 ============
 const questions = [
+  // === 1부. 약력학 (Ch1~Ch2) — 12문제 ===
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "용량-반응 곡선의 <strong>Bmax</strong>와 <strong>Kd</strong>에 대한 설명으로 옳은 것은?",
+    q: "용량-반응 곡선에서 <strong>Emax</strong>와 <strong>EC50</strong>에 대한 설명으로 옳은 것은?",
     opts: [
-      "Bmax는 수용체에 결합하는 약물의 총농도(수용체 총 수), Kd는 50% 최대결합이 일어나는 약물 농도(평형해리상수)",
-      "Bmax는 효력의 지표, Kd는 효능의 지표이다",
-      "Bmax는 EC50과 같은 개념이다",
-      "Kd가 클수록 수용체와의 친화력이 크다",
-      "Bmax는 반감기와 같은 단위를 가진다"
-    ],
-    ans: 1,
-    exp: "<strong>Bmax = 수용체 총 수</strong>(결합 포화점), <strong>Kd = 50% 최대결합 시의 약물 농도 = 평형해리상수</strong>. Kd가 작을수록 친화력이 크다. Emax/EC50은 '반응' 지표, Bmax/Kd는 '결합' 지표라는 점이 구분 포인트."
-  },
-  {
-    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "약물 A는 EC50 = 0.1 μM, Emax = 100%이고, 약물 B는 EC50 = 1 μM, Emax = 100%이다. 두 약물에 대한 설명으로 옳은 것은?",
-    opts: [
-      "A가 B보다 효능이 10배 크다",
-      "A가 B보다 효력이 10배 크다 (효능은 같음)",
-      "B가 A보다 효력이 10배 크다",
-      "A가 B보다 안전성이 10배 크다",
-      "둘은 같은 약물이다"
+      "Emax는 효력의 지표, EC50은 효능의 지표이다",
+      "Emax는 효능(efficacy)의 지표, EC50은 효력(potency)의 지표이다",
+      "Emax가 낮을수록 효능이 크다",
+      "EC50이 클수록 효력이 강하다",
+      "Emax와 EC50은 같은 개념이다"
     ],
     ans: 2,
-    exp: "EC50이 작을수록 <strong>효력(potency)</strong>이 강하다. A(0.1 μM) < B(1 μM)이므로 A의 효력이 10배 강하다. Emax가 동일하므로 효능(efficacy)은 같다. 효능과 효력을 구분하는 대표 문제 유형."
+    exp: "<strong>Emax = 효능(Efficacy)의 지표</strong>(y축 높이, 최대효과), <strong>EC50 = 효력(Potency)의 지표</strong>(x축 위치, 낮을수록 적은 용량으로 효과). 암기법: '능/력 = 양/질 = 최고치/좌우'."
   },
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "완전효능약 + <strong>부분효능약을 병용</strong>했을 때 결과로 옳은 것은?",
+    q: "네 약물 A, B, C, D의 용량-반응 곡선에서 <strong>효력(potency) 순서</strong>가 옳은 것은? (A, C, D는 Emax가 같고, B가 가장 왼쪽, C가 A의 오른쪽, D가 가장 오른쪽)",
     opts: [
-      "두 약물의 효과가 더해져 Emax가 증가한다",
-      "두 약물이 상승작용을 일으킨다",
-      "부분효능약이 완전효능약과 경쟁하여 전체 효과가 완전효능약 단독 시보다 오히려 억제된다",
-      "부분효능약이 완전효능약의 EC50을 감소시킨다",
-      "부분효능약은 영향을 주지 않는다"
+      "A = C = D > B",
+      "B > A > C > D",
+      "D > C > A > B",
+      "A > B > C > D",
+      "B = A > C = D"
+    ],
+    ans: 2,
+    exp: "효력은 <strong>EC50(x축 왼쪽일수록 강함)</strong>으로 판단한다. 곡선이 왼쪽에 위치할수록 적은 용량으로 효과가 나타나므로 <strong>B > A > C > D</strong>. Emax가 같은 A, C, D는 효능은 같지만 효력은 다르다."
+  },
+  {
+    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
+    q: "<strong>경쟁적 길항약(competitive antagonist)</strong>의 특성으로 옳은 것은?",
+    opts: [
+      "공유결합으로 비가역적 결합한다",
+      "효능약 고농도로도 극복 불가능하다",
+      "용량-반응 곡선을 오른쪽으로 이동시키고 Emax는 유지된다",
+      "Emax를 감소시킨다",
+      "수용체와 무관하게 직접 화학반응한다"
     ],
     ans: 3,
-    exp: "부분효능약은 같은 수용체에 결합하지만 내재적 활성이 낮아 자체 Emax가 완전효능약보다 작다. 따라서 완전효능약과 병용 시 <strong>경쟁하여 완전효능약의 효과를 억제</strong>한다(일종의 길항 역할). 이 성질은 중독 치료제(buprenorphine) 등에 활용된다."
+    exp: "경쟁적 길항약은 같은 결합부위에서 <strong>가역적</strong>으로 경쟁하여 곡선을 <strong>오른쪽으로 이동(rightward shift)</strong>시키지만, 효능약 고농도로 극복 가능하므로 <strong>Emax는 유지</strong>된다. Atropine vs ACh가 대표적이다."
   },
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "'기본구성활성(constitutive activity)'에 대한 설명으로 옳은 것은?",
+    q: "Phenoxybenzamine이 α수용체에 공유결합하여 비가역적으로 차단하는 경우, 용량-반응 곡선의 변화로 옳은 것은?",
     opts: [
-      "약물이 결합해야만 수용체가 활성화되는 상태",
-      "길항약 결합 후에만 나타나는 상태",
-      "완전효능약만이 만들 수 있는 활성 상태",
-      "약물이 없어도 Ra:Ri 비율에 따라 수용체가 일정 수준 활성화되어 있는 상태",
-      "세포내 수용체에서만 관찰되는 현상"
-    ],
-    ans: 4,
-    exp: "<strong>기본구성활성</strong>은 약물(리간드) 없이도 Ra(활성형)과 Ri(비활성형) 수용체의 평형에 따라 기본적으로 유지되는 활성이다. 역효능약은 Ri에 친화도가 커서 이 기본구성활성을 감소시킨다."
-  },
-  {
-    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "알로스테릭 작용제(allosteric modulator)가 결합하는 부위와 효과는?",
-    opts: [
-      "정위(orthosteric) 부위 — 효능약 결합 방해",
-      "효소 활성부위 — 대사만 조절",
-      "비기능적 결합부위 — 아무런 기능 변화 없음",
-      "세포막 인지질 — 막 안정화만 담당",
-      "이위(allosteric) 부위 — 효능약 결합 자체는 방해하지 않으면서 효과를 증가/억제"
-    ],
-    ans: 5,
-    exp: "<strong>알로스테릭(이위) 결합부위</strong>는 효능약이 결합하는 정위 부위와 별개이다. 효능약 결합 자체를 방해하지 않으면서 수용체 형태 변화를 통해 효과를 조절(증강 또는 억제)한다. 벤조디아제핀이 GABA_A 수용체의 알로스테릭 조절제의 대표 예."
-  },
-  {
-    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "이온통로형 수용체(ligand-gated ion channel)의 대표 예시로 옳은 것은?",
-    opts: [
-      "Nicotinic ACh 수용체, GABA_A 수용체",
-      "Insulin 수용체, EGF 수용체",
-      "Muscarinic ACh 수용체, α·β 아드레날린 수용체",
-      "스테로이드 수용체, 갑상선 호르몬 수용체",
-      "Dopamine D1, D2 수용체"
-    ],
-    ans: 1,
-    exp: "이온통로형 수용체는 리간드 결합 시 막전위 변화를 ms 단위로 일으킨다. <strong>Nicotinic ACh R(신경근접합·자율신경절), GABA_A R(Cl⁻ 통로)</strong>이 대표 예. Muscarinic은 GPCR, Insulin은 RTK, 스테로이드는 세포내 수용체이다."
-  },
-  {
-    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "다음 중 <strong>RTK(receptor tyrosine kinase)</strong> 계열 수용체로 옳은 것은?",
-    opts: [
-      "Muscarinic ACh 수용체",
-      "Insulin 수용체, Growth factor(EGF, PDGF) 수용체",
-      "Nicotinic ACh 수용체",
-      "β 아드레날린 수용체",
-      "스테로이드 수용체"
-    ],
-    ans: 2,
-    exp: "RTK는 세포막을 1회 관통하며 리간드 결합 시 이합체 형성 → 자가인산화 → 하류 인산화 연쇄반응을 일으킨다. <strong>Insulin R, EGF/PDGF/VEGF R 등 성장인자 수용체</strong>가 대표 예. 반응속도는 분~시간 단위."
-  },
-  {
-    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "<strong>Gs 경로</strong>가 활성화될 때 일어나는 세포 내 변화로 옳은 것은?",
-    opts: [
-      "Phospholipase C 활성 → IP₃, DAG 증가",
-      "Adenylyl cyclase 억제 → cAMP 감소",
-      "Adenylyl cyclase 활성 → cAMP 증가 → PKA 활성화",
-      "Na⁺ 통로 개방 → 탈분극",
-      "K⁺ 통로 개방 → 과분극"
+      "곡선이 오른쪽으로 이동, Emax 유지",
+      "곡선이 왼쪽으로 이동, Emax 증가",
+      "Emax 감소 (효능약 고농도로도 극복 불가)",
+      "곡선의 기울기만 변화",
+      "곡선에 변화 없음"
     ],
     ans: 3,
-    exp: "<strong>Gs → Adenylyl cyclase 활성 → ATP에서 cAMP 생성 → PKA 활성화</strong>. β1(심장 수축↑), β2(기관지 이완), D1(혈관확장)이 이 경로를 이용한다. Gq는 PLC→IP₃/DAG, Gi는 cAMP 감소 경로."
+    exp: "Phenoxybenzamine은 대표적인 <strong>비경쟁적(비가역적) 길항약</strong>으로 공유결합을 형성하여 효능약 고농도로도 극복할 수 없어 <strong>Emax를 감소</strong>시킨다. 크롬친화세포종(pheochromocytoma) 치료에 사용된다."
   },
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "<strong>β-Arrestin</strong>의 역할로 옳지 <u>않은</u> 것은?",
+    q: "Protamine(+)이 Heparin(-)과 직접 결합하여 중화시키는 것은 어떤 종류의 길항작용인가?",
     opts: [
-      "GRK에 의해 인산화된 수용체에 결합",
-      "G단백질 활성화를 둔화시킴(arrest)",
-      "수용체의 세포내 이동(내재화)을 유도",
-      "수용체의 합성 속도를 직접 증가시킴",
-      "수용체와 새로운 신호전달 경로 연결에도 관여"
+      "경쟁적 길항작용",
+      "비경쟁적 길항작용",
+      "화학적 길항작용",
+      "생리적 길항작용",
+      "알로스테릭 길항작용"
     ],
-    ans: 4,
-    exp: "β-Arrestin은 ①GRK 인산화된 수용체에 결합 → ②G단백 활성 차단(arrest) → ③수용체 내재화 → ④자체적으로 MAPK 등 독립적인 신호전달 경로를 활성화하기도 한다. 수용체의 <strong>합성 속도를 직접 증가시키지는 않는다</strong>."
+    ans: 3,
+    exp: "<strong>화학적 길항작용(chemical antagonism)</strong>은 수용체가 관여하지 않고 약물 간 직접 화학반응이 일어나는 경우이다. Protamine(양전하)과 Heparin(음전하)의 정전기적 결합이 대표 예시."
   },
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "수용체의 <strong>상향조절(upregulation)</strong>이 일어나는 대표적 상황은?",
+    q: "Glucocorticoid(혈당↑)와 Insulin(혈당↓)의 관계처럼, 서로 다른 수용체·효과기계에 작용하지만 결과적으로 반대 효과를 내는 길항작용은?",
     opts: [
-      "효능약 장기 노출",
-      "G단백질 과다 발현",
-      "수용체 돌연변이",
-      "세포 사멸",
-      "길항약 장기 사용"
+      "경쟁적 길항작용",
+      "비경쟁적 길항작용",
+      "화학적 길항작용",
+      "생리적 길항작용",
+      "부분효능약 길항"
     ],
-    ans: 5,
-    exp: "<strong>길항약 장기 사용 → 수용체 수 증가(상향조절)</strong>. β차단약을 갑자기 중단하면 상향조절된 수용체가 내인성 카테콜아민에 과민반응하여 반동성 빈맥·허혈이 생긴다. 효능약 장기노출은 반대로 하향조절(downregulation) 유발."
+    ans: 4,
+    exp: "<strong>생리적 길항작용(physiological antagonism)</strong>은 서로 다른 수용체-효과기계에 작용하지만 최종 효과가 반대방향으로 상쇄되는 경우이다."
   },
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "다음 중 <strong>동종(homologous) 탈민감</strong>과 <strong>이종(heterologous) 탈민감</strong>의 차이로 옳은 것은?",
+    q: "<strong>역효능약(inverse agonist)</strong>에 대한 설명으로 옳은 것은?",
     opts: [
-      "동종은 활성화된 표적수용체만 반응성 소실, 이종은 표적 외 다른 수용체도 탈민감됨",
-      "동종은 빠르고 이종은 느리다",
-      "동종은 내재화 없이, 이종은 내재화를 동반한다",
-      "동종은 Gs 경로만, 이종은 Gi 경로만 관여한다",
-      "둘은 동일한 현상의 다른 이름이다"
+      "Ra(활성형)에 더 큰 친화도를 가진다",
+      "Ri(비활성형)에 더 큰 친화도를 가져 기본구성활성(constitutive activity)을 감소시킨다",
+      "Ra와 Ri에 동일한 친화도로 결합한다",
+      "수용체 기능을 변화시키지 않는다",
+      "효능약과 같은 방향의 효과를 낸다"
     ],
-    ans: 1,
-    exp: "<strong>동종 탈민감</strong>: GRK-Arrestin 기전으로 활성화된 그 수용체만 반응성 소실. <strong>이종 탈민감</strong>: 2차전달물질 피드백(PKA·PKC 인산화 등)으로 표적 외 다른 수용체도 함께 탈민감되는 현상."
+    ans: 2,
+    exp: "역효능약은 <strong>Ri(비활성형)에 친화도가 큼</strong> → Ri-D 비율을 높여 <strong>기본구성활성을 감소</strong>시킨다. 효능약과 반대방향의 효과를 나타낸다. 기출 [2021-96]."
   },
   {
     category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
-    q: "다음 중 수용체가 작용하기 위한 필수 조건 두 가지로 옳게 묶인 것은?",
+    q: "<strong>부분효능약(partial agonist)</strong>의 핵심 특성은?",
     opts: [
-      "① 지용성이 높을 것 ② 분자량이 클 것",
-      "① 리간드에 대해 선택적일 것 ② 결합에 의해 기능 변화를 일으킬 것",
-      "① 세포막에 위치할 것 ② G단백질과 연결될 것",
-      "① 가역적 결합 ② 공유결합 형성",
-      "① 효소 활성 보유 ② 2차전달물질 생성"
-    ],
-    ans: 2,
-    exp: "수용체의 두 가지 본질적 요건: <strong>① 리간드 선택성(selectivity)</strong>과 <strong>② 결합에 따른 기능 변화(signal transduction)</strong>. 불활성 결합부위는 결합만 하고 기능변화가 없으므로 수용체로 간주되지 않는다."
-  },
-  {
-    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "청소율(Clearance, CL)의 정의로 옳은 것은?",
-    opts: [
-      "약물이 혈장에서 소실되는 양 (mg)",
-      "혈장 단백질과 결합한 약물의 비율",
-      "단위 시간당 약물이 제거되는 혈장의 부피 (CL = 제거속도 / 농도)",
-      "생체이용률과 같은 의미",
-      "간에서만 일어나는 대사 속도"
+      "친화력이 낮아서 효과가 작다",
+      "Ri에 우선 결합한다",
+      "내재적 활성(efficacy)이 낮아 아무리 고농도로 투여해도 완전효능약만큼 Emax에 도달하지 못한다",
+      "수용체와 비가역적으로 결합한다",
+      "용량-반응 곡선이 오른쪽으로만 이동한다"
     ],
     ans: 3,
-    exp: "<strong>CL = 제거속도(mg/hr) / 혈장농도(mg/L) = L/hr</strong>. 단위 시간당 약물이 깨끗이 제거되는 '가상의 혈장 부피'로, 청소율이 클수록 제거가 빠르다. 간청소율 + 신청소율 = 전신청소율."
+    exp: "부분효능약은 <strong>친화력 문제가 아니라 내재적 활성(intrinsic efficacy)의 문제</strong>이다. Ra에 결합은 하지만 활성화 효율이 낮아 완전효능약보다 낮은 자체 Emax를 가진다."
   },
   {
-    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "치료범위(Therapeutic Window)가 <strong>좁은</strong> 약물로 옳게 묶인 것은?",
+    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
+    q: "수용체의 4가지 주요 유형 중 <strong>반응속도가 가장 빠른</strong> 것은?",
     opts: [
-      "Penicillin, Amoxicillin",
-      "Metformin, Cetirizine",
-      "Acetaminophen, Ibuprofen",
-      "Warfarin, Digoxin, Lithium, Phenytoin",
-      "Vitamin C, Vitamin B"
-    ],
-    ans: 4,
-    exp: "<strong>치료범위가 좁은 약물</strong>: Warfarin(출혈 위험), Digoxin(부정맥), Lithium(중추독성), Phenytoin(중추독성), Theophylline 등. 혈중농도 모니터링(TDM)이 필수이다. Penicillin은 치료범위가 매우 넓은 대표 예."
-  },
-  {
-    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "약물 X는 Vd = 42 L(체중 60 kg 성인), 목표 혈중농도 2 mg/L이다. <strong>부하용량(Loading dose)</strong>은?",
-    opts: [
-      "21 mg",
-      "42 mg",
-      "60 mg",
-      "120 mg",
-      "84 mg"
-    ],
-    ans: 5,
-    exp: "<strong>부하용량 = Vd × 목표농도</strong> = 42 L × 2 mg/L = <strong>84 mg</strong>. 반감기가 긴 약물에서 초기에 목표농도에 빠르게 도달하기 위해 사용한다. 유지용량은 CL과 투여간격으로 계산한다."
-  },
-  {
-    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "다음 중 Phase I 대사(1상 대사)에 해당하는 것은?",
-    opts: [
-      "CYP P450에 의한 산화·환원·가수분해",
-      "Sulfate 포합",
-      "Acetylation",
-      "Glucuronide 포합",
-      "Glutathione 포합"
-    ],
-    ans: 1,
-    exp: "<strong>Phase I</strong>: 산화(oxidation)·환원(reduction)·가수분해(hydrolysis). 주로 CYP P450이 담당하며 기능기를 노출·첨가한다. <strong>Phase II</strong>: 포합반응(conjugation) — glucuronidation, sulfation, acetylation, glutathione conjugation 등 수용성 증가."
-  },
-  {
-    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "<strong>0차 속도론(zero-order kinetics)</strong>으로 제거되는 약물의 특징은?",
-    opts: [
-      "농도에 비례하여 일정한 비율로 제거된다",
-      "농도와 무관하게 단위 시간당 일정한 양이 제거된다 (효소 포화)",
-      "제거 속도가 농도의 제곱에 비례한다",
-      "반감기가 용량과 무관하게 일정하다",
-      "모든 약물에 일반적으로 적용된다"
-    ],
-    ans: 2,
-    exp: "<strong>0차 속도론</strong>: 효소가 포화되어 농도와 무관하게 <strong>일정한 양</strong>이 시간당 제거됨. 대표 예: 에탄올, 고용량 aspirin, phenytoin. 용량 증가 시 혈중농도가 급격히 상승할 위험. 1차 속도론은 농도에 비례."
-  },
-  {
-    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "약염기성 약물이 <strong>산성 뇨(acidic urine)</strong>에서 더 빠르게 배설되는 기전은?",
-    opts: [
-      "산성 뇨에서 약물이 지용성이 되어 배설 증가",
-      "산성 뇨가 신장 혈류를 증가시켜서",
-      "산성 뇨에서 약물이 이온화되어 재흡수가 감소 → 배설 증가 (이온포획, ion trapping)",
-      "산성 뇨가 CYP를 유도해서",
-      "산성 뇨가 P-gp 배출을 증가시켜서"
+      "세포내 수용체 (스테로이드 수용체)",
+      "효소연결 수용체 (인슐린 수용체, RTK)",
+      "이온통로 수용체 (Nicotinic ACh, GABA_A)",
+      "GPCR (Muscarinic, α·β 아드레날린)",
+      "세 종류 모두 동일하다"
     ],
     ans: 3,
-    exp: "<strong>이온포획(ion trapping)</strong>: 약염기 약물은 산성 뇨에서 양성자화(ionized) → 지질막 통과 불가 → 세뇨관 재흡수 안됨 → 소변으로 배설 증가. Amphetamine 과량 시 NH₄Cl로 산성화하여 배설 촉진."
+    exp: "반응속도 순서: <strong>이온통로(ms) > GPCR(초) > RTK(분~시간) > 세포내(시간~일)</strong>. 이온통로는 밀리초 단위로 이온 유출입 → 막전위 변화를 일으켜 가장 빠르다."
+  },
+  {
+    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
+    q: "<strong>세포내 수용체(intracellular receptor)</strong>의 특징으로 옳지 <u>않은</u> 것은?",
+    opts: [
+      "세포질이나 핵 안에 존재한다",
+      "리간드가 지용성이 높아야 세포막을 통과해 결합할 수 있다",
+      "전사(transcription) 조절을 통해 유전자 발현을 변화시킨다",
+      "반응 시간은 수 시간~일 단위이다",
+      "대표 예시는 Nicotinic ACh 수용체이다"
+    ],
+    ans: 5,
+    exp: "Nicotinic ACh 수용체는 <strong>이온통로형 수용체</strong>이다. 세포내 수용체의 대표 예는 <strong>스테로이드 수용체</strong>이며, hsp90 분리 → 전사 유도 경로를 거친다."
+  },
+  {
+    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
+    q: "GPCR 수용체와 G단백질의 연결이 <u>잘못된</u> 것은?",
+    opts: [
+      "α1 — Gq/11 → Phospholipase C → IP₃, DAG 증가",
+      "α2 — Gi/o → Adenylyl cyclase 억제 → cAMP 감소",
+      "β1, β2 — Gs → Adenylyl cyclase 활성 → cAMP 증가",
+      "M2, M4 — Gs → cAMP 증가",
+      "M1, M3 — Gq/11 → Phospholipase C"
+    ],
+    ans: 4,
+    exp: "<strong>M2, M4는 Gi/o</strong>에 연결되어 <strong>Adenylyl cyclase를 억제</strong>하고 cAMP를 감소시키며 K⁺ 통로를 개방한다. 심장의 M2 수용체가 대표 예시이며 이것이 부교감 자극 시 심박수 감소 기전이다."
+  },
+  {
+    category: "제1부. 약력학 (용량-반응, 수용체, 길항작용) — 12문제",
+    q: "<strong>탈민감(desensitization)</strong>의 GRK-Arrestin 기전에 대한 설명으로 옳은 것은?",
+    opts: [
+      "효능약 결합 → GRK가 수용체 인산화 → β-Arrestin 결합 → G단백 활성화 둔화 → 수용체 내재화",
+      "길항약 결합 → 수용체 수 증가 (상향조절)",
+      "역효능약이 수용체를 분해시키는 과정",
+      "신경전달물질이 시냅스에서 재흡수되는 과정",
+      "약물이 대사되어 활성화되는 과정"
+    ],
+    ans: 1,
+    exp: "동종 탈민감(homologous desensitization)의 기전이다. GRK(G protein-coupled receptor kinase)가 활성화된 수용체를 인산화하면 β-Arrestin이 결합하여 G단백 활성화를 막고(arrest=멈춤) 수용체 내재화를 유도한다."
+  },
+
+  // === 2부. 약동학 (Ch3~Ch5) — 10문제 ===
+  {
+    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
+    q: "<strong>생체이용률(bioavailability, F)</strong>에 대한 설명으로 옳은 것은?",
+    opts: [
+      "모든 투여 경로에서 항상 100%이다",
+      "정맥주사(IV) 투여 시 정의상 100%이다",
+      "경구(PO) 투여가 IV보다 F가 크다",
+      "초회통과효과와 무관하다",
+      "분포용적과 같은 의미이다"
+    ],
+    ans: 2,
+    exp: "<strong>IV 투여는 정의상 F = 100%</strong>이다. 경구 투여는 장관벽·문맥·간에서의 초회통과효과로 인해 F < 100%가 된다. 설하·경피·직장 투여는 초회통과를 회피한다."
   },
   {
     category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "간에서 가장 많은 약물 대사를 담당하는 주요 CYP 효소는?",
-    opts: [
-      "CYP1A2",
-      "CYP2C9",
-      "CYP2D6",
-      "CYP3A4",
-      "CYP2E1"
-    ],
+    q: "초회통과효과(first-pass effect)를 <u>회피할 수 있는</u> 투여 경로가 <u>아닌</u> 것은?",
+    opts: ["설하 투여", "경피 투여", "직장 투여", "경구 투여", "정맥 투여"],
     ans: 4,
-    exp: "<strong>CYP3A4</strong>가 전체 처방약의 약 50%를 대사하여 가장 많다. 자몽주스, Ketoconazole, Erythromycin이 CYP3A4 억제, Rifampin·Phenobarbital이 유도한다. CYP2D6은 약 20%, CYP2C9은 warfarin 대사로 중요."
+    exp: "<strong>경구(PO) 투여는 장관벽 → 문맥혈 → 간을 거치므로 초회통과효과를 받는다</strong>. 설하·경피·직장·정맥·근육 투여는 이를 회피할 수 있다."
   },
   {
     category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "어떤 약물의 혈중농도가 현재 100 mg/L이고 반감기가 6시간이다. <strong>24시간 후</strong> 예상 혈중농도는? (단, 1차 속도론, 추가 투여 없음)",
+    q: "<strong>치료지수(Therapeutic Index, TI)</strong>의 공식과 의미가 옳게 연결된 것은?",
     opts: [
-      "50 mg/L",
-      "25 mg/L",
-      "12.5 mg/L",
-      "3.125 mg/L",
-      "6.25 mg/L"
+      "TI = ED₅₀ / TD₅₀, 클수록 안전",
+      "TI = TD₅₀ / ED₅₀, 클수록 안전",
+      "TI = LD₅₀ / EC₅₀, 작을수록 안전",
+      "TI = Vd / CL, 클수록 안전",
+      "TI = Emax / EC50, 클수록 안전"
     ],
-    ans: 5,
-    exp: "24시간 = 반감기 6시간 × 4 → 4번의 반감기 경과. 100 → 50 → 25 → 12.5 → <strong>6.25 mg/L</strong>. 대략 4~5 반감기 후면 약물이 실질적으로 제거된다는 원리와 연결."
+    ans: 2,
+    exp: "<strong>TI = TD₅₀ / ED₅₀</strong>. 독성용량과 유효용량의 비율로, <strong>TI가 클수록 안전한 약물</strong>이다. Warfarin, Digoxin은 TI가 좁은 대표적 약물."
   },
   {
     category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "경구 투여된 약물의 흡수를 증가시키는 요인이 <u>아닌</u> 것은?",
-    opts: [
-      "약물이 강한 이온 상태를 유지함",
-      "비이온화 형태",
-      "위 배출속도 증가(공복)",
-      "약물의 표면적 큰 소장으로 도달",
-      "약물의 지용성이 높음"
-    ],
-    ans: 1,
-    exp: "흡수 증가 요인: ①지용성 ②비이온화(중성) 형태 ③위 배출속도↑ ④큰 흡수 표면(소장). <strong>강한 이온 상태는 지질막 통과 불가 → 흡수 감소</strong>. pH 대비 pKa에 따라 이온화도가 결정된다(Henderson-Hasselbalch)."
+    q: "반감기(t½)가 24시간인 약물을 투여했을 때, <strong>체내에서 실질적으로 완전히 제거</strong>되는 데 걸리는 시간은?",
+    opts: ["약 24시간", "약 48시간", "약 96~120시간 (4~5 반감기)", "약 12시간", "약 1주일"],
+    ans: 3,
+    exp: "약물의 실질적 완전 제거에는 <strong>4~5 반감기</strong>가 필요하다(97% 이상 제거). 24시간 × 4~5 = 약 96~120시간."
   },
   {
     category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
-    q: "약물의 <strong>혈장단백(주로 알부민) 결합률</strong>이 높은 약물에 대한 설명으로 옳은 것은?",
+    q: "반감기가 매우 긴 약물에서 <strong>항정상태(steady state)에 빨리 도달</strong>하기 위해 사용하는 것은?",
     opts: [
-      "결합된 약물이 수용체에 강력히 작용한다",
-      "결합된 약물은 약리학적으로 불활성이며, 유리(free) 약물만이 효과·대사·배설의 대상이 된다",
-      "결합률이 높으면 반감기가 짧아진다",
-      "단백결합은 분포용적을 증가시킨다",
-      "단백결합은 약물 상호작용과 무관하다"
-    ],
-    ans: 2,
-    exp: "<strong>결합된 약물은 불활성</strong>, 유리 약물만 수용체 결합·대사·배설이 가능. 저알부민혈증(간경변·신증후군) 시 유리약물 농도 증가 → 효과·독성 증가. Warfarin + Aspirin 등 단백결합 경쟁으로 약물상호작용이 일어난다."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 중 <strong>부신수질(adrenal medulla)</strong>에 대한 설명으로 옳은 것은?",
-    opts: [
-      "부교감신경의 절후신경으로만 지배된다",
-      "ACh와 NE를 동일 비율로 분비한다",
-      "교감신경절의 변형체로 볼 수 있으며, 절전신경(ACh)이 N수용체에 작용하여 Epi:NE ≈ 80:20 비율로 분비한다",
-      "체성신경에 의해 지배된다",
-      "분비물은 전량 NE이다"
+      "청소율(Clearance)",
+      "유지용량(Maintenance dose)",
+      "부하용량(Loading dose) = Vd × 유효농도",
+      "생체이용률(F)",
+      "치료지수(TI)"
     ],
     ans: 3,
-    exp: "부신수질은 교감신경절의 진화적 변형체이다. 절전신경에서 <strong>ACh가 니코틴성(N) 수용체</strong>에 작용하면 크롬친화세포가 <strong>Epinephrine(~80%)과 Norepinephrine(~20%)</strong>을 혈중으로 분비한다. PNMT가 있어 NE→E 전환이 가능하다."
+    exp: "<strong>부하용량(Loading dose) = Vd × 목표농도</strong>. 반감기가 긴 약물(예: Digoxin, Amiodarone)에서 초반에 빠르게 목표 혈중농도에 도달시키기 위해 사용한다."
   },
   {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 중 혈관에서 자극 시 <strong>수축</strong>을 유발하는 수용체는?",
-    opts: [
-      "D1",
-      "β2",
-      "M3 (혈관내피)",
-      "α1",
-      "H2"
-    ],
-    ans: 4,
-    exp: "<strong>α1 → 혈관 평활근 수축</strong>(Gq → IP₃/DAG → Ca²⁺↑). β2는 혈관 이완(골격근 혈관), M3는 내피 NO 유리로 이완, D1은 신장혈관 확장. α1 효능약(Phenylephrine)은 승압제로 사용."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 중 <strong>교감신경이 지배하지 않는</strong> 기관은?",
-    opts: [
-      "심장",
-      "혈관 평활근",
-      "기관지 평활근",
-      "땀샘",
-      "순수 타액샘 주도분비(부교감 우세)"
-    ],
+    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
+    q: "CYP P450을 <strong>억제</strong>하는 약물로 <u>볼 수 없는</u> 것은?",
+    opts: ["Cimetidine", "Ketoconazole", "Erythromycin", "자몽주스(Grapefruit juice)", "Rifampin"],
     ans: 5,
-    exp: "교감신경은 대부분의 기관(심장·혈관·기관지·땀샘·지방세포 등)을 지배한다. <strong>타액샘 분비 자체는 교감·부교감 모두 증가시키나</strong>, '묽은 많은 양의 침'은 부교감 우세, '농축된 적은 양의 침'은 교감 우세로 성질이 다르다. 참고: 모든 기관이 이중지배되지는 않으며 혈관은 대부분 교감 단독 지배이다."
+    exp: "<strong>Rifampin은 강력한 CYP 유도약</strong>이다(warfarin, OC, metoprolol 등의 대사를 촉진). 나머지 4가지는 모두 CYP 억제약으로 병용약물의 혈중농도를 높인다."
   },
   {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "<strong>Epinephrine</strong> 저용량 주입 시 주된 효과는?",
+    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
+    q: "CYP P450 <strong>유도약</strong>으로 올바르게 묶인 것은?",
     opts: [
-      "β2 우세 → 골격근 혈관 확장 → 말초저항↓, 수축기 혈압↑/이완기↓ (맥압 증가)",
-      "α1 우세 → 혈압 급상승, 반사서맥",
-      "β1 우세 → 심박수만 증가",
-      "혈관확장 없이 수축만 일어남",
-      "Muscarinic 수용체 자극"
-    ],
-    ans: 1,
-    exp: "Epi는 α·β 모두 자극하는 비선택적 효능약. <strong>저용량</strong>: β2가 먼저 활성화되어 골격근 혈관 확장 → 이완기 혈압↓. β1 → 심박수·수축력↑ → 수축기 혈압↑. <strong>고용량</strong>: α1 우세로 전반적 혈관수축 → 혈압 급상승."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "천식 발작 시 <strong>β2 선택적 효능약</strong>을 사용하는 이유와 대표 약물은?",
-    opts: [
-      "기관지 수축 + 심박수 증가 | Propranolol",
-      "기관지 확장 + 심장 β1 자극 최소화 → 부작용 적음 | Albuterol, Salmeterol, Terbutaline",
-      "혈관 확장만 목적 | Isoproterenol",
-      "분비 억제 | Atropine",
-      "β1 자극 | Dobutamine"
+      "Cimetidine, Ketoconazole, Rifampin",
+      "Phenobarbital, Rifampin, St. John's wort",
+      "Erythromycin, Grapefruit juice, Phenobarbital",
+      "Ketoconazole, St. John's wort, Cimetidine",
+      "Rifampin, Cimetidine, Erythromycin"
     ],
     ans: 2,
-    exp: "β2 선택적 효능약은 <strong>기관지 평활근을 이완</strong>시키면서 β1(심장) 자극은 최소화한다. <strong>단기작용형 Albuterol(SABA)</strong>은 급성 발작, <strong>장기작용형 Salmeterol(LABA)</strong>은 유지요법에 사용한다."
+    exp: "<strong>CYP 유도약: Phenobarbital(barbiturates), Rifampin(강력 유도), St. John's wort(CYP3A4)</strong>. 이들은 병용약의 대사를 촉진하여 약효를 감소시킨다."
+  },
+  {
+    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
+    q: "자몽주스(grapefruit juice)가 felodipine, nifedipine, lovastatin의 생체이용률을 크게 <strong>증가</strong>시키는 기전은?",
+    opts: [
+      "장점막의 CYP3A4를 억제하여 초회통과대사를 감소시킴",
+      "CYP3A4를 유도하여 간대사를 증가시킴",
+      "위산 분비를 억제하여 약물 흡수를 증가시킴",
+      "P-glycoprotein을 유도하여 흡수 증가",
+      "약물과 직접 화학결합하여 활성화"
+    ],
+    ans: 1,
+    exp: "자몽주스는 <strong>장점막 CYP3A4를 억제</strong>하고 CYP3A4 단백분해도 증가시켜, CYP3A4 기질 약물의 초회통과대사를 감소시키고 생체이용률을 크게 높인다."
+  },
+  {
+    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
+    q: "분포용적(Vd)에 대한 설명으로 옳은 것은?",
+    opts: [
+      "Vd = 혈장 농도 / 체내 약물 양",
+      "Vd = 체내 약물 양 / 혈장 농도, 약물을 함유하는 체내 겉보기 공간",
+      "Vd는 실제 체액의 부피와 정확히 일치한다",
+      "Vd가 작을수록 조직분포가 넓다",
+      "Vd는 청소율과 같은 의미이다"
+    ],
+    ans: 2,
+    exp: "<strong>Vd = 체내 약물 양 / 혈장 농도</strong>. '겉보기(apparent)' 공간으로 실제 부피가 아니며, 조직으로의 분포가 클수록 Vd가 커진다(예: 지용성 약물)."
+  },
+  {
+    category: "제2부. 약동학 (ADME, 생체이용률, CYP) — 10문제",
+    q: "비연속적 용량-효과 곡선(quantal)에서 <strong>ED₅₀</strong>의 정확한 정의는?",
+    opts: [
+      "50% 최대 효과를 나타내는 농도",
+      "집단의 50%에서 특정 quantal 효과를 나타내는 용량",
+      "집단의 50%에서 사망을 일으키는 용량",
+      "50%에서 독성이 나타나는 농도",
+      "용량-효과 곡선의 50% 기울기"
+    ],
+    ans: 2,
+    exp: "Quantal 효과는 '있다/없다'의 불연속적 판단이다. <strong>ED₅₀ = 집단의 50%에서 치료효과가 나타나는 용량</strong>. EC₅₀(50% 최대 효과 농도)과는 다른 개념임에 주의!"
+  },
+
+  // === 3부. 자율신경 약리학 (Ch6~Ch10) — 20문제 ===
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "교감신경과 부교감신경의 <strong>절후신경 신경전달물질</strong>이 옳게 연결된 것은?",
+    opts: [
+      "교감 — ACh / 부교감 — NE",
+      "교감 — NE / 부교감 — ACh",
+      "교감 — ACh / 부교감 — ACh",
+      "교감 — NE / 부교감 — NE",
+      "교감 — DA / 부교감 — ACh"
+    ],
+    ans: 2,
+    exp: "일반적으로 <strong>교감 절후신경은 NE</strong>, <strong>부교감 절후신경은 ACh</strong>를 분비한다. 단 교감신경 중 <strong>땀샘은 예외적으로 ACh를 분비</strong>(M 수용체)한다."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 아드레날린성 약물 중 <strong>Isoproterenol</strong>의 특성으로 옳은 것은?",
+    q: "자율신경계의 '네잎클로버 예외'라고 불리는 <strong>땀샘(sweat gland)</strong>의 특징으로 옳은 것은?",
     opts: [
-      "α1 선택적 효능약으로 승압제",
-      "α, β 모두 자극하는 비선택적 효능약",
-      "β1, β2 모두 자극하는 비선택적 β 효능약 (α 작용 없음)",
-      "NE 재흡수 억제",
-      "β 선택적 차단약"
+      "교감신경 지배인데 절후신경전달물질이 NE가 아닌 ACh이며 M수용체에 작용한다",
+      "부교감신경이 직접 지배한다",
+      "교감과 부교감 모두 차단된다",
+      "수용체가 없어 약물 작용을 받지 않는다",
+      "DA 수용체로 조절된다"
+    ],
+    ans: 1,
+    exp: "땀샘은 <strong>교감신경 지배</strong>지만 예외적으로 <strong>ACh를 방출하여 M수용체</strong>에 작용한다. 이 때문에 항콜린제(예: atropine)가 발한을 억제하고 체온을 상승시킨다."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "<strong>카테콜아민 합성 경로</strong>에서 속도제한단계(rate-limiting step) 효소는?",
+    opts: [
+      "Dopamine β-hydroxylase (DβH)",
+      "DOPA decarboxylase (DDC)",
+      "Tyrosine hydroxylase (TH)",
+      "PNMT (Phenylethanolamine-N-methyltransferase)",
+      "Monoamine oxidase (MAO)"
     ],
     ans: 3,
-    exp: "<strong>Isoproterenol</strong>은 대표적인 <strong>비선택적 β 효능약</strong>(β1 + β2, α 작용 없음). 심박수↑ + 기관지 이완 + 골격근 혈관 확장. 과거 천식·서맥에 썼으나 현재는 거의 사용 안 함(β1 부작용)."
+    exp: "합성경로: Tyrosine →(TH)→ DOPA →(DDC)→ Dopamine →(DβH, 소포체 내)→ NE →(PNMT, 부신수질)→ Epi. <strong>TH가 속도제한단계</strong>이며 Metyrosine이 이를 억제한다."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Dobutamine의 임상 적응증과 주된 작용 수용체는?",
+    q: "교감신경 말단의 <strong>최종 신경전달물질</strong>과 Norepinephrine → Epinephrine 전환 위치가 옳게 연결된 것은?",
     opts: [
-      "천식 급성 발작 — β2",
-      "서맥 — M2 차단",
-      "쇼크·저혈압 — α1 승압",
-      "급성 심부전·심원성 쇼크 — β1 선택적 효능약으로 심수축력↑",
-      "알레르기 — H1 차단"
-    ],
-    ans: 4,
-    exp: "<strong>Dobutamine = β1 선택적 효능약</strong>. 심근 수축력을 강하게 증가시키면서 심박수 증가는 상대적으로 적어 <strong>급성 심부전·심원성 쇼크</strong>에 단기간 사용한다."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Clonidine의 작용 기전과 적응증은?",
-    opts: [
-      "α1 차단 → 고혈압",
-      "NET 억제 → ADHD 자극제",
-      "β1 차단 → 빈맥",
-      "M3 차단 → 위산 억제",
-      "중추 α2 효능약 → 연수의 교감신경 긴장 억제 → 혈압 강하, ADHD, 금단증상"
-    ],
-    ans: 5,
-    exp: "<strong>Clonidine = 중추 α2 효능약</strong>. 연수 혈관운동중추의 α2 자가수용체를 자극해 <strong>교감신경 유출 감소 → 혈압 하강</strong>. 추가로 ADHD, 아편·알코올 금단증상 완화에 사용. 갑작스런 중단 시 반동성 고혈압 주의."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "크롬친화세포종(pheochromocytoma) 수술 전 처치로 <strong>가장 먼저</strong> 투여해야 하는 약물은?",
-    opts: [
-      "α차단약 (Phenoxybenzamine 또는 Phentolamine) — 반드시 α 먼저",
-      "β차단약 (Propranolol)",
-      "ACE 억제약",
-      "칼슘통로차단제",
-      "이뇨제"
-    ],
-    ans: 1,
-    exp: "<strong>반드시 α차단약을 먼저 투여</strong>해야 한다! β를 먼저 차단하면 α 매개 혈관수축이 그대로 남아 오히려 <strong>고혈압 위기</strong>가 악화된다. 충분한 α차단 후 필요시 β차단을 추가한다. Phenoxybenzamine이 표준."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Labetalol과 Carvedilol의 공통점은?",
-    opts: [
-      "β1 선택적 차단약",
-      "α1 + β 이중 길항제 (고혈압 응급, 심부전에 유용)",
-      "α2 선택적 차단약",
-      "내인성 교감신경 활성(ISA) 보유",
-      "M 수용체 차단약"
+      "최종 = Epinephrine, 전환은 신경말단에서",
+      "최종 = Norepinephrine, NE→E 전환은 부신수질에서만 일어남",
+      "최종 = Dopamine, 전환은 간에서",
+      "최종 = Acetylcholine, 전환은 부신피질에서",
+      "최종 = Epinephrine, 전환은 중추신경계에서"
     ],
     ans: 2,
-    exp: "<strong>Labetalol, Carvedilol = α1 + β 이중 길항제</strong>. β 차단 + α1 차단으로 혈관 확장까지 얻어 고혈압 응급·만성심부전 치료에 유리. Carvedilol은 심부전 사망률 감소 효과가 입증."
+    exp: "<strong>교감신경 말단의 최종 생성물은 Norepinephrine</strong>이다. NE → E 전환은 PNMT가 필요한데, 이 효소는 <strong>부신수질에만 존재</strong>한다. 기출 [24-97]."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 중 <strong>직접작용 콜린 효능약</strong>으로 옳게 묶인 것은?",
+    q: "Reserpine의 작용 기전으로 옳은 것은?",
     opts: [
-      "Neostigmine, Pyridostigmine, Physostigmine",
-      "Echothiophate, Sarin, Malathion",
-      "Acetylcholine, Bethanechol, Carbachol, Methacholine, Pilocarpine, Muscarine",
-      "Atropine, Scopolamine, Ipratropium",
-      "Edrophonium, Donepezil"
+      "Tyrosine hydroxylase 억제",
+      "VMAT(vesicular monoamine transporter) 억제로 소포체 내 저장 고갈 → NE 고갈",
+      "NET(norepinephrine transporter) 억제로 재흡수 차단",
+      "MAO 억제로 대사 차단",
+      "α1 수용체 직접 차단"
+    ],
+    ans: 2,
+    exp: "Reserpine은 <strong>VMAT을 억제</strong>하여 DA·NE의 소포체 유입을 막아 세포질에서 MAO에 의해 분해되게 만든다 → 신경말단의 NE가 점차 고갈된다."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "Cocaine과 삼환계 항우울제(TCA)의 공통된 작용 타겟은?",
+    opts: [
+      "VMAT",
+      "MAO",
+      "NET(재흡수 수송체)",
+      "Tyrosine hydroxylase",
+      "COMT"
     ],
     ans: 3,
-    exp: "직접작용 콜린 효능약은 M/N 수용체에 직접 결합한다. <strong>ACh, Bethanechol(방광), Carbachol(녹내장), Methacholine(천식진단), Pilocarpine(녹내장·구강건조), Muscarine(독)</strong>. AChE 억제약(Neostigmine 등)은 간접작용이다."
+    exp: "Cocaine과 TCA는 <strong>NET을 억제</strong>하여 시냅스에서 NE 재흡수를 막아 NE 활성을 증가시킨다. Amphetamine은 NET 기질+역수송 기전으로 다르다."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "중증근무력증(myasthenia gravis) 진단과 치료에 사용되는 약물 조합으로 옳은 것은?",
-    opts: [
-      "진단: Atropine / 치료: Pilocarpine",
-      "진단: Physostigmine / 치료: Donepezil",
-      "진단: Neostigmine / 치료: Echothiophate",
-      "진단: Edrophonium(작용시간 짧음) / 유지치료: Pyridostigmine(4~6시간)",
-      "진단: Sarin / 치료: Atropine"
-    ],
+    q: "ADHD 치료제 중 NET을 <strong>선택적으로 억제</strong>하여 심혈관 부작용이 적은 약물은?",
+    opts: ["Amphetamine", "Methylphenidate", "Cocaine", "Atomoxetine", "Reserpine"],
     ans: 4,
-    exp: "<strong>중증근무력증</strong>: N_M 수용체 자가항체로 골격근 약화. <strong>Edrophonium</strong>은 작용 2~10분으로 진단에 적합(Tensilon 검사). <strong>Pyridostigmine</strong>은 지속시간 4~6시간, 4급아민이라 CNS 부작용 적어 경구 유지치료에 이용."
+    exp: "<strong>Atomoxetine</strong>은 NET 선택적 억제제로 비자극제 ADHD 치료제이며 심혈관 부작용이 자극제보다 적다. Methylphenidate는 NET 차단 자극제."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Alzheimer 치매에 사용되는 중추작용 AChE 억제약으로 옳지 <u>않은</u> 것은?",
+    q: "<strong>Catecholamine(Epi, NE, DA, Isoproterenol)</strong>과 <strong>비Catecholamine(Ephedrine, Amphetamine)</strong>의 비교로 <u>잘못된</u> 것은?",
     opts: [
-      "Donepezil",
-      "Rivastigmine",
-      "Galantamine",
-      "Physostigmine",
-      "Neostigmine"
+      "Catecholamine은 COMT에 의해 대사된다",
+      "비Catecholamine은 COMT 대사를 받지 않는다",
+      "Catecholamine은 경구 활성이 없다",
+      "비Catecholamine은 CNS 효과가 있다",
+      "Catecholamine은 작용시간이 비Catecholamine보다 길다"
     ],
     ans: 5,
-    exp: "<strong>Neostigmine은 4급아민 → BBB 통과 불가 → CNS 적응증 없음</strong>. Alzheimer 치료에는 CNS 침투가 가능한 <strong>3급아민·비4급 구조의 Donepezil, Rivastigmine, Galantamine</strong>이 사용된다. Physostigmine은 항콜린 독성 역전에 쓰인다."
+    exp: "<strong>Catecholamine은 작용시간이 짧다</strong>(COMT·MAO에 의한 빠른 대사). 비Catecholamine은 COMT 대사를 받지 않아 <strong>작용시간이 길고 경구 활성</strong>이 있으며 CNS 효과도 있다."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 약물 중 <strong>과활성 방광(OAB)</strong> 치료에 사용되는 것은?",
+    q: "<strong>α1 수용체</strong> 자극 시 효과로 옳지 <u>않은</u> 것은?",
     opts: [
-      "Oxybutynin, Tolterodine, Solifenacin, Darifenacin (M3 선택적 차단)",
-      "Pilocarpine",
-      "Bethanechol (M3 효능약)",
-      "Neostigmine",
-      "Pyridostigmine"
+      "대부분 혈관 평활근의 수축 → 혈압 상승",
+      "동공 산대근 수축 → 산동(mydriasis)",
+      "전립선 평활근 수축",
+      "심장 수축력 증가",
+      "기관지 평활근 이완"
     ],
-    ans: 1,
-    exp: "<strong>과활성 방광</strong>은 배뇨근이 과도하게 수축하는 상태. M3 선택적 차단약이 배뇨근을 이완시켜 치료. <strong>Oxybutynin, Tolterodine, Solifenacin, Darifenacin, Trospium</strong> 등. 반대로 Bethanechol은 요저류(신경성 방광) 치료."
+    ans: 5,
+    exp: "기관지 이완은 <strong>β2 수용체</strong> 자극 효과이다. α1은 주로 혈관수축·산동·전립선수축·심수축력↑에 관여하며 Gq 경로로 IP₃·DAG를 통해 Ca²⁺ 증가시킨다."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Scopolamine의 대표적 임상 용도는?",
+    q: "<strong>α2 수용체</strong>의 주요 위치와 기능으로 옳은 것은?",
     opts: [
-      "고혈압 치료",
-      "멀미(motion sickness) 예방 — 전정기관 M수용체 차단",
-      "심부전 치료",
-      "당뇨 치료",
-      "항응고"
-    ],
-    ans: 2,
-    exp: "<strong>Scopolamine은 3급아민 항콜린제로 CNS 침투 가능</strong>. 경피 패치(귀 뒤 부착)로 <strong>멀미 예방</strong>에 사용. 전정기관의 M수용체 차단이 기전. 수술 전 건조·진정 목적으로도 사용된다."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "천식·COPD 치료에 사용되는 흡입용 항콜린제는?",
-    opts: [
-      "Atropine",
-      "Scopolamine 패치",
-      "Ipratropium, Tiotropium (4급아민, 전신흡수 적음)",
-      "Pirenzepine",
-      "Trihexyphenidyl"
+      "심장에 분포 — 수축력 증가",
+      "기관지에 분포 — 기관지 이완",
+      "신경 말단(접합전)에 분포 — NE 유리 억제(자가수용체), 혈소판 응집",
+      "방광에 분포 — 배뇨근 이완",
+      "간에 분포 — Glycogen 분해"
     ],
     ans: 3,
-    exp: "<strong>Ipratropium(단기), Tiotropium(장기)</strong>는 4급 아민이라 전신 흡수가 적고 흡입 시 <strong>기관지 평활근 M3 차단 → 기관지 확장</strong>. COPD 1차 약물. Atropine은 전신 부작용 때문에 흡입용으로 안 씀."
+    exp: "α2는 주로 <strong>신경말단 접합전(presynaptic)</strong>에 위치하여 <strong>자가수용체(autoreceptor)</strong>로 작용, NE 유리를 억제한다. 또한 혈소판 응집, 지방분해 억제 기능도 있다. Gi 경로로 cAMP 감소."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Parkinson 병에서 <strong>떨림(tremor)</strong> 완화 목적으로 사용하는 중추성 항콜린제는?",
-    opts: [
-      "Neostigmine",
-      "Pyridostigmine",
-      "Pilocarpine",
-      "Benztropine, Trihexyphenidyl (3급아민, BBB 통과)",
-      "Atropine 정맥주사"
-    ],
-    ans: 4,
-    exp: "Parkinson 병은 흑질의 DA 감소로 상대적인 콜린 과잉 → 진전(tremor)이 발생한다. <strong>Benztropine, Trihexyphenidyl</strong>은 BBB 통과하는 3급아민 M 차단제로 떨림·강직을 완화. 주로 levodopa 보조요법."
-  },
-  {
-    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 중 <strong>신경절 차단약(ganglionic blocker)</strong>의 공통 기전은?",
-    opts: [
-      "절후신경 M 수용체 차단",
-      "VMAT 억제",
-      "β 수용체 차단",
-      "AChE 억제",
-      "자율신경절의 N(니코틴) 수용체에서 ACh 경쟁적 차단 — 교감·부교감 모두 차단"
-    ],
+    q: "고혈압·전립선비대증(BPH) 치료에 사용되는 <strong>α1 선택적 차단약</strong>이 <u>아닌</u> 것은?",
+    opts: ["Prazosin", "Terazosin", "Doxazosin", "Tamsulosin", "Phenoxybenzamine"],
     ans: 5,
-    exp: "신경절 차단약(Hexamethonium, Mecamylamine, Trimethaphan)은 <strong>자율신경절의 N 수용체</strong>에서 ACh를 차단한다. 교감과 부교감을 모두 차단하므로 효과 예측이 어려워 임상 사용은 드물다. 역사적으로 고혈압 치료."
+    exp: "<strong>Phenoxybenzamine은 α 비선택적·비가역적 차단약</strong>(공유결합)으로 크롬친화세포종 치료에 사용된다. Prazosin, Terazosin, Doxazosin, Tamsulosin은 α1 선택적."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "다음 중 <strong>신경근접합부</strong>에서 작용하는 <strong>탈분극성 차단제</strong>는?",
+    q: "β 차단약 중 <strong>β1 선택적(심장 선택적)</strong> 차단약으로 묶인 것은?",
     opts: [
-      "Succinylcholine",
-      "Vecuronium",
-      "Rocuronium",
-      "Tubocurarine",
-      "Atracurium"
+      "Propranolol, Timolol, Nadolol",
+      "Labetalol, Carvedilol, Pindolol",
+      "Metoprolol, Atenolol, Esmolol, Bisoprolol",
+      "Yohimbine, Phentolamine, Prazosin",
+      "Albuterol, Terbutaline, Salmeterol"
     ],
-    ans: 1,
-    exp: "<strong>Succinylcholine</strong>은 유일한 <strong>탈분극성 신경근 차단제</strong>이다. NM 수용체에 결합해 지속적 탈분극 → 수축 후 이완(phase I) → 지속시 phase II 탈감작. 마취유도용 빠른 삽관에 사용. 나머지는 모두 비탈분극성(경쟁적 차단)."
+    ans: 3,
+    exp: "<strong>β1 선택적 차단약: Metoprolol, Atenolol, Esmolol, Bisoprolol, Nebivolol</strong>. 천식 환자나 만성폐쇄성 폐질환 환자에서 β2 차단에 의한 기관지 수축 위험을 줄이기 위해 사용된다."
   },
   {
     category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
-    q: "Succinylcholine의 주요 합병증이 <u>아닌</u> 것은?",
+    q: "β차단약의 <strong>급성 중단</strong>이 위험한 이유는?",
     opts: [
-      "고칼륨혈증",
-      "혈관부종 (Bradykinin 축적)",
-      "무호흡 지속(Pseudocholinesterase 결핍자)",
-      "Bradycardia(소아·반복 투여)",
-      "악성 고열(malignant hyperthermia)"
+      "간대사 효소 유도로 대사 증가",
+      "장기 차단으로 인한 β수용체 상향조절(upregulation)로 급작스런 빈맥, 허혈, MI 유발 가능",
+      "신장 배설 억제로 독성 축적",
+      "혈소판 응집 증가",
+      "갑작스런 저혈당 유발"
     ],
     ans: 2,
-    exp: "Succinylcholine 부작용: <strong>고칼륨혈증</strong>(화상·외상 환자 주의), <strong>악성 고열</strong>(dantrolene 치료), <strong>서맥</strong>(M 자극 유사), <strong>pseudocholinesterase 결핍</strong> 시 무호흡 지속. 혈관부종은 ACEI의 Bradykinin 축적 부작용이다."
+    exp: "β차단약 장기 사용 시 <strong>β수용체가 상향조절</strong>되어 있는데 급성 중단 시 내인성 카테콜아민에 과민반응하여 반사성 빈맥·고혈압·협심증 악화·심근경색을 유발할 수 있다. 점진적 감량 필요."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "<strong>3급 아민</strong>과 <strong>4급 아민</strong>의 차이로 옳은 것은?",
+    opts: [
+      "3급은 전하 +1 고정, 4급은 전하 없음",
+      "3급은 BBB 통과 가능 → 중추작용, 4급은 +1 전하로 BBB 통과 불가 → 말초작용만",
+      "두 가지 모두 BBB를 자유롭게 통과한다",
+      "4급은 지용성이 높아 BBB 통과가 쉽다",
+      "3급과 4급의 약리작용은 동일하다"
+    ],
+    ans: 2,
+    exp: "<strong>3급 아민(R₃N, 전하 없음)</strong>: BBB 통과 가능 → 중추작용(Atropine, Physostigmine). <strong>4급 아민(R₄N⁺, +1 고정)</strong>: BBB 통과 불가 → 말초작용만(Neostigmine, Pyridostigmine)."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "다음 AChE 억제약 중 <strong>결합시간이 가장 짧고 가역적</strong>인 약물은?",
+    opts: [
+      "Physostigmine (carbamate, 3급)",
+      "Neostigmine (carbamate, 4급)",
+      "Edrophonium (알코올류)",
+      "Echothiophate (organophosphate)",
+      "Sarin (organophosphate)"
+    ],
+    ans: 3,
+    exp: "<strong>Edrophonium</strong>은 알코올류 AChE 억제약으로 <strong>수소결합(가역적)</strong>만 형성 → 2~10분 지속. Carbamate는 공유결합(수시간), Organophosphate는 인산화(비가역적)이다."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "녹내장 치료에 사용되는 Pilocarpine의 안압 감소 기전은?",
+    opts: [
+      "β수용체 차단 → 방수 생성 감소",
+      "α2 자극 → 방수 배출 증가",
+      "M3 활성화 → 섬모체근 수축 → 잔기둥섬유주 열림 → Schlemm관 방수 유출 촉진",
+      "프로스타글란딘 수용체 자극 → 포도막공막 유출 증가",
+      "탄산탈수효소 억제 → 방수 생성 감소"
+    ],
+    ans: 3,
+    exp: "Pilocarpine은 <strong>M3 콜린성 효능약</strong>이다. M3 활성화 → 홍채조임근·섬모체근 수축 → 홍채가 전방각에서 당겨지며 잔기둥섬유주 열림 → <strong>Schlemm관으로 방수 유출 촉진</strong> → 안압 감소."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "유기인(organophosphate) 중독 환자의 치료약과 주의사항으로 <u>잘못된</u> 것은?",
+    opts: [
+      "Atropine — 다량 필요, M수용체 과다자극 차단",
+      "Pralidoxime (PAM) — AChE 재활성화, 노화(aging) 전에만 효과",
+      "Benzodiazepine — 발작 조절",
+      "Pyridostigmine — 예방적 사용, 4급아민이라 중추작용 못함",
+      "Neostigmine — AChE 재활성화로 해독"
+    ],
+    ans: 5,
+    exp: "<strong>Neostigmine은 AChE 억제약</strong>이므로 유기인 중독에 쓰면 악화된다! 올바른 해독제는 Atropine(M차단)과 <strong>Pralidoxime(AChE 재활성화, 노화 전에만 효과)</strong>이다."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "Atropine 중독의 증상을 외우는 암기법 '건·확·빠·홍·미'에서 <u>잘못된</u> 해석은?",
+    opts: [
+      "건(乾) — 구강건조 (침분비 억제)",
+      "확(擴) — 동공확대 (산동)",
+      "빠 — 빠른맥 (빈맥)",
+      "홍(紅) — 홍조, 체온상승",
+      "미(迷) — 미각소실"
+    ],
+    ans: 5,
+    exp: "<strong>미(迷) = 초조·섬망·흥분·환각·혼수</strong>를 의미한다(중추 M차단 효과). 치료는 Physostigmine(3급 AChE 억제약, BBB 통과하여 중추+말초 M차단 역전)."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "부교감신경 M2 수용체가 심장에서 심박수를 <strong>감소</strong>시키는 세 가지 기전이 옳게 묶인 것은?",
+    opts: [
+      "① Ca²⁺ 유입 증가 ② K⁺ 유출 감소 ③ If 증가",
+      "① K⁺ 유출 증가(과분극) ② Ca²⁺ 유입 감소 ③ If(박동조율전류) 감소",
+      "① Na⁺ 유입 증가 ② Cl⁻ 유출 증가 ③ cAMP 증가",
+      "① cAMP 증가 ② PKA 활성화 ③ Ca²⁺ 증가",
+      "① G단백 해리 ② PLC 활성 ③ IP₃ 증가"
+    ],
+    ans: 2,
+    exp: "M2 → Gi → cAMP 감소와 함께 ①<strong>IK(ACh) 활성화 → K⁺ 유출 → 과분극</strong>, ②<strong>ICa 감소 → 수축력↓</strong>, ③<strong>If 감소 → 박동조율 속도↓</strong>의 세 가지 기전으로 서맥을 유발한다."
+  },
+  {
+    category: "제3부. 자율신경 약리학 (수용체·콜린·아드레날린) — 20문제",
+    q: "β차단약이 당뇨병 환자에게 <strong>저혈당 경고증상을 가릴 위험</strong>이 있는 이유는?",
+    opts: [
+      "인슐린 분비를 증가시켜서",
+      "간의 당신생을 억제해서",
+      "β수용체 차단으로 저혈당 시 나타나는 아드레날린성 경고증상(빈맥, 발한, 불안 등)이 차단되기 때문",
+      "당뇨약과 직접 결합하여 독성을 유발해서",
+      "신장 포도당 재흡수를 증가시켜서"
+    ],
+    ans: 3,
+    exp: "저혈당 시 카테콜아민(epi/NE)이 급증하며 나타나는 <strong>빈맥·발한·떨림·불안</strong> 등의 경고증상은 β수용체 매개이다. β차단약이 이를 가려 저혈당을 인지하지 못하게 할 수 있다."
+  },
+
+  // === 4부. 심혈관 약리학 (Ch11~Ch12) — 8문제 ===
+  {
+    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
+    q: "협심증 치료 3대 약물군 비교에서 <strong>이형협심증(혈관연축성)</strong>에 <u>금기</u>인 약물은?",
+    opts: ["Nitrates", "CCB (DHP계)", "CCB (Verapamil)", "β차단약", "Aspirin"],
+    ans: 4,
+    exp: "이형(Prinzmetal) 협심증은 관상동맥 연축이 원인이므로 <strong>혈관확장이 필요</strong>하다. β차단약은 α1 매개 혈관수축을 억제하지 못하고 오히려 관상동맥 수축을 악화시킬 수 있어 <strong>금기</strong>이다."
   },
   {
     category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Nitroglycerin의 세포 내 작용 기전으로 옳은 순서는?",
+    q: "협심증 치료에서 <strong>Nitrates</strong>의 주된 작용은?",
     opts: [
-      "cAMP↑ → PKA 활성 → MLCK 억제 → 이완",
-      "Ca²⁺ 통로 차단 → MLCK 활성↓ → 이완",
-      "NO 유리 → Guanylyl cyclase(sGC) 활성 → cGMP↑ → 미오신 경쇄 탈인산화 → 이완",
-      "K⁺ 통로 개방 → 과분극 → 이완",
-      "β2 수용체 활성 → cAMP↑"
+      "후부하 감소 (동맥 확장)",
+      "심수축력 증가",
+      "전부하 감소 (정맥 확장 → 심장으로의 정맥환류 감소)",
+      "심박수 증가",
+      "관상동맥 수축"
     ],
     ans: 3,
-    exp: "Nitrates(NTG)는 <strong>NO 공여체 → soluble Guanylyl cyclase(sGC) 활성 → cGMP 증가 → MLCP 활성·MLCK 억제 → 미오신 경쇄 탈인산화 → 혈관 이완</strong>. Sildenafil(PDE5i) 병용 시 cGMP 과다축적 → 심한 저혈압."
+    exp: "Nitrates(예: Nitroglycerin)는 NO → sGC → cGMP 증가로 혈관을 이완시키며, 주로 <strong>정맥 확장으로 전부하를 감소</strong>시킨다. 이로써 심근 산소요구량이 감소하여 협심증이 완화된다."
   },
   {
     category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Nitrates 장기 사용 시 나타나는 <strong>내성(tolerance)</strong>을 예방하는 가장 좋은 방법은?",
+    q: "다음 병용 중 <strong>과도한 저혈압</strong>을 유발할 수 있어 금기인 것은?",
     opts: [
-      "용량을 계속 증가시킨다",
-      "고지방 식이",
-      "ACEI와 반드시 병용",
-      "하루 중 8~12시간의 무약물 기간(nitrate-free interval)을 둔다",
-      "수분을 제한"
-    ],
-    ans: 4,
-    exp: "Nitrates 내성은 NO 합성 저하·sulfhydryl 고갈 등으로 발생. <strong>하루 8~12시간의 nitrate-free interval</strong>(주로 야간)을 두어 예방한다. 경피제 부착 후 야간에는 제거하는 방식이 대표적."
-  },
-  {
-    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Hydralazine의 특징으로 옳은 것은?",
-    opts: [
-      "정맥 우세 확장, 전부하 감소",
-      "K⁺ 통로 개방",
-      "동맥과 정맥 동일하게 확장",
-      "β1 선택적 길항작용",
-      "동맥 우세 확장, 후부하 감소 → 중증 고혈압·심부전 | 반사빈맥, 루프스 유사증후군"
-    ],
-    ans: 5,
-    exp: "<strong>Hydralazine = 동맥 우세 확장</strong>. 후부하 감소 효과 큼. 부작용: <strong>반사빈맥</strong>(β차단 병용), <strong>루프스 유사증후군</strong>(SLE-like syndrome, 느린 아세틸화 체질에서 호발)."
-  },
-  {
-    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Minoxidil이 혈관을 확장하는 기전과 특이 부작용은?",
-    opts: [
-      "K⁺ ATP 통로 개방 → 과분극 → 혈관 이완 / 다모증(hirsutism), 부종",
-      "Ca²⁺ 통로 차단 / 변비",
-      "NO 공여 / 두통",
-      "β2 효능 / 진전",
-      "ACE 억제 / 기침"
-    ],
-    ans: 1,
-    exp: "Minoxidil은 <strong>K⁺(ATP-sensitive) 통로 개방 → 막 과분극 → Ca²⁺ 유입 감소 → 혈관 이완</strong>. 부작용: 반사빈맥, 부종, <strong>다모증</strong>(이 성질로 국소 탈모치료제 Rogaine이 됨). 중증 고혈압·신부전 환자용."
-  },
-  {
-    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Fenoldopam의 작용 기전과 적응증은?",
-    opts: [
-      "α1 차단 → 만성 고혈압",
-      "D1 효능약 → 말초(특히 신장) 혈관 확장 → 고혈압 응급 단기치료 (t½ ~10분)",
-      "β2 효능 → 천식",
-      "NO 공여 → 심부전",
-      "ARB → 만성 고혈압"
+      "Nitrates + Aspirin",
+      "Nitrates + Sildenafil (PDE5 억제제)",
+      "β차단약 + Aspirin",
+      "ACEI + Statin",
+      "CCB + Statin"
     ],
     ans: 2,
-    exp: "<strong>Fenoldopam = D1 효능약</strong>으로 신장혈관을 특히 잘 확장시킨다. 반감기 약 10분으로 짧아 <strong>고혈압 응급</strong>에 정맥 지속 주입으로 사용. 안내압 상승으로 녹내장에는 금기."
+    exp: "Nitrates는 cGMP 증가, Sildenafil 등 PDE5 억제제는 cGMP 분해 차단 → 두 약물 병용 시 cGMP가 과도하게 축적되어 <strong>심한 저혈압</strong> 위험. 병용 금기이다."
   },
   {
     category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Verapamil과 Digoxin을 병용할 때 나타나는 주요 상호작용은?",
+    q: "DHP계 CCB와 Non-DHP계(Verapamil, Diltiazem) CCB의 비교로 <u>잘못된</u> 것은?",
     opts: [
-      "Verapamil이 Digoxin의 대사를 증가시켜 농도↓",
-      "두 약물 간 상호작용 없음",
-      "Verapamil이 P-gp를 억제하여 Digoxin 청소율↓ → Digoxin 혈중농도↑ → 독성",
-      "Digoxin이 Verapamil의 배설을 억제",
-      "병용 시 두 약물 모두 활성화"
-    ],
-    ans: 3,
-    exp: "Verapamil은 <strong>P-glycoprotein(P-gp) 억제</strong>로 Digoxin의 신배설과 장내 배출을 감소시켜 Digoxin 혈중농도를 크게 증가시킨다. 치료범위가 좁은 Digoxin이라 독성(부정맥·오심·시야이상) 위험. 병용 시 용량 감소 필요."
-  },
-  {
-    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "Spironolactone의 기전과 특이 부작용으로 옳은 것은?",
-    opts: [
-      "Na⁺ 통로 차단 / 고혈당",
-      "ACE 억제 / 기침",
-      "Loop 이뇨 / 청력소실",
-      "Aldosterone 수용체 차단 → K⁺ 보존 이뇨, 심부전 사망률↓ / 여성형유방·월경불순(남성호르몬 수용체 비특이 결합)",
-      "ARB / 고칼슘혈증"
-    ],
-    ans: 4,
-    exp: "<strong>Spironolactone = Aldosterone 수용체 차단 → Na⁺·수분 재흡수↓, K⁺ 보존</strong>. 심부전 사망률을 감소시키는 것이 입증됨. 안드로겐·프로게스테론 수용체에도 비특이적 결합 → <strong>여성형유방(gynecomastia)</strong>, 월경불순. Eplerenone은 이 부작용이 적다."
-  },
-  {
-    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
-    q: "ACEI와 NSAIDs 병용 시 ACEI 효과가 감소하는 기전으로 옳은 것은?",
-    opts: [
-      "NSAIDs가 ACE 효소를 활성화",
-      "두 약물 간 직접 화학반응",
-      "NSAIDs가 Renin을 활성화",
-      "ACEI 대사를 유도",
-      "NSAIDs가 프로스타글란딘 합성을 억제하여 Bradykinin 매개 혈관확장이 차단됨"
+      "DHP계는 혈관 선택성이 높다",
+      "Verapamil은 심장 선택성이 높고 심박수를 감소시킨다",
+      "DHP계는 반사성 빈맥을 유발할 수 있다",
+      "Verapamil + β차단약 병용은 방실차단·심부전 위험으로 주의",
+      "Verapamil은 심근 수축력을 증가시킨다"
     ],
     ans: 5,
-    exp: "ACEI 효과의 일부는 Bradykinin 축적 → 프로스타글란딘(PGI2, PGE2) 합성 유도 → 혈관확장이다. <strong>NSAIDs가 cyclooxygenase 억제 → PG 합성 차단 → ACEI의 혈관확장·강압 효과 감소</strong>. 또한 신기능 악화 위험도 증가한다."
+    exp: "<strong>Verapamil은 심근 수축력을 강하게 억제</strong>한다. Non-DHP계는 심장 선택성이 높아 부정맥·협심증에 유용하나 β차단약과 병용 시 방실차단·심부전 위험이 있다."
+  },
+  {
+    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
+    q: "Nitroprusside의 특징으로 옳지 <u>않은</u> 것은?",
+    opts: [
+      "동맥과 정맥 모두 확장",
+      "고혈압 응급·심부전에 사용",
+      "장기간·고용량 사용 시 Cyanide 독성으로 대사성 산증 유발 가능",
+      "빛에 민감하며 10분 내 효과 소멸",
+      "경구 투여로 만성 고혈압 치료제로 쓰인다"
+    ],
+    ans: 5,
+    exp: "Nitroprusside는 <strong>정맥주사 전용</strong>, 빛에 매우 민감하고 효과가 10분 내 소멸되므로 지속 주입이 필요한 <strong>고혈압 응급·심부전</strong> 약물이다. 경구 만성치료에는 사용하지 않는다."
+  },
+  {
+    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
+    q: "RAAS(Renin-Angiotensin-Aldosterone System)에서 <strong>가장 강력한 혈관수축물질</strong>은?",
+    opts: [
+      "Renin",
+      "Angiotensinogen",
+      "Angiotensin I",
+      "Angiotensin II",
+      "Aldosterone"
+    ],
+    ans: 4,
+    exp: "경로: Angiotensinogen →(Renin)→ Ang I →(ACE)→ <strong>Ang II</strong>. Ang II가 ①직접 혈관수축 ②Aldosterone 분비 ③교감활성 ④Na⁺/수분 재흡수를 모두 유발하며 가장 강력한 혈관수축물질이다."
+  },
+  {
+    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
+    q: "ACEI가 <strong>마른 기침·혈관부종</strong>을 자주 유발하는 이유는?",
+    opts: [
+      "Ang II 축적으로 기관지 수축",
+      "Renin 분비 증가로 염증 유발",
+      "ACE(kininase II) 억제로 인한 Bradykinin 축적",
+      "Aldosterone 감소로 기침 유발",
+      "NO 생성 감소 때문"
+    ],
+    ans: 3,
+    exp: "ACE는 kininase II로서 Bradykinin도 분해한다. ACEI가 이를 억제하면 <strong>Bradykinin이 축적</strong>되어 마른 기침과 혈관부종을 유발한다. ARB는 Bradykinin과 무관하여 이 부작용이 드물다."
+  },
+  {
+    category: "제4부. 심혈관 약리학 (협심증·혈관확장약·RAAS) — 8문제",
+    q: "ACEI와 ARB의 비교 및 금기로 <u>잘못된</u> 것은?",
+    opts: [
+      "ACEI는 Bradykinin 축적으로 기침·혈관부종이 흔함",
+      "ARB는 AT1 수용체 차단으로 모든 경로의 Ang II 효과를 차단",
+      "두 약물 모두 임신 2·3기에 금기 (태아 저혈압·무뇨·기형)",
+      "ACEI + ARB 병용은 치료효과 극대화를 위해 1차 권고된다",
+      "NSAIDs는 ACEI의 Bradykinin 매개 혈관확장을 차단하여 효과를 감소시킴"
+    ],
+    ans: 4,
+    exp: "<strong>ACEI + ARB(또는 Aliskiren) 병용은 독성(고칼륨혈증·급성신손상·저혈압) 문제로 비권고</strong>된다. 단순 상가효과는 얻을 수 있지만 임상적 이득 대비 위험이 크다."
   }
 ];
 
 // ============ 앱 로직 ============
-const STORAGE_KEY = 'pharm_midterm_mock_set2_v1';
+const STORAGE_KEY = 'pharm_midterm_mock_v1';
 
 const state = {
   answers: {},
